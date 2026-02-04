@@ -7,7 +7,7 @@ export default function Home() {
       <section className={styles.hero}>
         <h1>Kayden Pellegrini</h1>
         <p className={styles.tagline}>
-          Junior Power BI / Power Platform Developer • Transitioning to Modern Full-Stack
+           Power BI / Power Platform Developer • Transitioning to Modern Full-Stack
         </p>
         <div className={styles.heroButtons}>
           <a href="https://github.com/KaydenPellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
@@ -26,7 +26,7 @@ export default function Home() {
       <section className={styles.section}>
         <h2>Professional Summary</h2>
         <p className={styles.summary}>
-          Proactive Junior Power BI and Power Platform Developer with nearly two years of hands-on experience building insightful dashboards (DAX, forecasting models), custom Power Apps for workflow automation, and predictive stock analysis in a medical device distribution environment.
+          Proactive  Power BI and Power Platform Developer with nearly two years of hands-on experience building insightful dashboards (DAX, forecasting models), custom Power Apps for workflow automation, and predictive stock analysis in a medical device distribution environment.
         </p>
         <p>
           Currently at Virtumed (Pty) Ltd, I deliver solutions that optimise procurement, reduce inventory risks, and turn data into actionable business decisions — skills I'm now extending into clean, scalable code with Next.js, React, TypeScript, and Node.js.
