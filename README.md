@@ -23,6 +23,6 @@ This site serves as my central hub to:
 - Show transition from low-code → full code
 - Provide easy access to GitHub, LinkedIn, and contact info
 
-Live site: [https://kayden-portfolio.vercel.app](https://kayden-portfolio.vercel.app) (link updates once deployed)
+Live site: 
 
-Made with ☕ & rooibos in Benoni, South Africa 🇿🇦
+Made with ☕ in Edenvale, South Africa 🇿🇦
