@@ -5,22 +5,22 @@ export default function Home() {
     <div className={styles.container}>
       {/* Hero */}
       <section className={styles.hero}>
-        <h1>Kayden Pellegrini</h1>
-        <p className={styles.tagline}>
-          Power BI and Power Platform Developer transitioning into modern full-stack development
-        </p>
-        <div className={styles.heroButtons}>
-          <a href="https://github.com/KaydenPellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
-            GitHub
-          </a>
-          <a href="https://linkedin.com/in/kaydenpellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
-            LinkedIn
-          </a>
-          <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
-            Contact me
-          </a>
-        </div>
-      </section>
+  <h1>Kayden Pellegrini</h1>
+  <p className={styles.tagline}>
+    Power BI and Power Platform Developer transitioning into modern full-stack development
+  </p>
+  <div className={styles.heroButtons}>
+    <a href="https://github.com/KaydenPellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
+      GitHub
+    </a>
+    <a href="https://linkedin.com/in/kaydenpellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
+      LinkedIn
+    </a>
+    <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
+      Contact me
+    </a>
+  </div>
+</section>
 
       {/* Professional Summary */}
       <section className={styles.section}>
