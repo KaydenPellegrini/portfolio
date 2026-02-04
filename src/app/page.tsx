@@ -5,31 +5,35 @@ export default function Home() {
     <div className={styles.container}>
       {/* Hero */}
       <section className={styles.hero}>
-  <h1>Kayden Pellegrini</h1>
-  <p className={styles.tagline}>
-    Power BI and Power Platform Developer transitioning into modern full-stack development
-  </p>
-  <div className={styles.heroButtons}>
-    <a href="https://github.com/KaydenPellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
-      GitHub
-    </a>
-    <a href="https://linkedin.com/in/kaydenpellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
-      LinkedIn
-    </a>
-    <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
-      Contact me
-    </a>
-  </div>
-</section>
+        <h1>Kayden Pellegrini</h1>
+        <p className={styles.tagline}>
+          Power BI and Power Platform Developer transitioning into modern full-stack development
+        </p>
+        <div className={styles.heroButtons}>
+          <a href="https://github.com/KaydenPellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/kaydenpellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
+            LinkedIn
+          </a>
+          <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
+            Contact me
+          </a>
+        </div>
+      </section>
 
       {/* Professional Summary */}
       <section className={styles.section}>
         <h2>Professional Summary</h2>
         <p className={styles.summary}>
-          Power BI and Power Platform Developer with nearly two years of hands-on experience building dashboards, forecasting models, and custom automation solutions in a medical device distribution environment.
+          Power BI and Power Platform Developer with nearly two years of hands-on experience delivering data-driven solutions in a medical device distribution environment.
         </p>
         <p>
-          At Virtumed I create data-driven solutions that optimise stock procurement, streamline operations, and turn complex data into clear business decisions. I am now extending those same problem-solving skills into modern full-stack development with Next.js, React, TypeScript, and Node.js.
+          Skilled in building insight-rich Power BI dashboards using DAX and forecasting models, developing custom Power Apps to automate workflows, and performing predictive stock analysis to support procurement and inventory decisions.
+        </p>
+        <p>
+          Currently at Virtumed (Pty) Ltd, I design and deliver solutions that reduce inventory risk, improve data accuracy, and translate complex data into clear, actionable business insights.  
+          Alongside my BI work, I am actively expanding into modern full-stack development using Next.js, React, TypeScript, and Node.js, with a strong focus on writing code that is maintainable and ready for production.
         </p>
       </section>
 
@@ -49,7 +53,7 @@ export default function Home() {
           <h3>Escape Room Manager</h3>
           <p className={styles.period}>Hashtag Escape – Johannesburg • February 2022 – March 2024</p>
           <p>
-            Ran daily operations and handled all technical systems in a high-pressure, fun environment. Sharpened quick thinking and the ability to stay calm when things inevitably go a bit sideways (turns out those skills help a lot when debugging at 2 a.m.).
+            Ran daily operations and handled all technical systems in a high-pressure, fun environment. Sharpened quick thinking and the ability to stay calm when things inevitably go a bit sideways — skills that transfer surprisingly well to debugging code late at night.
           </p>
         </div>
 
@@ -75,14 +79,44 @@ export default function Home() {
 
           <div>
             <h3>Core Skills</h3>
-            <ul className={styles.skillsList}>
-              <li>Power BI (dashboards, DAX, forecasting models, data visualisation)</li>
-              <li>Power Platform (Power Apps, Power Automate, workflow automation)</li>
-              <li>Programming foundations: SQL, Java, JavaScript/TypeScript, HTML, CSS, PHP</li>
-              <li>AV & broadcast: vMix (live production and streaming setups)</li>
-              <li>Business domain: stock forecasting, procurement optimisation, predictive analysis</li>
-              <li>Current focus: Next.js, React, Node.js</li>
-            </ul>
+            <div className={styles.skillsContainer}>
+              <div className={styles.skillItem}>
+                <span>Power BI (DAX, Forecasting, Dashboards)</span>
+                <div className={styles.skillBar}>
+                  <div className={styles.skillLevel} style={{ width: '75%' }}></div>
+                </div>
+              </div>
+              <div className={styles.skillItem}>
+                <span>Power Apps & Power Automate</span>
+                <div className={styles.skillBar}>
+                  <div className={styles.skillLevel} style={{ width: '85%' }}></div>
+                </div>
+              </div>
+              <div className={styles.skillItem}>
+                <span>Next.js & React</span>
+                <div className={styles.skillBar}>
+                  <div className={styles.skillLevel} style={{ width: '60%' }}></div>
+                </div>
+              </div>
+              <div className={styles.skillItem}>
+                <span>TypeScript & Node.js</span>
+                <div className={styles.skillBar}>
+                  <div className={styles.skillLevel} style={{ width: '55%' }}></div>
+                </div>
+              </div>
+              <div className={styles.skillItem}>
+                <span>SQL & Data Modelling</span>
+                <div className={styles.skillBar}>
+                  <div className={styles.skillLevel} style={{ width: '85%' }}></div>
+                </div>
+              </div>
+              <div className={styles.skillItem}>
+                <span>Java & Android Development</span>
+                <div className={styles.skillBar}>
+                  <div className={styles.skillLevel} style={{ width: '75%' }}></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -90,7 +124,7 @@ export default function Home() {
       {/* Footer */}
       <footer className={styles.footer}>
         <p>Edenvale / Johannesburg, South Africa • {new Date().getFullYear()}</p>
-        <p>From Power Automate flows to full control in code — still figuring out why JavaScript insists on having seven ways to do the same thing.</p>
+        <p>From Power Automate flows to full control in code — still trying to figure out why JavaScript has 17 ways to do the same thing.</p>
       </footer>
     </div>
   );
