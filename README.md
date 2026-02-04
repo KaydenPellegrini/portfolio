@@ -23,4 +23,4 @@ Personal portfolio website built to showcase my transition from enterprise low-c
 
 Live: www.kayden.co.za (or your deployed URL)
 
-Made in Benoni, South Africa 🇿🇦
+Made in Edenvale, South Africa 🇿🇦
