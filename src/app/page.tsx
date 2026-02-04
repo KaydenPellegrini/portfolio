@@ -7,7 +7,7 @@ export default function Home() {
       <section className={styles.hero}>
         <h1>Kayden Pellegrini</h1>
         <p className={styles.tagline}>
-           Power BI / Power Platform Developer • Transitioning to Modern Full-Stack
+          Power BI and Power Platform Developer transitioning into modern full-stack development
         </p>
         <div className={styles.heroButtons}>
           <a href="https://github.com/KaydenPellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
@@ -17,7 +17,7 @@ export default function Home() {
             LinkedIn
           </a>
           <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
-            Contact Me
+            Contact me
           </a>
         </div>
       </section>
@@ -26,37 +26,39 @@ export default function Home() {
       <section className={styles.section}>
         <h2>Professional Summary</h2>
         <p className={styles.summary}>
-          Proactive  Power BI and Power Platform Developer with nearly two years of hands-on experience building insightful dashboards (DAX, forecasting models), custom Power Apps for workflow automation, and predictive stock analysis in a medical device distribution environment.
+          Power BI and Power Platform Developer with nearly two years of hands-on experience building dashboards, forecasting models, and custom automation solutions in a medical device distribution environment.
         </p>
         <p>
-          Currently at Virtumed (Pty) Ltd, I deliver solutions that optimise procurement, reduce inventory risks, and turn data into actionable business decisions — skills I'm now extending into clean, scalable code with Next.js, React, TypeScript, and Node.js.
+          At Virtumed I create data-driven solutions that optimise stock procurement, streamline operations, and turn complex data into clear business decisions. I am now extending those same problem-solving skills into modern full-stack development with Next.js, React, TypeScript, and Node.js.
         </p>
       </section>
 
-      {/* Key Experience Highlights */}
+      {/* Experience */}
       <section className={styles.section}>
-        <h2>Key Experience</h2>
-        <div className={styles.highlights}>
-          <div className={styles.highlightCard}>
-            <h3>Developer / Business Intelligence – Virtumed (Pty) Ltd</h3>
-            <p className={styles.period}>April 2024 – Present</p>
-            <ul>
-              <li>Designed & maintained Power BI dashboards for sales, inventory & performance tracking with DAX and forecasting</li>
-              <li>Built custom Power Apps to automate procurement workflows & improve data accuracy</li>
-              <li>Conducted predictive analysis to optimise stock levels and reduce over/understock risks</li>
-              <li>Managed vMix broadcast AV systems for events, ensuring seamless cross-site delivery</li>
-              <li>Provided IT troubleshooting in a fast-paced medical environment</li>
-            </ul>
-          </div>
+        <h2>Experience</h2>
 
-          <div className={styles.highlightCard}>
-            <h3>Earlier Roles</h3>
-            <p className={styles.period}>2021 – 2024</p>
-            <ul>
-              <li>Escape Room Manager – Hashtag Escape: Honed problem-solving & technical troubleshooting under pressure</li>
-              <li>Waiter – The Fat Ginger: Built strong communication & multitasking skills in team settings</li>
-            </ul>
-          </div>
+        <div className={styles.highlightCard}>
+          <h3>Developer / Business Intelligence</h3>
+          <p className={styles.period}>Virtumed (Pty) Ltd – Johannesburg • April 2024 – Present</p>
+          <p>
+            Designed and maintained Power BI dashboards for sales, inventory, and performance tracking. Built forecasting models and predictive analysis to support better stock decisions and reduce overstock or understock risks. Developed custom Power Apps solutions to automate procurement workflows and improve data accuracy. Managed vMix broadcast AV systems for events with reliable cross-site connectivity. Provided ongoing IT support and troubleshooting in a fast-moving medical environment.
+          </p>
+        </div>
+
+        <div className={styles.highlightCard}>
+          <h3>Escape Room Manager</h3>
+          <p className={styles.period}>Hashtag Escape – Johannesburg • February 2022 – March 2024</p>
+          <p>
+            Ran daily operations and handled all technical systems in a high-pressure, fun environment. Sharpened quick thinking and the ability to stay calm when things inevitably go a bit sideways (turns out those skills help a lot when debugging at 2 a.m.).
+          </p>
+        </div>
+
+        <div className={styles.highlightCard}>
+          <h3>Waiter</h3>
+          <p className={styles.period}>The Fat Ginger – Johannesburg • June 2021 – January 2022</p>
+          <p>
+            Delivered great service in a busy team setting. Built strong communication skills and learned how to juggle multiple priorities without missing a beat.
+          </p>
         </div>
       </section>
 
@@ -67,19 +69,19 @@ export default function Home() {
           <div>
             <h3>Education</h3>
             <p><strong>Diploma in Systems Development</strong> – Boston City Campus (2020–2023)</p>
-            <p>Covered SQL, Java, Android development, PHP, HTML/CSS + CompTIA A+ fundamentals</p>
-            <p>National Senior Certificate – Jeppe High School for Boys (2016–2020)</p>
+            <p>SQL, Java, Android development, PHP, HTML, CSS, CompTIA A+ fundamentals.</p>
+            <p><strong>National Senior Certificate</strong> – Jeppe High School for Boys (2016–2020)</p>
           </div>
 
           <div>
             <h3>Core Skills</h3>
             <ul className={styles.skillsList}>
-              <li>Power BI (DAX, Dashboards, Forecasting, Data Visualisation)</li>
-              <li>Power Platform (Power Apps, Power Automate, Workflows)</li>
-              <li>Programming: SQL, Java, JavaScript/TypeScript, HTML/CSS, PHP</li>
-              <li>AV/Broadcast: vMix (live production & streaming)</li>
-              <li>Business: Stock Forecasting, Procurement Optimisation, Predictive Analysis</li>
-              <li>Current Focus: Next.js, React, Node.js</li>
+              <li>Power BI (dashboards, DAX, forecasting models, data visualisation)</li>
+              <li>Power Platform (Power Apps, Power Automate, workflow automation)</li>
+              <li>Programming foundations: SQL, Java, JavaScript/TypeScript, HTML, CSS, PHP</li>
+              <li>AV & broadcast: vMix (live production and streaming setups)</li>
+              <li>Business domain: stock forecasting, procurement optimisation, predictive analysis</li>
+              <li>Current focus: Next.js, React, Node.js</li>
             </ul>
           </div>
         </div>
@@ -88,7 +90,7 @@ export default function Home() {
       {/* Footer */}
       <footer className={styles.footer}>
         <p>Edenvale / Johannesburg, South Africa • {new Date().getFullYear()}</p>
-        <p>Building business impact — from low-code flows to full control in code</p>
+        <p>From Power Automate flows to full control in code — still figuring out why JavaScript insists on having seven ways to do the same thing.</p>
       </footer>
     </div>
   );
