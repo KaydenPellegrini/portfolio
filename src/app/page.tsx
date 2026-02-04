@@ -16,7 +16,7 @@ export default function Home() {
           <a href="https://linkedin.com/in/kaydenpellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
             LinkedIn
           </a>
-          <a href="mailto:kayden.pellegrini@gmail.com" className={styles.btnOutline}>
+          <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
             Contact Me
           </a>
         </div>
