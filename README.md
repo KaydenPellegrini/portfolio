@@ -1,28 +1,26 @@
-# Kayden's Portfolio
+# Kayden Pellegrini – Portfolio
 
-Personal portfolio website showcasing my journey from enterprise low-code solutions to modern full-stack development.
+Personal portfolio website built to showcase my transition from enterprise low-code development into modern full-stack web applications.
 
 ### Background
-- Deep experience with **Microsoft Power Platform** (PowerApps, Power Automate, SharePoint, Dynamics 365)
-- Built real business applications that automate processes and solve operational problems
-- Diploma in Java & Android App Development
-- Currently focused on modern web development with **React**, **Next.js**, **Node.js**, and related technologies
+- Extensive hands-on experience with **Microsoft Power Platform**  
+  (PowerApps, Power Automate, SharePoint, Dynamics 365)  
+- Diploma in Java & Android App Development  
+- Currently focused on learning and building with **React**, **Next.js**, **TypeScript**, **Node.js** and related modern tools  
 - CompTIA A+ foundational knowledge
 
-### Tech Stack (this site)
-- Next.js 14+ (App Router)
-- React
-- TypeScript
-- Tailwind CSS
-- Vercel (deployment)
+### This Site
+- Built with **Next.js 14+** (App Router)  
+- TypeScript  
+- Tailwind CSS  
+- Deployed on Vercel
 
 ### Purpose
-This site serves as my central hub to:
-- Present completed projects
-- Demonstrate clean, modern code
-- Show transition from low-code → full code
-- Provide easy access to GitHub, LinkedIn, and contact info
+- Demonstrate clean, production-minded code  
+- Highlight real-world business application experience  
+- Show progression from low-code → full custom code  
+- Serve as central hub for projects, GitHub, contact info
 
-Live site: 
+Live: https://kayden-portfolio.vercel.app (or your deployed URL)
 
-Made with ☕ in Edenvale, South Africa 🇿🇦
+Made in Benoni, South Africa 🇿🇦
