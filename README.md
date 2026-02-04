@@ -21,6 +21,6 @@ Personal portfolio website built to showcase my transition from enterprise low-c
 - Show progression from low-code → full custom code  
 - Serve as central hub for projects, GitHub, contact info
 
-Live: https://kayden-portfolio.vercel.app (or your deployed URL)
+Live: www.kayden.co.za (or your deployed URL)
 
 Made in Benoni, South Africa 🇿🇦
