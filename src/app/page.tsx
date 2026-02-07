@@ -10,10 +10,20 @@ export default function Home() {
           Power BI and Power Platform Developer transitioning into modern full-stack development
         </p>
         <div className={styles.heroButtons}>
-          <a href="https://github.com/KaydenPellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
+          <a
+            href="https://github.com/KaydenPellegrini"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.btnPrimary}
+          >
             GitHub
           </a>
-          <a href="https://linkedin.com/in/kaydenpellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
+          <a
+            href="https://linkedin.com/in/kaydenpellegrini"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.btnSecondary}
+          >
             LinkedIn
           </a>
           <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
@@ -32,8 +42,7 @@ export default function Home() {
           Skilled in building insight-rich Power BI dashboards using DAX and forecasting models, developing custom Power Apps to automate workflows, and performing predictive stock analysis to support procurement and inventory decisions.
         </p>
         <p>
-          Currently at Virtumed (Pty) Ltd, I design and deliver solutions that reduce inventory risk, improve data accuracy, and translate complex data into clear, actionable business insights.  
-          Alongside my BI work, I am actively expanding into modern full-stack development using Next.js, React, TypeScript, and Node.js, with a strong focus on writing code that is maintainable and ready for production.
+          Currently at Virtumed (Pty) Ltd, I design and deliver solutions that reduce inventory risk, improve data accuracy, and translate complex data into clear, actionable business insights. Alongside my BI work, I am actively expanding into modern full-stack development using Next.js, React, TypeScript, and Node.js, with a strong focus on writing code that is maintainable and ready for production.
         </p>
       </section>
 
