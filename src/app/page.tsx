@@ -3,32 +3,57 @@ import styles from './page.module.css';
 export default function Home() {
   return (
     <div className={styles.container}>
-      {/* Hero */}
+      {/* Hero – photo on top, name centered below, buttons in one row */}
       <section className={styles.hero}>
-        <h1>Kayden Pellegrini</h1>
-        <p className={styles.tagline}>
-          Power BI and Power Platform Developer transitioning into modern full-stack development
-        </p>
-        <div className={styles.heroButtons}>
-          <a
-            href="https://github.com/KaydenPellegrini"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.btnPrimary}
-          >
-            GitHub
-          </a>
-          <a
-            href="https://linkedin.com/in/kaydenpellegrini"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.btnSecondary}
-          >
-            LinkedIn
-          </a>
-          <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
-            Contact me
-          </a>
+        <div className={styles.heroContent}>
+          <img
+            src="/profile.webp"
+            alt="Kayden Pellegrini"
+            className={styles.profileImage}
+          />
+
+          <div className={styles.heroText}>
+            <h1>Kayden Pellegrini</h1>
+            <p className={styles.tagline}>
+              Power BI and Power Platform Developer transitioning into modern full-stack development
+            </p>
+
+            <p className={styles.personalHook}>
+              They call me MacGyver with code. Give me a broken process and it will be fixed.
+            </p>
+
+            <div className={styles.heroButtons}>
+              <a
+                href="/Kayden-Pellegrini-CV-2026.pdf"
+                download="Kayden-Pellegrini-CV-2026.pdf"
+                className={styles.btnDownload}
+              >
+                Download CV
+              </a>
+              <a
+                href="https://github.com/KaydenPellegrini"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.btnPrimary}
+              >
+                GitHub
+              </a>
+              <a
+                href="https://linkedin.com/in/kaydenpellegrini"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.btnSecondary}
+              >
+                LinkedIn
+              </a>
+              <a
+                href="mailto:developer.kayden@gmail.com"
+                className={styles.btnOutline}
+              >
+                Contact me
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -62,7 +87,7 @@ export default function Home() {
           <h3>Escape Room Manager</h3>
           <p className={styles.period}>Hashtag Escape – Johannesburg • February 2022 – March 2024</p>
           <p>
-            Ran daily operations and handled all technical systems in a high-pressure, fun environment. Sharpened quick thinking and the ability to stay calm when things inevitably go a bit sideways — skills that transfer surprisingly well to debugging code late at night.
+            Ran daily operations and handled all technical systems in a high-pressure, fun environment. Sharpened quick thinking and the ability to stay calm when things inevitably go a bit sideways. Skills that transfer surprisingly well to debugging code late at night.
           </p>
         </div>
 
