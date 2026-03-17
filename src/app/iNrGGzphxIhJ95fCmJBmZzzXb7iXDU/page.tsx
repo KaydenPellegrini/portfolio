@@ -116,7 +116,7 @@ export default function BudgetApp() {
   const addExpense = async () => {
     if (expense.amount <= 0) return;
 
-    let receipt;
+    let receipt: string;
     if (expense.receipt) {
       receipt = await new Promise<string>((res) => {
         const r = new FileReader();
