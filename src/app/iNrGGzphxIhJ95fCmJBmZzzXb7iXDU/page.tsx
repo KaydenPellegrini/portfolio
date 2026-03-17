@@ -1,421 +1,300 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import styles from './page.module.css';
+// ─── CONFIG ─────────────────────────────
+const HOURLY_RATE = 110;
 
-// ── TYPES ─────────────────────────────
+// Simplified categories (UI)
+const CATEGORIES = ["Needs", "Wants", "Savings"];
+
+// Internal smart allocation
+const CATEGORY_SPLIT = {
+  Needs: 50,
+  Wants: 30,
+  Savings: 20,
+};
+
+// ─── TYPES ─────────────────────────────
 type Loan = {
   id: number;
   name: string;
-  type: "TRS" | "3-month" | "6-month" | "Other";
-  monthlyAmount: number;
-  termMonths?: number;
-  interestRate?: number;
-  paymentDay?: number;
-  recurring?: boolean;
+  remaining: number;
+  payment: number;
+  interest: number;
   active: boolean;
-  startDate?: string;
 };
 
-type Transaction = {
+type Tx = {
   id: number;
-  date: string;
-  amount: number; // negative = expense
+  amount: number;
   category: string;
   note?: string;
-  receipt?: string; // base64 image
+  receipt?: string;
+  date: string;
 };
 
-// ── SOUTH AFRICA REALISTIC BUCKETS ─────────────────────────────
-const SA_BUCKETS: Record<string, number> = {
-  Housing: 30,
-  Utilities: 10,
-  "Food/Groceries": 12,
-  Transportation: 12,
-  Insurance: 8,
-  "Debt Minimums": 8,
-  "Home Maintenance": 5,
-  "Personal Care": 3,
-  "Parent Buffer": 2,
-  "Child Education": 6,
-  "Child Clothing": 4,
-  "Child Health": 2,
-  Entertainment: 8,
-  Travel: 5,
-  Gifts: 3,
-  "Emergency Fund": 5,
-  Retirement: 5,
-  "Future Goals": 3,
-  Buffer: 4,
-};
+export default function BudgetApp() {
+  const [mounted, setMounted] = useState(false);
 
-export default function PrivateBudget() {
-  const HOURLY_RATE = 110;
-  const today = new Date();
-  const currentDay = today.getDate();
-
-  // ── STATE ────────────────────────────
   const [data, setData] = useState({
-    month: today.toISOString().slice(0, 7),
     hours: 180,
-    gross: null as number | null,
     loans: [] as Loan[],
-    transactions: [] as Transaction[],
+    transactions: [] as Tx[],
+    incomes: [] as number[],
   });
 
-  const [loanForm, setLoanForm] = useState({
-    name: "",
-    type: "Other" as Loan["type"],
-    monthlyAmount: 0,
-    termMonths: 1,
-    interestRate: 0.025,
-    paymentDay: 25,
-    recurring: false,
-  });
+  const [notifications, setNotifications] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
 
-  const [expenseForm, setExpenseForm] = useState({
+  const [expense, setExpense] = useState({
     amount: 0,
-    category: "Housing",
+    category: "Needs",
     note: "",
     receipt: null as File | null,
   });
 
-  const [whatIf, setWhatIf] = useState({ amount: 0, category: "Entertainment" });
-  const [whatIfResult, setWhatIfResult] = useState<string | null>(null);
-
-  // Load from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("kaydenBudgetData");
-    if (saved) setData(JSON.parse(saved));
-  }, []);
-
-  // Save to localStorage
-  useEffect(() => {
-    localStorage.setItem("kaydenBudgetData", JSON.stringify(data));
-  }, [data]);
-
-  // ── CALCULATIONS ─────────────────────
-  const totalMonthlyLoans = data.loans
-    .filter((l) => l.active)
-    .reduce((sum, l) => sum + l.monthlyAmount, 0);
-
-  const disposable = data.gross ? Math.max(0, data.gross - totalMonthlyLoans) : 0;
-
-  const categorySpent: Record<string, number> = {};
-  Object.keys(SA_BUCKETS).forEach((cat) => {
-    categorySpent[cat] = data.transactions
-      .filter((t) => t.category === cat && t.amount < 0)
-      .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+  const [loanForm, setLoanForm] = useState({
+    name: "",
+    amount: 0,
+    payment: 0,
   });
 
-  // ── ACTIONS ──────────────────────────
-  const calculateIncome = () => {
-    const gross = Math.round(data.hours * HOURLY_RATE);
-    setData((prev) => ({ ...prev, gross }));
+  const [bonus, setBonus] = useState(0);
+
+  const notify = (msg: string) => {
+    setNotifications((p) => [...p, msg]);
+    setTimeout(() => setNotifications((p) => p.slice(1)), 3000);
   };
 
-  const addLoan = () => {
-    if (!loanForm.name || loanForm.monthlyAmount <= 0) {
-      alert("Please enter loan name and monthly amount");
-      return;
-    }
+  // ─── HYDRATION FIX ─────────────────────────────
+  useEffect(() => setMounted(true), []);
 
-    const newLoan: Loan = {
-      id: Date.now(),
-      name: loanForm.name,
-      type: loanForm.type,
-      monthlyAmount: loanForm.monthlyAmount,
-      termMonths: loanForm.termMonths,
-      interestRate: loanForm.interestRate,
-      paymentDay: loanForm.paymentDay,
-      recurring: loanForm.recurring,
-      active: true,
-      startDate: today.toISOString(),
-    };
+  // ─── LOAD ─────────────────────────────
+  useEffect(() => {
+    fetch("/api/budget")
+      .then((r) => r.json())
+      .then((d) => d && setData((p) => ({ ...p, ...d })));
+  }, []);
 
-    setData((prev) => ({ ...prev, loans: [...prev.loans, newLoan] }));
-    setLoanForm({ name: "", type: "Other", monthlyAmount: 0, termMonths: 1, interestRate: 0.025, paymentDay: 25, recurring: false });
-  };
+  // ─── SAVE ─────────────────────────────
+  useEffect(() => {
+    if (!mounted) return;
+    const { _id, ...clean } = data as any;
 
-  const removeLoan = (id: number) => {
-    if (!confirm("Remove this loan permanently?")) return;
-    setData((prev) => ({ ...prev, loans: prev.loans.filter((l) => l.id !== id) }));
-  };
+    fetch("/api/budget", {
+      method: "POST",
+      body: JSON.stringify(clean),
+    });
+  }, [data, mounted]);
 
+  // ─── CALCULATIONS ─────────────────────────────
+  const base = useMemo(() => data.hours * HOURLY_RATE, [data.hours]);
+  const bonusIncome = useMemo(() => data.incomes.reduce((a, b) => a + b, 0), [data.incomes]);
+  const totalIncome = base + bonusIncome;
+
+  const spentByCategory = useMemo(() => {
+    const map: any = {};
+    CATEGORIES.forEach((c) => (map[c] = 0));
+    data.transactions.forEach((t) => {
+      map[t.category] += Math.abs(t.amount);
+    });
+    return map;
+  }, [data.transactions]);
+
+  const totalSpent = Object.values(spentByCategory).reduce((a: any, b: any) => a + b, 0);
+
+  const budgets = useMemo(() => {
+    const obj: any = {};
+    CATEGORIES.forEach((c) => {
+      obj[c] = (CATEGORY_SPLIT[c as keyof typeof CATEGORY_SPLIT] / 100) * totalIncome;
+    });
+    return obj;
+  }, [totalIncome]);
+
+  // ─── ACTIONS ─────────────────────────────
   const addExpense = async () => {
-    if (expenseForm.amount <= 0) return alert("Enter a valid amount");
+    if (expense.amount <= 0) return;
 
-    let receiptBase64: string | undefined = undefined;
-    if (expenseForm.receipt) {
-      receiptBase64 = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target?.result as string);
-        reader.readAsDataURL(expenseForm.receipt!);
+    let receipt;
+    if (expense.receipt) {
+      receipt = await new Promise<string>((res) => {
+        const r = new FileReader();
+        r.onload = (e) => res(e.target?.result as string);
+        r.readAsDataURL(expense.receipt!);
       });
     }
 
-    const newTx: Transaction = {
-      id: Date.now(),
-      date: today.toLocaleDateString("en-ZA"),
-      amount: -expenseForm.amount,
-      category: expenseForm.category,
-      note: expenseForm.note.trim() || undefined,
-      receipt: receiptBase64,
-    };
+    setData((p) => ({
+      ...p,
+      transactions: [
+        {
+          id: Date.now(),
+          amount: -expense.amount,
+          category: expense.category,
+          note: expense.note,
+          receipt,
+          date: new Date().toLocaleDateString("en-ZA"),
+        },
+        ...p.transactions,
+      ],
+    }));
 
-    setData((prev) => ({ ...prev, transactions: [newTx, ...prev.transactions] }));
-    setExpenseForm({ amount: 0, category: "Housing", note: "", receipt: null });
+    notify("Expense added");
   };
 
-  const removeTransaction = (id: number) => {
-    if (!confirm("Delete this transaction?")) return;
-    setData((prev) => ({ ...prev, transactions: prev.transactions.filter((t) => t.id !== id) }));
+  const addLoan = () => {
+    if (!loanForm.name) return;
+
+    setData((p) => ({
+      ...p,
+      loans: [
+        ...p.loans,
+        {
+          id: Date.now(),
+          name: loanForm.name,
+          remaining: loanForm.amount,
+          payment: loanForm.payment,
+          interest: 0.02,
+          active: true,
+        },
+      ],
+    }));
+
+    notify("Loan added");
   };
 
-  const runWhatIf = () => {
-    if (whatIf.amount <= 0) return;
-    const spent = (categorySpent[whatIf.category] || 0) + whatIf.amount;
-    const target = Math.round(disposable * (SA_BUCKETS[whatIf.category] / 100));
-    const remaining = target - spent;
+  const applyLoans = () => {
+    setData((p) => ({
+      ...p,
+      loans: p.loans.map((l) => {
+        if (!l.active) return l;
 
-    let msg = `If you spend R${whatIf.amount} on ${whatIf.category} now:\n\n`;
-    msg += `Bucket remaining: R${remaining.toLocaleString()}\n`;
-    if (remaining < 0) msg += `⚠️ OVER by R${Math.abs(remaining).toLocaleString()}`;
-    else if (remaining < target * 0.25) msg += "⚠️ Getting low – be careful!";
-    setWhatIfResult(msg);
-  };
+        let balance = l.remaining;
+        balance += balance * l.interest;
+        balance -= l.payment;
 
-  const startNewMonth = () => {
-    if (!confirm("Start a new month? This will clear transactions but keep recurring loans.")) return;
-    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-    setData((prev) => ({
-      month: nextMonth.toISOString().slice(0, 7),
-      hours: 180,
-      gross: null,
-      loans: prev.loans.filter((l) => l.recurring),
-      transactions: [],
+        if (balance <= 0) {
+          notify(`${l.name} paid off 🎉`);
+          return { ...l, remaining: 0, active: false };
+        }
+
+        return { ...l, remaining: balance };
+      }),
     }));
   };
 
-  // Auto interest alert on payment day
-  data.loans.forEach((loan) => {
-    if (loan.active && loan.paymentDay === currentDay && loan.interestRate) {
-      const interest = Math.round((loan.remainingBalance || loan.monthlyAmount) * loan.interestRate);
-      if (interest > 0) {
-        alert(`Payment day alert!\n\n${loan.name} (${loan.type})\nInterest due today: R${interest}`);
-      }
-    }
-  });
+  const addBonus = () => {
+    if (bonus <= 0) return;
+    setData((p) => ({ ...p, incomes: [...p.incomes, bonus] }));
+    notify("Bonus added");
+  };
 
-  // ── RENDER ───────────────────────────
+  if (!mounted) return null;
+
+  // ─── UI ─────────────────────────────
   return (
-    <div className="min-h-screen bg-zinc-950 text-white p-6 pb-20">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12 text-emerald-400">Kayden's Private Budget Tracker</h1>
+    <div className="min-h-screen bg-[#0b0b12] text-white p-6">
+      <h1 className="text-4xl font-bold text-emerald-400 mb-6">Budget System</h1>
 
-        {/* INCOME SETUP */}
-        <section className="bg-zinc-900 rounded-3xl p-8 mb-10">
-          <h2 className="text-2xl font-semibold mb-6">Monthly Income Setup</h2>
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="flex-1">
-              <label className="block text-sm text-zinc-400 mb-2">Expected hours this month</label>
-              <input
-                type="number"
-                value={data.hours}
-                onChange={(e) => setData((p) => ({ ...p, hours: Number(e.target.value) || 180 }))}
-                className="w-full bg-zinc-800 rounded-2xl px-6 py-5 text-3xl font-medium"
-              />
-            </div>
-            <button
-              onClick={calculateIncome}
-              className="bg-emerald-600 hover:bg-emerald-500 px-12 py-5 rounded-2xl text-lg font-semibold self-end md:self-auto"
-            >
-              Calculate & Lock
-            </button>
+      {/* Notifications */}
+      <div className="fixed top-4 right-4 space-y-2">
+        {notifications.map((n, i) => (
+          <div key={i} className="bg-purple-600 px-4 py-2 rounded-xl shadow-lg">
+            {n}
           </div>
+        ))}
+      </div>
 
-          {data.gross && (
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-zinc-800 p-6 rounded-2xl text-center">
-                <p className="text-zinc-400">Gross Income</p>
-                <p className="text-4xl font-mono text-emerald-400">R{data.gross.toLocaleString()}</p>
+      {/* Income Card */}
+      <div className="bg-zinc-900 p-6 rounded-3xl mb-6 shadow-lg">
+        <p>Base: R{base.toLocaleString("en-ZA")}</p>
+        <p>Bonus: R{bonusIncome.toLocaleString("en-ZA")}</p>
+        <p className="text-emerald-400 font-bold text-lg">
+          Total: R{totalIncome.toLocaleString("en-ZA")}
+        </p>
+
+        <input
+          type="number"
+          value={bonus}
+          onChange={(e) => setBonus(Number(e.target.value))}
+          className="mt-2 px-3 py-2 rounded-xl text-black"
+        />
+        <button onClick={addBonus} className="ml-2 bg-teal-500 px-3 py-2 rounded-xl">
+          Add Bonus
+        </button>
+      </div>
+
+      {/* Budget Bars */}
+      <div className="bg-zinc-900 p-6 rounded-3xl mb-6">
+        {CATEGORIES.map((c) => {
+          const spent = spentByCategory[c];
+          const max = budgets[c] || 1;
+          const percent = Math.min((spent / max) * 100, 100);
+
+          return (
+            <div key={c} className="mb-4">
+              <div className="flex justify-between text-sm">
+                <span>{c}</span>
+                <span>R{spent.toFixed(0)} / R{max.toFixed(0)}</span>
               </div>
-              <div className="bg-zinc-800 p-6 rounded-2xl text-center">
-                <p className="text-zinc-400">Loans (deducted first)</p>
-                <p className="text-4xl font-mono text-red-400">-R{totalMonthlyLoans.toLocaleString()}</p>
-              </div>
-              <div className="bg-emerald-900/60 p-6 rounded-2xl text-center border border-emerald-500">
-                <p className="text-emerald-300 font-semibold">DISPOSABLE INCOME</p>
-                <p className="text-5xl font-bold text-emerald-400">R{disposable.toLocaleString()}</p>
+              <div className="w-full bg-zinc-700 rounded-full h-3">
+                <div
+                  className={`h-3 rounded-full ${
+                    percent > 100 ? "bg-red-500" : "bg-emerald-400"
+                  }`}
+                  style={{ width: `${percent}%` }}
+                />
               </div>
             </div>
-          )}
+          );
+        })}
+      </div>
 
-          <button
-            onClick={startNewMonth}
-            className="mt-8 w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl text-lg font-medium"
-          >
-            Start New Month
-          </button>
-        </section>
+      {/* Loans */}
+      <div className="bg-zinc-900 p-6 rounded-3xl mb-6">
+        <h2 className="mb-3">Loans</h2>
 
-        {/* LOANS */}
-        <section className="bg-zinc-900 rounded-3xl p-8 mb-10">
-          <h2 className="text-2xl font-semibold mb-6">Loans & Recurring Debits</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-zinc-950 p-6 rounded-2xl mb-8">
-            <input type="text" placeholder="Loan name" value={loanForm.name} onChange={(e) => setLoanForm(p => ({...p, name: e.target.value}))} className="bg-zinc-800 rounded-2xl px-5 py-4" />
-            <input type="number" placeholder="Monthly amount (R)" value={loanForm.monthlyAmount || ""} onChange={(e) => setLoanForm(p => ({...p, monthlyAmount: Number(e.target.value)}))} className="bg-zinc-800 rounded-2xl px-5 py-4" />
-            <select value={loanForm.type} onChange={(e) => setLoanForm(p => ({...p, type: e.target.value as Loan["type"]}))} className="bg-zinc-800 rounded-2xl px-5 py-4">
-              <option value="TRS">TRS (1-month)</option>
-              <option value="3-month">3-month</option>
-              <option value="6-month">6-month</option>
-              <option value="Other">Other</option>
-            </select>
-            <input type="number" placeholder="Term (months)" value={loanForm.termMonths} onChange={(e) => setLoanForm(p => ({...p, termMonths: Number(e.target.value)}))} className="bg-zinc-800 rounded-2xl px-5 py-4" />
-            <input type="number" step="0.001" placeholder="Interest rate (e.g. 0.025)" value={loanForm.interestRate} onChange={(e) => setLoanForm(p => ({...p, interestRate: Number(e.target.value)}))} className="bg-zinc-800 rounded-2xl px-5 py-4" />
-            <button onClick={addLoan} className="bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl font-semibold lg:col-span-3">Add Loan</button>
+        {data.loans.map((l) => (
+          <div key={l.id} className="bg-zinc-800 p-3 mb-2 rounded-xl">
+            {l.name} — R{l.remaining.toFixed(0)}
           </div>
+        ))}
 
-          {data.loans.map((loan) => (
-            <div key={loan.id} className="flex justify-between items-center bg-zinc-800 p-5 rounded-2xl mb-4">
-              <div>
-                <span className="font-medium text-lg">{loan.name}</span>
-                <span className="ml-4 text-sm text-zinc-500">
-                  {loan.type} • {loan.termMonths} mo • Day {loan.paymentDay}
-                </span>
-              </div>
-              <div className="flex items-center gap-8">
-                <span className="font-mono text-red-400 text-xl">-R{loan.monthlyAmount}</span>
-                <button onClick={() => removeLoan(loan.id)} className="text-3xl text-red-500 hover:text-red-400">×</button>
-              </div>
+        <button onClick={applyLoans} className="bg-purple-600 px-3 py-2 rounded-xl mb-3">
+          Apply Monthly Update
+        </button>
+
+        <input placeholder="Name" onChange={(e) => setLoanForm((p) => ({ ...p, name: e.target.value }))} className="text-black p-2 mr-2"/>
+        <input type="number" placeholder="Amount" onChange={(e) => setLoanForm((p) => ({ ...p, amount: Number(e.target.value) }))} className="text-black p-2 mr-2"/>
+        <input type="number" placeholder="Payment" onChange={(e) => setLoanForm((p) => ({ ...p, payment: Number(e.target.value) }))} className="text-black p-2 mr-2"/>
+        <button onClick={addLoan} className="bg-purple-600 px-3 py-2 rounded-xl">Add</button>
+      </div>
+
+      {/* Expense */}
+      <div className="bg-zinc-900 p-6 rounded-3xl mb-6">
+        <input type="number" onChange={(e) => setExpense((p) => ({ ...p, amount: Number(e.target.value) }))} className="text-black p-2 mr-2"/>
+        <select onChange={(e) => setExpense((p) => ({ ...p, category: e.target.value }))} className="text-black p-2 mr-2">
+          {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+        </select>
+        <input placeholder="Note" onChange={(e) => setExpense((p) => ({ ...p, note: e.target.value }))} className="text-black p-2 mr-2"/>
+        <input type="file" onChange={(e) => setExpense((p) => ({ ...p, receipt: e.target.files?.[0] || null }))}/>
+        <button onClick={addExpense} className="bg-purple-600 px-3 py-2 rounded-xl ml-2">Add</button>
+      </div>
+
+      {/* Transactions */}
+      <div className="bg-zinc-900 p-6 rounded-3xl">
+        <input placeholder="Search" onChange={(e) => setSearch(e.target.value)} className="text-black p-2 mb-3"/>
+
+        {data.transactions
+          .filter((t) => t.category.toLowerCase().includes(search.toLowerCase()))
+          .map((t) => (
+            <div key={t.id} className="bg-zinc-800 p-3 mb-2 rounded-xl">
+              <div>{t.date} • {t.category}</div>
+              <div>R{Math.abs(t.amount)}</div>
+              {t.receipt && <img src={t.receipt} className="mt-2 w-24 rounded" />}
             </div>
           ))}
-        </section>
-
-        {/* WHAT-IF SIMULATOR */}
-        <section className="bg-zinc-900 rounded-3xl p-8 mb-10">
-          <h2 className="text-2xl font-semibold mb-6">What-If Simulator</h2>
-          <div className="flex flex-col md:flex-row gap-4">
-            <input
-              type="number"
-              placeholder="R150"
-              value={whatIf.amount || ""}
-              onChange={(e) => setWhatIf(p => ({...p, amount: Number(e.target.value)}))}
-              className="bg-zinc-800 rounded-2xl px-6 py-5 flex-1 text-xl"
-            />
-            <select
-              value={whatIf.category}
-              onChange={(e) => setWhatIf(p => ({...p, category: e.target.value}))}
-              className="bg-zinc-800 rounded-2xl px-6 py-5 text-lg"
-            >
-              {Object.keys(SA_BUCKETS).map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-            <button onClick={runWhatIf} className="bg-yellow-500 hover:bg-yellow-400 px-10 py-5 rounded-2xl font-semibold">Simulate</button>
-          </div>
-          {whatIfResult && (
-            <div className="mt-6 p-6 bg-zinc-950 border border-yellow-500 rounded-2xl text-lg whitespace-pre-line">
-              {whatIfResult}
-            </div>
-          )}
-        </section>
-
-        {/* BUCKETS */}
-        <section className="bg-zinc-900 rounded-3xl p-8 mb-10">
-          <h2 className="text-2xl font-semibold mb-8">Budget Buckets (After Loans)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {Object.entries(SA_BUCKETS).map(([cat, percent]) => {
-              const target = Math.round(disposable * (percent / 100));
-              const spent = categorySpent[cat] || 0;
-              const remaining = target - spent;
-              const pctUsed = target > 0 ? (spent / target) * 100 : 0;
-              const barColor = pctUsed > 100 ? "bg-red-600" : pctUsed > 75 ? "bg-yellow-500" : "bg-emerald-500";
-
-              return (
-                <div key={cat} className="bg-zinc-800 p-6 rounded-2xl">
-                  <div className="flex justify-between mb-3">
-                    <span className="font-medium">{cat}</span>
-                    <span className="font-mono">R{spent} / R{target}</span>
-                  </div>
-                  <div className="h-3 bg-zinc-700 rounded-full overflow-hidden">
-                    <div className={`h-full ${barColor} transition-all`} style={{ width: `${Math.min(pctUsed, 120)}%` }} />
-                  </div>
-                  <div className="text-xs mt-3 text-right">
-                    {remaining >= 0 ? `R${remaining} left` : `Over by R${Math.abs(remaining)}`}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ADD EXPENSE + RECEIPT */}
-        <section className="bg-zinc-900 rounded-3xl p-8">
-          <h2 className="text-2xl font-semibold mb-6">Add Expense + Receipt</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <input
-              type="number"
-              placeholder="Amount (R)"
-              value={expenseForm.amount || ""}
-              onChange={(e) => setExpenseForm(p => ({...p, amount: Number(e.target.value)}))}
-              className="bg-zinc-800 rounded-2xl px-6 py-5"
-            />
-            <select
-              value={expenseForm.category}
-              onChange={(e) => setExpenseForm(p => ({...p, category: e.target.value}))}
-              className="bg-zinc-800 rounded-2xl px-6 py-5"
-            >
-              {Object.keys(SA_BUCKETS).map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-            <input
-              type="text"
-              placeholder="Note"
-              value={expenseForm.note}
-              onChange={(e) => setExpenseForm(p => ({...p, note: e.target.value}))}
-              className="bg-zinc-800 rounded-2xl px-6 py-5"
-            />
-          </div>
-
-          <div className="mt-8">
-            <label className="block text-sm text-zinc-400 mb-3">Receipt Photo (optional)</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setExpenseForm(p => ({...p, receipt: e.target.files?.[0] || null}))}
-              className="block w-full text-sm text-zinc-400 file:mr-4 file:py-4 file:px-8 file:rounded-2xl file:border-0 file:bg-emerald-600 file:text-white"
-            />
-          </div>
-
-          <button
-            onClick={addExpense}
-            className="mt-10 w-full bg-emerald-600 hover:bg-emerald-500 py-6 rounded-3xl text-xl font-semibold"
-          >
-            Add Expense
-          </button>
-        </section>
-
-        {/* TRANSACTIONS */}
-        <section className="mt-12 bg-zinc-900 rounded-3xl p-8">
-          <h2 className="text-2xl font-semibold mb-6">Transactions</h2>
-          {data.transactions.length === 0 ? (
-            <p className="text-zinc-500">No transactions yet.</p>
-          ) : (
-            data.transactions.map((tx) => (
-              <div key={tx.id} className="bg-zinc-800 p-6 rounded-2xl mb-6 flex justify-between items-start">
-                <div>
-                  <div className="text-emerald-400">{tx.date} • {tx.category}</div>
-                  {tx.note && <div className="text-zinc-400 mt-1">{tx.note}</div>}
-                  {tx.receipt && (
-                    <img src={tx.receipt} alt="receipt" className="mt-4 max-w-[220px] rounded-xl border border-zinc-700" />
-                  )}
-                </div>
-                <div className="text-right">
-                  <div className="font-mono text-red-400 text-2xl">-R{Math.abs(tx.amount)}</div>
-                  <button onClick={() => removeTransaction(tx.id)} className="text-red-500 text-4xl mt-2">×</button>
-                </div>
-              </div>
-            ))
-          )}
-        </section>
       </div>
     </div>
   );
