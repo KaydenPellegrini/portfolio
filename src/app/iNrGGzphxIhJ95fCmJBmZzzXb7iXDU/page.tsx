@@ -1,300 +1,156 @@
-"use client";
+/* app/(hidden)/page.tsx */
+import { connectDB } from '@/lib/db';
+import { Settings } from '@/models/Settings';
+import { Bonus } from '@/models/Bonus';
+import { Expense } from '@/models/Expense';
+import { CreditCard } from '@/models/CreditCard';
+import { RecurringExpense } from '@/models/RecurringExpense';
 
-import React, { useState, useEffect, useMemo } from "react";
-import styles from './page.module.css';
-// ─── CONFIG ─────────────────────────────
-const HOURLY_RATE = 110;
+import { formatZAR } from '@/lib/format';
+import BucketCard from '@/components/BucketCard';
+import CreditCardWidget from '@/components/CreditCardWidget';
+import RecentExpenses from '@/components/RecentExpenses';
+import AddBonusModal from '@/components/modals/AddBonusModal';
+import AddExpenseModal from '@/components/modals/AddExpenseModal';
+import AddRecurringModal from '@/components/modals/AddRecurringModal';
 
-// Simplified categories (UI)
-const CATEGORIES = ["Needs", "Wants", "Savings"];
+export const dynamic = 'force-dynamic'; // always fresh data on dashboard
 
-// Internal smart allocation
-const CATEGORY_SPLIT = {
-  Needs: 50,
-  Wants: 30,
-  Savings: 20,
-};
+export default async function Dashboard() {
+  await connectDB(); // must call on every server render/action
 
-// ─── TYPES ─────────────────────────────
-type Loan = {
-  id: number;
-  name: string;
-  remaining: number;
-  payment: number;
-  interest: number;
-  active: boolean;
-};
-
-type Tx = {
-  id: number;
-  amount: number;
-  category: string;
-  note?: string;
-  receipt?: string;
-  date: string;
-};
-
-export default function BudgetApp() {
-  const [mounted, setMounted] = useState(false);
-
-  const [data, setData] = useState({
-    hours: 180,
-    loans: [] as Loan[],
-    transactions: [] as Tx[],
-    incomes: [] as number[],
-  });
-
-  const [notifications, setNotifications] = useState<string[]>([]);
-  const [search, setSearch] = useState("");
-
-  const [expense, setExpense] = useState({
-    amount: 0,
-    category: "Needs",
-    note: "",
-    receipt: null as File | null,
-  });
-
-  const [loanForm, setLoanForm] = useState({
-    name: "",
-    amount: 0,
-    payment: 0,
-  });
-
-  const [bonus, setBonus] = useState(0);
-
-  const notify = (msg: string) => {
-    setNotifications((p) => [...p, msg]);
-    setTimeout(() => setNotifications((p) => p.slice(1)), 3000);
+  // Fetch settings (assume single doc, _id doesn't matter)
+  const settings = await Settings.findOne().lean() || {
+    baseIncome: 0,
+    bucketBudgets: { needs: 9900, wants: 5940, savings: 3960 },
   };
 
-  // ─── HYDRATION FIX ─────────────────────────────
-  useEffect(() => setMounted(true), []);
+  // Bonuses this month (rough — we can add period filtering later)
+  const thisMonth = new Date();
+  thisMonth.setDate(1);
+  thisMonth.setHours(0, 0, 0, 0);
+  const bonuses = await Bonus.find({ date: { $gte: thisMonth } }).lean();
+  const totalBonus = bonuses.reduce((sum, b) => sum + b.amount, 0);
 
-  // ─── LOAD ─────────────────────────────
-  useEffect(() => {
-    fetch("/api/budget")
-      .then((r) => r.json())
-      .then((d) => d && setData((p) => ({ ...p, ...d })));
-  }, []);
+  const totalIncome = settings.baseIncome + totalBonus;
 
-  // ─── SAVE ─────────────────────────────
-  useEffect(() => {
-    if (!mounted) return;
-    const { _id, ...clean } = data as any;
-
-    fetch("/api/budget", {
-      method: "POST",
-      body: JSON.stringify(clean),
-    });
-  }, [data, mounted]);
-
-  // ─── CALCULATIONS ─────────────────────────────
-  const base = useMemo(() => data.hours * HOURLY_RATE, [data.hours]);
-  const bonusIncome = useMemo(() => data.incomes.reduce((a, b) => a + b, 0), [data.incomes]);
-  const totalIncome = base + bonusIncome;
-
-  const spentByCategory = useMemo(() => {
-    const map: any = {};
-    CATEGORIES.forEach((c) => (map[c] = 0));
-    data.transactions.forEach((t) => {
-      map[t.category] += Math.abs(t.amount);
-    });
-    return map;
-  }, [data.transactions]);
-
-  const totalSpent = Object.values(spentByCategory).reduce((a: any, b: any) => a + b, 0);
-
-  const budgets = useMemo(() => {
-    const obj: any = {};
-    CATEGORIES.forEach((c) => {
-      obj[c] = (CATEGORY_SPLIT[c as keyof typeof CATEGORY_SPLIT] / 100) * totalIncome;
-    });
-    return obj;
-  }, [totalIncome]);
-
-  // ─── ACTIONS ─────────────────────────────
-  const addExpense = async () => {
-    if (expense.amount <= 0) return;
-
-    let receipt: string;
-    if (expense.receipt) {
-      receipt = await new Promise<string>((res) => {
-        const r = new FileReader();
-        r.onload = (e) => res(e.target?.result as string);
-        r.readAsDataURL(expense.receipt!);
-      });
-    }
-
-    setData((p) => ({
-      ...p,
-      transactions: [
-        {
-          id: Date.now(),
-          amount: -expense.amount,
-          category: expense.category,
-          note: expense.note,
-          receipt,
-          date: new Date().toLocaleDateString("en-ZA"),
-        },
-        ...p.transactions,
-      ],
-    }));
-
-    notify("Expense added");
+  // Bucket spends
+  const expenses = await Expense.find({}).lean();
+  const spends = {
+    Needs: expenses.filter(e => e.bucket === 'Needs').reduce((sum, e) => sum + e.amount, 0),
+    Wants: expenses.filter(e => e.bucket === 'Wants').reduce((sum, e) => sum + e.amount, 0),
+    Savings: expenses.filter(e => e.bucket === 'Savings').reduce((sum, e) => sum + e.amount, 0),
   };
 
-  const addLoan = () => {
-    if (!loanForm.name) return;
+  const buckets = [
+    { name: 'Needs', spent: spends.Needs, budget: settings.bucketBudgets.needs },
+    { name: 'Wants', spent: spends.Wants, budget: settings.bucketBudgets.wants },
+    { name: 'Savings', spent: spends.Savings, budget: settings.bucketBudgets.savings },
+  ];
 
-    setData((p) => ({
-      ...p,
-      loans: [
-        ...p.loans,
-        {
-          id: Date.now(),
-          name: loanForm.name,
-          remaining: loanForm.amount,
-          payment: loanForm.payment,
-          interest: 0.02,
-          active: true,
-        },
-      ],
-    }));
+  // Recent expenses
+  const recentExpenses = await Expense.find({})
+    .sort({ date: -1 })
+    .limit(10)
+    .populate('creditCard', 'name')
+    .lean();
 
-    notify("Loan added");
-  };
+  // Credit cards
+  const creditCards = await CreditCard.find({}).lean();
 
-  const applyLoans = () => {
-    setData((p) => ({
-      ...p,
-      loans: p.loans.map((l) => {
-        if (!l.active) return l;
+  // Upcoming recurring (next 7 days)
+  const soon = new Date();
+  soon.setDate(soon.getDate() + 7);
+  const upcomingRecurring = await RecurringExpense.find({
+    isActive: true,
+    nextDue: { $lte: soon },
+  }).sort({ nextDue: 1 }).limit(5).lean();
 
-        let balance = l.remaining;
-        balance += balance * l.interest;
-        balance -= l.payment;
-
-        if (balance <= 0) {
-          notify(`${l.name} paid off 🎉`);
-          return { ...l, remaining: 0, active: false };
-        }
-
-        return { ...l, remaining: balance };
-      }),
-    }));
-  };
-
-  const addBonus = () => {
-    if (bonus <= 0) return;
-    setData((p) => ({ ...p, incomes: [...p.incomes, bonus] }));
-    notify("Bonus added");
-  };
-
-  if (!mounted) return null;
-
-  // ─── UI ─────────────────────────────
   return (
-    <div className="min-h-screen bg-[#0b0b12] text-white p-6">
-      <h1 className="text-4xl font-bold text-emerald-400 mb-6">Budget System</h1>
+    <div className="min-h-screen bg-gray-950 text-gray-100 p-6">
+      {/* Header - preserve exact text */}
+      <header className="mb-10">
+        <h1 className="text-3xl font-bold">
+          Kayden Pellegrini | Power BI & Full-Stack Developer
+        </h1>
+        <p className="text-xl text-gray-400 mt-1"># Budget System</p>
+      </header>
 
-      {/* Notifications */}
-      <div className="fixed top-4 right-4 space-y-2">
-        {notifications.map((n, i) => (
-          <div key={i} className="bg-purple-600 px-4 py-2 rounded-xl shadow-lg">
-            {n}
-          </div>
-        ))}
-      </div>
-
-      {/* Income Card */}
-      <div className="bg-zinc-900 p-6 rounded-3xl mb-6 shadow-lg">
-        <p>Base: R{base.toLocaleString("en-ZA")}</p>
-        <p>Bonus: R{bonusIncome.toLocaleString("en-ZA")}</p>
-        <p className="text-emerald-400 font-bold text-lg">
-          Total: R{totalIncome.toLocaleString("en-ZA")}
-        </p>
-
-        <input
-          type="number"
-          value={bonus}
-          onChange={(e) => setBonus(Number(e.target.value))}
-          className="mt-2 px-3 py-2 rounded-xl text-black"
-        />
-        <button onClick={addBonus} className="ml-2 bg-teal-500 px-3 py-2 rounded-xl">
-          Add Bonus
-        </button>
-      </div>
-
-      {/* Budget Bars */}
-      <div className="bg-zinc-900 p-6 rounded-3xl mb-6">
-        {CATEGORIES.map((c) => {
-          const spent = spentByCategory[c];
-          const max = budgets[c] || 1;
-          const percent = Math.min((spent / max) * 100, 100);
-
-          return (
-            <div key={c} className="mb-4">
-              <div className="flex justify-between text-sm">
-                <span>{c}</span>
-                <span>R{spent.toFixed(0)} / R{max.toFixed(0)}</span>
-              </div>
-              <div className="w-full bg-zinc-700 rounded-full h-3">
-                <div
-                  className={`h-3 rounded-full ${
-                    percent > 100 ? "bg-red-500" : "bg-emerald-400"
-                  }`}
-                  style={{ width: `${percent}%` }}
-                />
-              </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Income Card */}
+        <div className="lg:col-span-3 bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <h2 className="text-2xl font-semibold mb-4">Income</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <p className="text-gray-400">Base CTC</p>
+              <p className="text-3xl font-bold">{formatZAR(settings.baseIncome)}</p>
             </div>
-          );
-        })}
-      </div>
-
-      {/* Loans */}
-      <div className="bg-zinc-900 p-6 rounded-3xl mb-6">
-        <h2 className="mb-3">Loans</h2>
-
-        {data.loans.map((l) => (
-          <div key={l.id} className="bg-zinc-800 p-3 mb-2 rounded-xl">
-            {l.name} — R{l.remaining.toFixed(0)}
+            <div>
+              <p className="text-gray-400 flex items-center gap-2">
+                Bonus
+                <AddBonusModal trigger={<button className="text-sm text-blue-400 hover:underline">Add Bonus</button>} />
+              </p>
+              <p className="text-3xl font-bold">{formatZAR(totalBonus)}</p>
+            </div>
+            <div>
+              <p className="text-gray-400">Total</p>
+              <p className="text-3xl font-bold text-green-400">{formatZAR(totalIncome)}</p>
+            </div>
           </div>
+        </div>
+
+        {/* Bucket Cards */}
+        {buckets.map(bucket => (
+          <BucketCard
+            key={bucket.name}
+            name={bucket.name}
+            spent={bucket.spent}
+            budget={bucket.budget}
+          />
         ))}
 
-        <button onClick={applyLoans} className="bg-purple-600 px-3 py-2 rounded-xl mb-3">
-          Apply Monthly Update
-        </button>
+        {/* Quick Actions */}
+        <div className="lg:col-span-3 flex flex-wrap gap-4 my-6">
+          <AddExpenseModal />
+          <AddRecurringModal />
+          {/* More quick buttons later: Add Credit Card, etc. */}
+        </div>
 
-        <input placeholder="Name" onChange={(e) => setLoanForm((p) => ({ ...p, name: e.target.value }))} className="text-black p-2 mr-2"/>
-        <input type="number" placeholder="Amount" onChange={(e) => setLoanForm((p) => ({ ...p, amount: Number(e.target.value) }))} className="text-black p-2 mr-2"/>
-        <input type="number" placeholder="Payment" onChange={(e) => setLoanForm((p) => ({ ...p, payment: Number(e.target.value) }))} className="text-black p-2 mr-2"/>
-        <button onClick={addLoan} className="bg-purple-600 px-3 py-2 rounded-xl">Add</button>
-      </div>
+        {/* Credit Cards Widget */}
+        <div className="lg:col-span-2 bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <h2 className="text-2xl font-semibold mb-4">Credit Cards</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {creditCards.map(card => (
+              <CreditCardWidget key={card._id.toString()} card={card} />
+            ))}
+            {creditCards.length === 0 && (
+              <p className="text-gray-500">No cards yet — add your Woolies/Edgars/RCS first</p>
+            )}
+          </div>
+        </div>
 
-      {/* Expense */}
-      <div className="bg-zinc-900 p-6 rounded-3xl mb-6">
-        <input type="number" onChange={(e) => setExpense((p) => ({ ...p, amount: Number(e.target.value) }))} className="text-black p-2 mr-2"/>
-        <select onChange={(e) => setExpense((p) => ({ ...p, category: e.target.value }))} className="text-black p-2 mr-2">
-          {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
-        </select>
-        <input placeholder="Note" onChange={(e) => setExpense((p) => ({ ...p, note: e.target.value }))} className="text-black p-2 mr-2"/>
-        <input type="file" onChange={(e) => setExpense((p) => ({ ...p, receipt: e.target.files?.[0] || null }))}/>
-        <button onClick={addExpense} className="bg-purple-600 px-3 py-2 rounded-xl ml-2">Add</button>
-      </div>
+        {/* Upcoming Recurring */}
+        <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <h2 className="text-xl font-semibold mb-4">Upcoming Recurring</h2>
+          {upcomingRecurring.length > 0 ? (
+            <ul className="space-y-3">
+              {upcomingRecurring.map(r => (
+                <li key={r._id.toString()} className="flex justify-between text-sm">
+                  <span>{r.description}</span>
+                  <span className="text-red-400">{formatZAR(r.amount)} • {new Date(r.nextDue).toLocaleDateString('en-ZA')}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 text-sm">Nothing due soon. Good.</p>
+          )}
+        </div>
 
-      {/* Transactions */}
-      <div className="bg-zinc-900 p-6 rounded-3xl">
-        <input placeholder="Search" onChange={(e) => setSearch(e.target.value)} className="text-black p-2 mb-3"/>
-
-        {data.transactions
-          .filter((t) => t.category.toLowerCase().includes(search.toLowerCase()))
-          .map((t) => (
-            <div key={t.id} className="bg-zinc-800 p-3 mb-2 rounded-xl">
-              <div>{t.date} • {t.category}</div>
-              <div>R{Math.abs(t.amount)}</div>
-              {t.receipt && <img src={t.receipt} className="mt-2 w-24 rounded" />}
-            </div>
-          ))}
+        {/* Recent Expenses */}
+        <div className="lg:col-span-3 bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <h2 className="text-2xl font-semibold mb-4">Recent Expenses</h2>
+          <RecentExpenses expenses={recentExpenses} />
+        </div>
       </div>
     </div>
   );
