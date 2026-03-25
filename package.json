@@ -13,9 +13,10 @@
     "@vercel/blob": "^2.3.1",
     "@vercel/functions": "^3.4.3",
     "blob": "^0.1.0",
+    "lucide-react": "^1.6.0",
     "mongodb": "^7.1.0",
     "mongoose": "^9.3.1",
-    "next": "^16.1.6",
+    "next": "^15.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "uuid": "^13.0.0"
