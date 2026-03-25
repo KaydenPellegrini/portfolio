@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 
 import { useState } from 'react'
@@ -353,7 +355,7 @@ function TaxSettings({ settings, onSave, saving }: any) {  const [taxYear, setTa
         <p className="text-xs text-gold font-medium mb-1">SARS 2025/26 Tax Brackets</p>
         <p className="text-[10px] text-muted">
           Tax brackets are pre-loaded for 2025/26. Update them in Settings every 1 March after the National Budget.
-          Current primary rebate: R17,977. Brackets range from 18% (≤R237,800) to 45% (>R1,817,000).
+          Current primary rebate: R17,977. Brackets range from 18% (≤R237,800) to 45% ({'>'}R1,817,000).
         </p>
       </div>
     </SectionCard>
