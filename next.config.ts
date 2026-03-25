@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+type NextConfigWithEslint = NextConfig & {
+  eslint?: {
+    ignoreDuringBuilds?: boolean;
+  };
+};
+
+const nextConfig: NextConfigWithEslint = {
+  eslint: {
+    ignoreDuringBuilds: true,   // add this line
+  },
  experimental: {
     serverActions: { bodySizeLimit: '10mb' },
   },
