@@ -1,44 +1,40 @@
-/* lib/db.ts */
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
-const MONGODB_URI = process.env.MONGODB_URI!;
-const MONGODB_DB = process.env.MONGODB_DB || 'budget';
+const MONGODB_URI = process.env.MONGODB_URI!
 
 if (!MONGODB_URI) {
-  throw new Error('MONGODB_URI missing in .env.local — fix it, Kayden');
+  throw new Error('Please define MONGODB_URI in .env.local')
+}
+
+interface MongooseCache {
+  conn: typeof mongoose | null
+  promise: Promise<typeof mongoose> | null
 }
 
 declare global {
   // eslint-disable-next-line no-var
-  var mongooseCache: {
-    conn: typeof mongoose | null;
-    promise: Promise<typeof mongoose> | null;
-  } | undefined;
+  var _mongooseCache: MongooseCache
 }
 
-const cached = global.mongooseCache || { conn: null, promise: null };
-if (!global.mongooseCache) {
-  global.mongooseCache = cached;
-}
+const cache: MongooseCache = global._mongooseCache ?? { conn: null, promise: null }
+global._mongooseCache = cache
 
-export async function connectDB() {
-  if (cached.conn) return cached.conn;
+export async function connectDB(): Promise<typeof mongoose> {
+  if (cache.conn) return cache.conn
 
-  if (!cached.promise) {
-    cached.promise = mongoose
-      .connect(MONGODB_URI, {
-        dbName: MONGODB_DB,
-        bufferCommands: false,
-      })
-      .then((mongooseInstance) => {
-        console.log('✅ MongoDB Atlas connected (budget db)');
-        return mongooseInstance;
-      });
+  if (!cache.promise) {
+    cache.promise = mongoose.connect(MONGODB_URI, {
+      bufferCommands: false,
+      maxPoolSize: 10,
+    })
   }
 
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
+  try {
+    cache.conn = await cache.promise
+  } catch (e) {
+    cache.promise = null
+    throw e
+  }
 
-// Vercel serverless rule: ALWAYS call await connectDB() at top of every Server Action.
-// Singleton + global cache = no pool explosion under load. Your existing route.ts + attachDatabasePool still works if you wrap this.
+  return cache.conn
+}
