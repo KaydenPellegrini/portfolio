@@ -4,7 +4,7 @@ import { getCards } from '@/actions/cards'
 import { getRecurrings } from '@/actions/settings'
 import { SettingsClient } from '@/components/settings/SettingsClient'
 
-interface Props { params: Promise<{ token: string }> }
+interface Props { params: Promise<Record<string, string>> }
 
 export default async function SettingsPage({ params }: Props) {
   const { token } = await params

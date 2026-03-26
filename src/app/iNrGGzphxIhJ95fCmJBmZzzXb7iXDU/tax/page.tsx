@@ -5,7 +5,7 @@ import { formatZAR, formatDate } from '@/lib/format'
 import { TaxPageClient } from '@/components/tax/TaxPageClient'
 
 interface Props {
-  params: Promise<{ token: string }>
+  params: Promise<Record<string, string>>
 }
 
 export default async function TaxPage({ params }: Props) {

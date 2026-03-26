@@ -6,7 +6,7 @@ import MobileNavLink from '@/components/ui/MobileNavLink'
 
 interface Props {
   children: React.ReactNode
-  params: Promise<{ token: string }>
+  params: Promise<Record<string, string>>
 }
 
 export default async function TokenLayout({ children, params }: Props) {
