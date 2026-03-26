@@ -57,8 +57,8 @@ export default async function TokenLayout({ children, params }: Props) {
         <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50
           bg-surface/95 backdrop-blur-sm border-t border-border
           flex items-center justify-around px-2 py-2 safe-area-inset-bottom">
-          {navItems.map(({ href, icon, label }) => (
-            <MobileNavLink key={href} href={href} icon={icon} label={label} />
+          {navItems.map(({ href, label }) => (
+            <MobileNavLink key={href} href={href} label={label} />
           ))}
         </nav>
       </div>
