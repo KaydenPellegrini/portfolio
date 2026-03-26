@@ -5,7 +5,7 @@ import { currentMonthKey } from '@/lib/format'
 import { Dashboard } from '@/components/dashboard/Dashboard'
 
 interface Props {
-  params: Promise<{ token: string }>
+  params: Promise<Record<string, string>>
   searchParams: Promise<{ month?: string }>
 }
 
