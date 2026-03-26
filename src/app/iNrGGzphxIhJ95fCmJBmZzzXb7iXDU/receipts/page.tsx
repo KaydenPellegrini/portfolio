@@ -3,7 +3,7 @@ import { connectDB } from '@/lib/db'
 import { Expense } from '@/models/Expense'
 import { ReceiptsClient } from '@/components/receipts/ReceiptsClient'
 
-interface Props { params: Promise<{ token: string }> }
+interface Props { params: Promise<Record<string, string>> }
 
 export default async function ReceiptsPage({ params }: Props) {
   const { token } = await params
