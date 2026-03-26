@@ -42,8 +42,8 @@ export default async function TokenLayout({ children, params }: Props) {
             </span>
           </div>
           <nav className="flex items-center gap-1">
-            {navItems.map(({ href, icon, label }) => (
-              <NavLink key={href} href={href} icon={icon} label={label} />
+            {navItems.map(({ href, label }) => (
+              <NavLink key={href} href={href} label={label} />
             ))}
           </nav>
         </header>
