@@ -305,7 +305,7 @@ function AddCardModal({ open, onClose }: { open: boolean; onClose: () => void })
       success('Card added')
       onClose()
       router.refresh()
-    } else error(res.error ?? 'Failed')
+    } else error('Failed to add card')
   }
 
   return (
