@@ -211,10 +211,14 @@ function ExpenseRow({
             </span>
           )}
           {needsReceipt && (
-            <AlertCircle size={12} className="text-gold shrink-0" title="Receipt required but missing" />
+            <span title="Receipt required but missing">
+              <AlertCircle size={12} className="text-gold shrink-0" />
+            </span>
           )}
           {e.receiptUrl && (
-            <Receipt size={12} className="text-muted shrink-0" title="Receipt attached" />
+            <span title="Receipt attached">
+              <Receipt size={12} className="text-muted shrink-0" />
+            </span>
           )}
         </div>
         <span className={`text-sm font-mono font-semibold shrink-0 ${deleted ? 'line-through text-muted' : 'text-white'}`}>

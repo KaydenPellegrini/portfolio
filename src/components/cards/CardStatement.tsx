@@ -36,10 +36,8 @@ export function CardStatement({ open, onClose, card }: CardStatementProps) {
 
   useEffect(() => {
     if (!open) return
-    setLoading(true)
     getCardTransactions(card._id, 100).then(txns => {
       setTransactions(txns)
-      setLoading(false)
     })
   }, [open, card._id])
 
