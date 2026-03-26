@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useMemo, useState } from 'react'
@@ -217,7 +218,7 @@ export function AnalyticsClient({ expenses, incomeEntries }: AnalyticsClientProp
                 <PieChart>
                   <Pie data={categoryData} cx="50%" cy="50%" innerRadius={60} outerRadius={110}
                     paddingAngle={2} dataKey="value"
-                    label={({ name, percent }) => `${name.split(' ')[0]} ${(percent * 100).toFixed(0)}%`}
+                    label={({ name, percent }: { name?: string; percent?: number }) => `${(name ?? '').split(' ')[0]} ${((percent ?? 0) * 100).toFixed(0)}%`}
                     labelLine={{ stroke: '#2E2E45' }}>
                     {categoryData.map((_, i) => (
                       <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
