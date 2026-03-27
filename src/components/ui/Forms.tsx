@@ -8,16 +8,14 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export function Input({ label, error, hint, className = '', ...props }: InputProps) {
   return (
     <div className="flex flex-col gap-1">
-      {label && <label className="text-xs font-medium text-muted uppercase tracking-wide">{label}</label>}
+      {label && <label style={{ fontSize: 11, fontWeight: 500, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</label>}
       <input
         {...props}
-        className={`w-full bg-raised border rounded-lg px-3 py-2.5 text-sm text-white placeholder-muted
-          focus:outline-none focus:ring-1 transition-colors
-          ${error ? 'border-danger focus:ring-danger' : 'border-border focus:ring-accent focus:border-accent'}
-          ${className}`}
+        style={{ backgroundColor: '#2C2C3E', border: `1px solid ${error ? '#E53E3E' : '#2E2E45'}`, borderRadius: 8, padding: '10px 12px', fontSize: 14, color: '#fff', width: '100%', outline: 'none' }}
+        className={className}
       />
-      {error && <p className="text-xs text-danger">{error}</p>}
-      {hint && !error && <p className="text-xs text-muted">{hint}</p>}
+      {error && <p style={{ fontSize: 12, color: '#E53E3E' }}>{error}</p>}
+      {hint && !error && <p style={{ fontSize: 12, color: '#6B7280' }}>{hint}</p>}
     </div>
   )
 }
@@ -29,17 +27,14 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 export function Select({ label, error, className = '', children, ...props }: SelectProps) {
   return (
     <div className="flex flex-col gap-1">
-      {label && <label className="text-xs font-medium text-muted uppercase tracking-wide">{label}</label>}
+      {label && <label style={{ fontSize: 11, fontWeight: 500, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</label>}
       <select
         {...props}
-        className={`w-full bg-raised border rounded-lg px-3 py-2.5 text-sm text-white
-          focus:outline-none focus:ring-1 transition-colors appearance-none cursor-pointer
-          ${error ? 'border-danger focus:ring-danger' : 'border-border focus:ring-accent focus:border-accent'}
-          ${className}`}
+        style={{ backgroundColor: '#2C2C3E', border: `1px solid ${error ? '#E53E3E' : '#2E2E45'}`, borderRadius: 8, padding: '10px 12px', fontSize: 14, color: '#fff', width: '100%', outline: 'none', appearance: 'none' }}
       >
         {children}
       </select>
-      {error && <p className="text-xs text-danger">{error}</p>}
+      {error && <p style={{ fontSize: 12, color: '#E53E3E' }}>{error}</p>}
     </div>
   )
 }
@@ -78,17 +73,18 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean
 }
 export function Button({ variant = 'primary', size = 'md', loading, children, className = '', disabled, ...props }: ButtonProps) {
-  const base = 'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface disabled:opacity-50 disabled:cursor-not-allowed'
-  const variants = {
-    primary:   'bg-accent text-black hover:bg-accent-dim focus:ring-accent',
-    secondary: 'bg-raised border border-border text-white hover:border-accent/50 focus:ring-accent',
-    danger:    'bg-danger/10 border border-danger/30 text-danger hover:bg-danger/20 focus:ring-danger',
-    ghost:     'text-muted hover:text-white hover:bg-raised focus:ring-accent',
-  }
-  const sizes = { sm: 'px-3 py-1.5 text-xs', md: 'px-4 py-2.5 text-sm', lg: 'px-5 py-3 text-base' }
+  const bgMap = { primary: '#00D4AA', secondary: '#2C2C3E', danger: 'transparent', ghost: 'transparent' }
+  const colorMap = { primary: '#000', secondary: '#fff', danger: '#E53E3E', ghost: '#6B7280' }
+  const borderMap = { primary: '#00D4AA', secondary: '#2E2E45', danger: '#E53E3E', ghost: 'transparent' }
+  const padMap = { sm: '6px 12px', md: '10px 16px', lg: '12px 20px' }
+
   return (
-    <button {...props} disabled={disabled || loading} className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}>
-      {loading ? <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" /> : null}
+    <button
+      {...props}
+      disabled={disabled || loading}
+      style={{ backgroundColor: bgMap[variant], color: colorMap[variant], border: `1px solid ${borderMap[variant]}`, borderRadius: 10, padding: padMap[size], fontSize: size === 'sm' ? 12 : 14, fontWeight: 500, cursor: disabled || loading ? 'not-allowed', opacity: disabled || loading ? 0.5 : 1, display: 'inline-flex', alignItems: 'center', gap: 6 } as React.CSSProperties}
+    >
+      {loading && <span style={{ width: 14, height: 14, border: '2px solid currentColor', borderTopColor: 'transparent', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} />}
       {children}
     </button>
   )
