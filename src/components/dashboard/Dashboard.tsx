@@ -119,7 +119,7 @@ export function Dashboard({ dashboardData, cardsSummary, recurrings, months, cur
                 </button>
                 <button
                   onClick={() => setAddExpenseOpen(true)}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-accent text-black text-sm font-semibold
+                  className="flex items-center gap-1.5 px-4 py-2 bg-accent text-white text-sm font-semibold
                     rounded-xl hover:bg-accent-dim transition-colors"
                 >
                   <Plus size={15} />
