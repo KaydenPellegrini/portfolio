@@ -82,7 +82,7 @@ export function Button({ variant = 'primary', size = 'md', loading, children, cl
     <button
       {...props}
       disabled={disabled || loading}
-      style={{ backgroundColor: bgMap[variant], color: colorMap[variant], border: `1px solid ${borderMap[variant]}`, borderRadius: 10, padding: padMap[size], fontSize: size === 'sm' ? 12 : 14, fontWeight: 500, cursor: disabled || loading ? 'not-allowed', opacity: disabled || loading ? 0.5 : 1, display: 'inline-flex', alignItems: 'center', gap: 6 } as React.CSSProperties}
+      style={{ backgroundColor: bgMap[variant], color: colorMap[variant], border: `1px solid ${borderMap[variant]}`, borderRadius: 10, padding: padMap[size], fontSize: size === 'sm' ? 12 : 14, fontWeight: 500, cursor: disabled || loading ? 'not-allowed' : 'pointer', opacity: disabled || loading ? 0.5 : 1, display: 'inline-flex', alignItems: 'center', gap: 6 } as React.CSSProperties}
     >
       {loading && <span style={{ width: 14, height: 14, border: '2px solid currentColor', borderTopColor: 'transparent', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} />}
       {children}
