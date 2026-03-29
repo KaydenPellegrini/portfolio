@@ -31,7 +31,7 @@ export default function RecentExpenses({ expenses }: RecentExpensesProps) {
             <tr key={exp._id.toString()} className="border-b border-gray-800 hover:bg-gray-800/50">
               <td className="py-3 px-3">{formatDate(exp.date)}</td>
               <td className="py-3 px-3">{exp.description}</td>
-              <td className="py-3 px-3 text-right font-medium">{formatZAR(exp.amount)}</td>
+              <td className="py-3 px-3 text-right font-medium">{formatZAR(exp.amountCents)}</td>
               <td className="py-3 px-3">{exp.bucket}</td>
               <td className="py-3 px-3">
                 {exp.paymentMethod}
