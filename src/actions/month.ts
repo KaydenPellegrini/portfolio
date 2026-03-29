@@ -50,9 +50,9 @@ export async function getMonthDashboard(monthKey: string) {
 
   // Income aggregation
   const grossIncomeCents = incomeEntries.reduce((s, e) => s + e.amountCents, 0)
-  const taxReservePct = settings?.taxReservePct ?? 30
-  const taxReserveCents = Math.round(grossIncomeCents * taxReservePct / 100)
-  const spendableNetCents = grossIncomeCents - taxReserveCents
+const taxReservePct = 0
+const taxReserveCents = 0
+const spendableNetCents = grossIncomeCents
 
   // Bucket allocation
   const allocation = (month as any).allocationRules ?? { needs: 50, wants: 30, savings: 20 }
