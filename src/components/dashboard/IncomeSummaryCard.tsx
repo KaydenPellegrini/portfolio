@@ -67,10 +67,6 @@ export function IncomeSummaryCard({
           <p className="text-lg font-bold text-white font-mono">{formatZAR(grossIncomeCents)}</p>
         </div>
         <div className="text-center">
-          <p className="text-[10px] text-gold uppercase tracking-widest mb-1">Tax Reserve ({taxReservePct}%)</p>
-          <p className="text-lg font-bold text-gold font-mono">{formatZAR(taxReserveCents)}</p>
-        </div>
-        <div className="text-center">
           <p className="text-[10px] text-accent uppercase tracking-widest mb-1">Spendable Net</p>
           <p className="text-lg font-bold text-accent font-mono">{formatZAR(spendableNetCents)}</p>
         </div>

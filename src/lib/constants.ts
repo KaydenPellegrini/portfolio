@@ -92,5 +92,5 @@ export const FREQUENCIES = ['monthly', 'weekly', 'bi-weekly', 'quarterly', 'annu
 export type Frequency = (typeof FREQUENCIES)[number]
 
 // ─── Tax reserve default ─────────────────────────────────────────────────────
-export const DEFAULT_TAX_RESERVE_PCT = 30
+export const DEFAULT_TAX_RESERVE_PCT = 0
 export const DEFAULT_HOURLY_RATE_CENTS = 11000 // R110.00
