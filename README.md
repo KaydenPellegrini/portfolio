@@ -1,26 +1,36 @@
-# Kayden Pellegrini – Portfolio
+# Kayden Pellegrini - Portfolio
 
-Personal portfolio website built to showcase my transition from enterprise low-code development into modern full-stack web applications.
+Personal portfolio site for Kayden Pellegrini, focused on Power BI, Power Platform, and modern full-stack development.
 
-### Background
-- Extensive hands-on experience with **Microsoft Power Platform**  
-  (PowerApps, Power Automate, SharePoint, Dynamics 365)  
-- Diploma in Java & Android App Development  
-- Currently focused on learning and building with **React**, **Next.js**, **TypeScript**, **Node.js** and related modern tools  
-- CompTIA A+ foundational knowledge
+## Site Structure
 
-### This Site
-- Built with **Next.js 14+** (App Router)  
-- TypeScript  
-- Tailwind CSS  
-- Deployed on Vercel
+- `/` - public portfolio
+- `/my-moon/[secret]` - private hidden page protected by `MY_MOON_TOKEN`
 
-### Purpose
-- Demonstrate clean, production-minded code  
-- Highlight real-world business application experience  
-- Show progression from low-code → full custom code  
-- Serve as central hub for projects, GitHub, contact info
+Hidden pages live under `src/app/(hidden)`. The route group keeps them out of the public app structure while preserving clean URLs.
 
-Live: www.kayden.co.za (or your deployed URL)
+## Tech
 
-Made in Edenvale, South Africa 🇿🇦
+- Next.js App Router
+- React
+- TypeScript
+- Tailwind CSS
+- Vercel Analytics
+
+## Local Setup
+
+```bash
+npm install
+npm run dev
+```
+
+For the hidden page, set:
+
+```env
+MY_MOON_TOKEN=
+NEXT_PUBLIC_KAYDEN_LAT=
+NEXT_PUBLIC_KAYDEN_LNG=
+NEXT_PUBLIC_MY_MOON_PLACE_LAT=
+NEXT_PUBLIC_MY_MOON_PLACE_LNG=
+NEXT_PUBLIC_MY_MOON_PLACE_NAME=
+```

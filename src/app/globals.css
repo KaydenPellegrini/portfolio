@@ -24,3 +24,24 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.my-moon-trail {
+  animation: my-moon-trail 900ms ease-out forwards;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes my-moon-trail {
+  0% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(0.45) rotate(0deg);
+  }
+
+  60% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -90%) scale(1.6) rotate(45deg);
+  }
+}
