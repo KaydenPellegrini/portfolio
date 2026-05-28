@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import TronGrid from '@/components/portfolio/TronGrid'
 import styles from './page.module.css'
 
 const experience = [
@@ -43,12 +44,39 @@ const projects = [
   },
 ]
 
-const skills = ['Power BI', 'DAX', 'Power Apps', 'Power Automate', 'SQL', 'Next.js', 'React', 'TypeScript', 'Node.js']
+const skills = [
+  { name: 'Power BI', level: 82, note: 'Dashboards, modelling, reporting' },
+  { name: 'Power Apps', level: 86, note: 'Internal tools and workflows' },
+  { name: 'Power Automate', level: 84, note: 'Process automation' },
+  { name: 'SQL', level: 78, note: 'Queries and data shaping' },
+  { name: 'DAX', level: 74, note: 'Measures and business logic' },
+  { name: 'Next.js / React', level: 66, note: 'Portfolio and full-stack growth' },
+  { name: 'TypeScript', level: 62, note: 'Typed app development' },
+  { name: 'Node.js', level: 56, note: 'APIs and server-side basics' },
+]
+
+const education = [
+  {
+    title: 'Diploma in Systems Development',
+    place: 'Boston City Campus',
+    period: '2020-2023',
+    detail: 'SQL, Java, Android development, PHP, HTML, CSS, and CompTIA A+ fundamentals.',
+  },
+  {
+    title: 'National Senior Certificate',
+    place: 'Jeppe High School for Boys',
+    period: '2016-2020',
+    detail: 'A practical base before moving into systems, support, data, and development.',
+  },
+]
+
+const signals = ['DAX_OK', 'FLOW_ARMED', 'MODEL_SYNC', 'UI_SCAN', 'QUERY_READY', 'BUILD_GREEN']
 
 export default function Home() {
   return (
     <main className={styles.container}>
       <section className={styles.hero}>
+        <TronGrid />
         <div className={styles.heroContent}>
           <Image
             src="/profile.webp"
@@ -68,6 +96,12 @@ export default function Home() {
             <p className={styles.personalHook}>
               My work usually starts with a messy process, a spreadsheet that has been pushed too far, or a question nobody can answer quickly enough.
             </p>
+            <div className={styles.signalStrip} aria-label="Current build focus">
+              <span>Dashboards</span>
+              <span>Automation</span>
+              <span>Internal tools</span>
+              <span>Full-stack</span>
+            </div>
 
             <div className={styles.heroButtons}>
               <a href="/Kayden-Pellegrini-CV-2026.pdf" download="Kayden-Pellegrini-CV-2026.pdf" className={styles.btnDownload}>
@@ -88,6 +122,11 @@ export default function Home() {
       </section>
 
       <section className={styles.section}>
+        <div className={styles.crypticRail} aria-hidden="true">
+          {signals.map((signal) => (
+            <span key={signal}>{signal}</span>
+          ))}
+        </div>
         <h2>About</h2>
         <p className={styles.summary}>
           I am a developer and business intelligence specialist based in Johannesburg, currently working in the medical device distribution space.
@@ -105,6 +144,9 @@ export default function Home() {
 
       <section className={styles.section}>
         <h2>Selected Work</h2>
+        <p className={styles.sectionIntro}>
+          A few places where I have been turning business problems into systems people can actually use.
+        </p>
         <div className={styles.projectGrid}>
           {projects.map((project) => (
             <article key={project.title} className={styles.projectCard}>
@@ -132,23 +174,35 @@ export default function Home() {
 
       <section className={styles.section}>
         <h2>Education & Skills</h2>
-        <div className={styles.grid}>
-          <div>
+        <div className={styles.educationSkillsGrid}>
+          <div className={styles.educationPanel}>
             <h3>Education</h3>
-            <p>
-              <strong>Diploma in Systems Development</strong> - Boston City Campus, 2020-2023
-            </p>
-            <p>SQL, Java, Android development, PHP, HTML, CSS, and CompTIA A+ fundamentals.</p>
-            <p>
-              <strong>National Senior Certificate</strong> - Jeppe High School for Boys, 2016-2020
-            </p>
+            <div className={styles.educationTimeline}>
+              {education.map((item) => (
+                <article key={item.title} className={styles.educationItem}>
+                  <span>{item.period}</span>
+                  <h4>{item.title}</h4>
+                  <p className={styles.educationPlace}>{item.place}</p>
+                  <p>{item.detail}</p>
+                </article>
+              ))}
+            </div>
           </div>
 
-          <div>
+          <div className={styles.skillsPanel}>
             <h3>Core Skills</h3>
-            <div className={styles.skillsList}>
+            <div className={styles.skillsMeterList}>
               {skills.map((skill) => (
-                <span key={skill}>{skill}</span>
+                <article key={skill.name} className={styles.skillMeter}>
+                  <div className={styles.skillMeterHeader}>
+                    <span>{skill.name}</span>
+                    <strong>{skill.level}%</strong>
+                  </div>
+                  <div className={styles.skillTrack} aria-hidden="true">
+                    <div className={styles.skillFill} style={{ width: `${skill.level}%` }} />
+                  </div>
+                  <p>{skill.note}</p>
+                </article>
               ))}
             </div>
           </div>
