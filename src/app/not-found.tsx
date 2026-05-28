@@ -1,8 +1,8 @@
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-bg flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-[#0a0d12] text-white">
       <div className="text-center">
-        <p className="text-muted text-sm">404</p>
+        <p className="text-sm text-slate-400">404</p>
       </div>
     </div>
   )

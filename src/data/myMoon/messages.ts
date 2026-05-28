@@ -1,0 +1,18 @@
+export const loveMessages = [
+  'You are loved on the easy days, the tired days, and the days where your brain gets a little too loud.',
+  'If you are missing me, come sit here for a second. I am still yours from wherever I am.',
+  'My Moon, you do not have to earn gentleness from me. You already have it.',
+  'I hope this page feels like my hand finding yours in the dark.',
+  'You are my favorite notification, my softest thought, and my best kind of trouble.',
+  'There is no version of this where I am not excited to see your face again.',
+  'For the record, I would choose you in every sensible universe and several very silly ones.',
+  'Take a breath, sweetheart. You are safe here, you are wanted here, and you are so deeply loved.',
+  'I miss you in a very reasonable way, if reasonable means completely and dramatically.',
+  'Somewhere, pickeltjie is probably smiling because you exist.',
+  'You are not too much. You are my exact amount of moonlight.',
+  'Today, your job is only to remember this: I adore you. Fully. Softly. On purpose.',
+  'If this were a game, you would be the quest marker I would happily follow across the whole map.',
+  'Some songs feel like home. Some people do too. You are both.',
+  'Movie night with you counts as a love language, even when the movie is scary and I pretend to be brave.',
+  'My Moon, you are the best plot twist my life has ever had.',
+]
