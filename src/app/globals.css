@@ -71,6 +71,24 @@ body {
   height: 42%;
 }
 
+.one-month-vine {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(153, 246, 228, 0.34) 0 10px, transparent 11px),
+    radial-gradient(circle at 28% 20%, rgba(244, 114, 182, 0.22) 0 7px, transparent 8px),
+    radial-gradient(circle at 68% 34%, rgba(167, 243, 208, 0.22) 0 8px, transparent 9px),
+    radial-gradient(circle at 36% 52%, rgba(153, 246, 228, 0.26) 0 9px, transparent 10px),
+    radial-gradient(circle at 74% 70%, rgba(244, 114, 182, 0.18) 0 7px, transparent 8px),
+    linear-gradient(90deg, transparent 48%, rgba(204, 251, 241, 0.18) 49%, rgba(204, 251, 241, 0.18) 51%, transparent 52%);
+}
+
+.one-month-bloom-ring {
+  animation: one-month-bloom-ring 1800ms ease-out infinite;
+}
+
+.one-month-pulse {
+  animation: one-month-pulse 1300ms ease-in-out infinite;
+}
+
 @keyframes my-moon-trail {
   0% {
     opacity: 0.85;
@@ -112,5 +130,30 @@ body {
   100% {
     opacity: 1;
     transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes one-month-bloom-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0.75);
+    opacity: 0.75;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.45);
+    opacity: 0;
+  }
+}
+
+@keyframes one-month-pulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: scale(1.18);
+    opacity: 0.8;
   }
 }

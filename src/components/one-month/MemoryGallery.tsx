@@ -19,23 +19,25 @@ function MemoryImage({ memory }: { memory: OneMonthMemory }) {
 }
 
 export default function MemoryGallery({ memories }: { memories: OneMonthMemory[] }) {
+  const memoryLabel = memories.length === 1 ? 'one little piece' : `${memories.length} little pieces`
+
   return (
     <section className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-slate-950/50 p-4 shadow-2xl shadow-cyan-950/20 backdrop-blur md:p-7">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(45,212,191,0.08),transparent)]" />
       <div className="relative">
         <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cyan-100/80">The story so far</p>
-        <h2 className="mt-2 text-3xl font-semibold text-white">Thirteen little pieces of month one</h2>
+        <h2 className="mt-2 text-3xl font-semibold text-white">{memoryLabel} of month one</h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
           Not every day needs a photo, and some days deserve more than one. These stay in the order the memories feel
           right.
         </p>
       </div>
 
-      <div className="relative mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="relative mt-7 flex snap-x gap-4 overflow-x-auto pb-3 sm:grid sm:overflow-visible sm:pb-0 md:grid-cols-2 lg:grid-cols-3">
         {memories.map((memory, index) => (
           <article
             key={memory.id}
-            className="one-month-memory group relative min-h-[22rem] overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-900/70 shadow-xl shadow-black/25"
+            className="one-month-memory group relative min-h-[24rem] min-w-[82%] snap-center overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-900/70 shadow-xl shadow-black/25 sm:min-w-0"
             style={{ animationDelay: `${index * 90}ms` }}
           >
             <MemoryImage memory={memory} />
