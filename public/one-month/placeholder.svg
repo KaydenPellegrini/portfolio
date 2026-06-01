@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Memory placeholder</title>
+  <desc id="desc">A turquoise romantic placeholder for a one-month anniversary memory.</desc>
+  <defs>
+    <radialGradient id="glow" cx="45%" cy="22%" r="70%">
+      <stop offset="0%" stop-color="#99f6e4"/>
+      <stop offset="42%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#06131f"/>
+    </radialGradient>
+    <linearGradient id="pink" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fbcfe8"/>
+      <stop offset="100%" stop-color="#67e8f9"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#glow)"/>
+  <g opacity=".2" fill="none" stroke="#ccfbf1" stroke-width="2">
+    <circle cx="760" cy="150" r="180"/>
+    <circle cx="760" cy="150" r="105"/>
+    <circle cx="130" cy="990" r="230"/>
+    <circle cx="130" cy="990" r="135"/>
+  </g>
+  <path fill="url(#pink)" opacity=".88" d="M450 720c-8-10-137-88-137-196 0-61 43-107 101-107 34 0 62 17 80 44 18-27 46-44 80-44 58 0 101 46 101 107 0 108-129 186-137 196l-44 40-44-40Z"/>
+  <g fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+    <text x="450" y="845" font-size="44" font-weight="700">Memory photo</text>
+    <text x="450" y="900" font-size="25" opacity=".78">Replace with 1.jpg - 13.jpg</text>
+  </g>
+</svg>

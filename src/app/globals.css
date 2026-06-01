@@ -30,6 +30,47 @@ body {
   transform: translate(-50%, -50%) scale(1);
 }
 
+.one-month-spark {
+  animation: one-month-spark 1200ms ease-out forwards;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.one-month-memory {
+  animation: one-month-memory 700ms ease-out both;
+}
+
+.one-month-orbit::before,
+.one-month-orbit::after,
+.one-month-web::before,
+.one-month-web::after {
+  position: absolute;
+  content: "";
+  inset: 50%;
+  border-radius: 9999px;
+  border: 1px solid rgba(204, 251, 241, 0.14);
+  transform: translate(-50%, -50%);
+}
+
+.one-month-orbit::before {
+  width: 130%;
+  height: 46%;
+}
+
+.one-month-orbit::after {
+  width: 46%;
+  height: 130%;
+}
+
+.one-month-web::before {
+  width: 72%;
+  height: 72%;
+}
+
+.one-month-web::after {
+  width: 42%;
+  height: 42%;
+}
+
 @keyframes my-moon-trail {
   0% {
     opacity: 0.85;
@@ -43,5 +84,33 @@ body {
   100% {
     opacity: 0;
     transform: translate(-50%, -90%) scale(1.6) rotate(45deg);
+  }
+}
+
+@keyframes one-month-spark {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(0.35) rotate(0deg);
+  }
+
+  55% {
+    opacity: 0.45;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -120%) scale(1.9) rotate(90deg);
+  }
+}
+
+@keyframes one-month-memory {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) rotate(-1deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
   }
 }

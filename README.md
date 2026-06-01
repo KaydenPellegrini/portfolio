@@ -6,6 +6,7 @@ Personal portfolio site for Kayden Pellegrini, focused on Power BI, Power Platfo
 
 - `/` - public portfolio
 - `/my-moon/[secret]` - private hidden page protected by `MY_MOON_TOKEN`
+- `/one-month/[secret]` - private one-month anniversary page protected by `ONE_MONTH_TOKEN`
 
 Hidden pages live under `src/app/(hidden)`. The route group keeps them out of the public app structure while preserving clean URLs.
 
