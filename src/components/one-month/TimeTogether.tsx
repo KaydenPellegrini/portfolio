@@ -20,15 +20,36 @@ function getElapsedParts(startDate: string): TimeParts {
   }
 }
 
+function FlipDigit({ value, label, accent }: { value: number; label: string; accent: string }) {
+  const display = String(value).padStart(2, '0')
+
+  return (
+    <div className="one-month-flip group relative overflow-hidden rounded-2xl border border-white/15 bg-white/[0.08] p-3 text-center backdrop-blur transition hover:-translate-y-0.5">
+      <div className={`pointer-events-none absolute -inset-px rounded-2xl opacity-50 blur-2xl ${accent}`} />
+      <div className="relative">
+        <p
+          key={display}
+          className="one-month-flip-inner text-3xl font-bold tracking-tight text-white tabular-nums md:text-4xl"
+        >
+          {display}
+        </p>
+        <p className="mt-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/75">{label}</p>
+      </div>
+      <span className="pointer-events-none absolute inset-x-3 -bottom-px h-px one-month-ribbon" />
+    </div>
+  )
+}
+
 export default function TimeTogether({ startDate }: { startDate: string }) {
   const [timeParts, setTimeParts] = useState(() => getElapsedParts(startDate))
   const units = useMemo(
-    () => [
-      ['Days', timeParts.days],
-      ['Hours', timeParts.hours],
-      ['Minutes', timeParts.minutes],
-      ['Seconds', timeParts.seconds],
-    ],
+    () =>
+      [
+        ['Days', timeParts.days, 'bg-cyan-400/30'],
+        ['Hours', timeParts.hours, 'bg-pink-400/25'],
+        ['Minutes', timeParts.minutes, 'bg-yellow-300/25'],
+        ['Seconds', timeParts.seconds, 'bg-violet-400/25'],
+      ] as const,
     [timeParts],
   )
 
@@ -39,11 +60,8 @@ export default function TimeTogether({ startDate }: { startDate: string }) {
 
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-      {units.map(([label, value]) => (
-        <div key={label} className="rounded-2xl border border-white/15 bg-white/[0.08] p-3 text-center backdrop-blur">
-          <p className="text-3xl font-bold text-white md:text-4xl">{String(value).padStart(2, '0')}</p>
-          <p className="mt-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/75">{label}</p>
-        </div>
+      {units.map(([label, value, accent]) => (
+        <FlipDigit key={label} value={value as number} label={label as string} accent={accent as string} />
       ))}
     </div>
   )
