@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { CalendarHeart, Flower2, Palette } from 'lucide-react'
 import { notFound } from 'next/navigation'
+import ColourByNumber from '@/components/one-month/ColourByNumber'
 import GardenReveal from '@/components/one-month/GardenReveal'
 import MemoryGallery from '@/components/one-month/MemoryGallery'
 import OneMonthAtmosphere from '@/components/one-month/OneMonthAtmosphere'
@@ -88,8 +89,10 @@ export default async function OneMonthPage({ params }: Props) {
               </div>
             </div>
 
-            <div className="text-base leading-8 text-slate-200 md:text-lg">
-              <p>{oneMonthStory.aboutHer}</p>
+            <div className="space-y-4 text-base leading-8 text-slate-200 md:text-lg">
+              {oneMonthStory.aboutHer.split('\n\n').map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
           </div>
         </section>
@@ -97,6 +100,8 @@ export default async function OneMonthPage({ params }: Props) {
         <GardenReveal memories={memories} />
 
         <MemoryGallery memories={memories} />
+
+        <ColourByNumber />
 
         <section className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.07] p-5 text-center shadow-2xl shadow-pink-950/20 backdrop-blur md:p-8">
           <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-cyan-100/50 to-transparent" />

@@ -8,18 +8,18 @@ export type OneMonthMemory = {
 }
 
 export const oneMonthStory = {
-  title: 'My Month With You',
-  eyebrow: 'One month of us',
+  title: 'Kelly, This Month Felt Like Colour',
+  eyebrow: 'One month with Kelly',
   startDate: '2026-05-02T17:04:36+02:00',
   milestoneDate: '2026-06-02T17:04:36+02:00',
   fromName: 'Your favourite person',
-  toName: 'My love',
+  toName: 'Kelly',
   heroMessage:
-    'A little place for the first month: the laughs, the photos, the tiny moments, and the feeling that something beautiful has started.',
+    'A small garden of photos, colour, silly little joys, and every reason this first month already feels unforgettable.',
   aboutHer:
-    'She is the turquoise in the room: bright, playful, impossible to miss, and somehow calming at the same time. She finds joy everywhere, whether it is sushi, a Lunch Bar, a Red Bull, a random laugh, or one of those small moments most people would walk straight past. She is creative in a way that turns ideas into something real, especially through fashion design, where her eye for colour, shape, and detail makes everything feel more alive. She loves plants, flowers, and nature, and that makes sense, because she has the same kind of energy: warm, growing, outgoing, and full of personality. She can be silly, she can be bold, she can light up a room, and she carries this whole little universe with her: The Vampire Diaries, Marvel, Spider-Man, Lego, flowers, outfits, snacks, and all the joy in between.',
+    "When I think about you, I don't just think about the things you like. I think about the way you experience the world. You have this incredible ability to find joy in places where most people would walk right past it. Whether it's getting excited over a new plant, laughing at something completely random, or turning an ordinary day into a good memory, you remind me that happiness isn't something you wait for, it's something you create. I admire how fearlessly creative you are and how you pour so much of yourself into everything you do. Watching you chase your passion to design, create, express yourself through your ideas, and dream so boldly makes me so proud of you. You have a personality that draws people in, not because you're trying to impress anyone, but because you're genuinely yourself: kind, vibrant, funny, and full of life.\n\nI love the little things that make you smile, the way your eyes light up when you talk about something you're passionate about, and how you can be both wonderfully silly and incredibly inspiring at the same time. You bring so much colour into my life. You make the ordinary feel special, the difficult feel easier, and the good moments feel unforgettable. Every day with you feels like another page in a story I never want to stop reading. Celebrating this month with you isn't just celebrating time that's passed. It's celebrating every laugh, every conversation, every memory, and every reason I've fallen even more in love with the amazing person you are.",
   closing:
-    'This is only month one, but it already feels like the start of something I am lucky to keep discovering.',
+    'This is only month one, Kelly, but it already feels like the start of something I am lucky to keep discovering.',
 }
 
 export function createOneMonthMemories(count: number): OneMonthMemory[] {
