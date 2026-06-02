@@ -20,139 +20,118 @@ const palette = [
   { number: 5, name: 'Berry', color: '#c4b5fd', text: '#211047' },
 ]
 
+/**
+ * Scene: a single bouquet for Kelly.
+ *
+ * Three flowers rise from a turquoise vase, framed by two long leaves and a
+ * tiny floating heart. Every region is part of one drawing — no orphans, no
+ * scattered icons. The flowers share a six-petal silhouette so the picture
+ * reads as one composition.
+ */
 const regions: Region[] = [
   {
-    id: 'dress-bodice',
+    id: 'vase',
     number: 1,
-    label: 'turquoise dress bodice',
-    d: 'M210 160c25-18 58-18 84 0l-18 75h-48l-18-75Z',
-    textX: 252,
-    textY: 201,
+    label: 'turquoise vase',
+    d: 'M255 345 Q245 365 222 380 Q200 410 215 450 Q230 488 280 490 Q330 488 345 450 Q360 410 338 380 Q315 365 305 345 Z',
+    textX: 280,
+    textY: 432,
   },
   {
-    id: 'dress-skirt-left',
-    number: 1,
-    label: 'left dress panel',
-    d: 'M228 232h48l58 139H174l54-139Z',
-    textX: 223,
-    textY: 305,
-  },
-  {
-    id: 'dress-skirt-right',
-    number: 5,
-    label: 'right dress panel',
-    d: 'M276 232h50l76 139h-76l-50-139Z',
-    textX: 331,
-    textY: 313,
-  },
-  {
-    id: 'hair',
-    number: 4,
-    label: 'golden hair',
-    d: 'M205 105c18-58 101-57 121-1 15 43-7 86-28 112-32-14-72-13-103 0-23-31-28-73 10-111Z',
-    textX: 256,
-    textY: 127,
-  },
-  {
-    id: 'flower-one',
-    number: 2,
-    label: 'large flower',
-    d: 'M95 123c22-30 56-18 54 13 34-9 55 26 28 49 28 21 9 58-25 49-3 35-44 42-58 12-27 21-60-7-43-38-36-5-40-48-5-58 0-33 35-49 49-27Z',
-    textX: 109,
-    textY: 191,
-  },
-  {
-    id: 'flower-two',
-    number: 1,
-    label: 'turquoise flower',
-    d: 'M398 118c19-25 49-13 46 16 29-8 47 21 24 40 25 20 4 48-24 39-7 30-42 34-51 5-25 16-51-13-33-37-28-7-27-42 3-47 0-26 27-38 35-16Z',
-    textX: 411,
-    textY: 181,
-  },
-  {
-    id: 'left-leaf',
+    id: 'leaf-left',
     number: 3,
     label: 'left leaf',
-    d: 'M63 342c54-50 108-58 155-29-50 50-103 62-162 47-9-2-1-12 7-18Z',
-    textX: 123,
-    textY: 342,
+    d: 'M260 345 Q195 285 120 240 Q180 305 260 345 Z',
+    textX: 195,
+    textY: 308,
   },
   {
-    id: 'right-leaf',
+    id: 'leaf-right',
     number: 3,
     label: 'right leaf',
-    d: 'M371 335c46-40 96-40 139-7-41 42-92 51-143 25-9-4-5-12 4-18Z',
-    textX: 429,
-    textY: 346,
+    d: 'M300 345 Q365 285 440 240 Q380 305 300 345 Z',
+    textX: 365,
+    textY: 308,
   },
   {
-    id: 'plant-pot',
-    number: 4,
-    label: 'plant pot',
-    d: 'M48 416h105l-15 91H64l-16-91Z',
-    textX: 101,
-    textY: 465,
-  },
-  {
-    id: 'sushi',
+    id: 'flower-left-petals',
     number: 2,
-    label: 'sushi plate',
-    d: 'M386 424c54-25 120-12 139 29-35 37-120 43-157 9-11-11 2-31 18-38Z',
-    textX: 446,
-    textY: 456,
+    label: 'pink bloom',
+    d: 'M220 180 Q196 189 200 215 Q180 198 160 215 Q164 189 140 180 Q164 171 160 145 Q180 162 200 145 Q196 171 220 180 Z',
+    textX: 180,
+    textY: 150,
   },
   {
-    id: 'can',
-    number: 1,
-    label: 'Red Bull can',
-    d: 'M428 235h54c10 0 18 9 17 20l-12 118c-1 10-9 17-19 17h-43c-10 0-18-7-19-17l-12-118c-1-11 7-20 17-20Z',
-    textX: 447,
-    textY: 316,
+    id: 'flower-left-center',
+    number: 4,
+    label: 'centre of the pink bloom',
+    d: 'M194 180 A14 14 0 1 1 166 180 A14 14 0 1 1 194 180 Z',
+    textX: 180,
+    textY: 184,
   },
   {
-    id: 'chocolate',
+    id: 'flower-top-petals',
     number: 5,
-    label: 'Lunch Bar chocolate',
-    d: 'M57 250h105c12 0 21 9 21 21v56H57v-77Z',
-    textX: 119,
-    textY: 296,
+    label: 'berry bloom on top',
+    d: 'M332 135 Q299 146 306 180 Q280 157 254 180 Q261 146 228 135 Q261 124 254 90 Q280 113 306 90 Q299 124 332 135 Z',
+    textX: 280,
+    textY: 100,
   },
   {
-    id: 'lego-one',
-    number: 4,
-    label: 'Lego block',
-    d: 'M181 438h70v47h-70v-47Zm14-17h14v17h-14v-17Zm28 0h14v17h-14v-17Z',
-    textX: 216,
-    textY: 470,
-  },
-  {
-    id: 'lego-two',
+    id: 'flower-top-center',
     number: 2,
-    label: 'pink Lego block',
-    d: 'M259 450h72v45h-72v-45Zm15-17h14v17h-14v-17Zm30 0h14v17h-14v-17Z',
-    textX: 295,
-    textY: 481,
+    label: 'centre of the berry bloom',
+    d: 'M298 135 A18 18 0 1 1 262 135 A18 18 0 1 1 298 135 Z',
+    textX: 280,
+    textY: 139,
+  },
+  {
+    id: 'flower-right-petals',
+    number: 4,
+    label: 'yellow daisy',
+    d: 'M420 180 Q396 189 400 215 Q380 198 360 215 Q364 189 340 180 Q364 171 360 145 Q380 162 400 145 Q396 171 420 180 Z',
+    textX: 380,
+    textY: 150,
+  },
+  {
+    id: 'flower-right-center',
+    number: 3,
+    label: 'centre of the daisy',
+    d: 'M394 180 A14 14 0 1 1 366 180 A14 14 0 1 1 394 180 Z',
+    textX: 380,
+    textY: 184,
   },
   {
     id: 'heart',
     number: 2,
-    label: 'heart',
-    d: 'M292 58c-15-25-54-17-54 16 0 32 45 56 54 69 10-13 55-37 55-69 0-33-40-41-55-16Z',
-    textX: 292,
-    textY: 96,
+    label: 'little heart',
+    d: 'M482 116 C454 88 454 70 468 64 C475 62 480 66 482 74 C484 66 489 62 496 64 C510 70 510 88 482 116 Z',
+    textX: 482,
+    textY: 90,
   },
 ]
 
 const lineArt = [
-  'M252 161v-29',
-  'M219 236c15 14 51 14 66 0',
-  'M245 371v65',
-  'M113 237c-6-41-2-77 12-110',
-  'M411 236c10-45 11-83 3-117',
-  'M68 416c9-48 27-85 54-113',
-  'M507 424c-25-39-55-69-89-89',
-  'M84 327h99',
-  'M406 389h84',
+  // Three stems from the vase neck to each flower.
+  'M268 345 Q240 285 185 218',
+  'M280 345 L280 187',
+  'M292 345 Q320 285 375 218',
+  // Rim of the vase opening (suggests a 3D ellipse).
+  'M252 350 Q280 362 308 350',
+  // Soft highlight on the vase body.
+  'M236 395 Q244 440 240 472',
+  // Ground baseline with a couple of tiny grass tufts.
+  'M60 515 Q280 545 500 515',
+  'M120 522 L125 510 L130 522',
+  'M420 522 L425 510 L430 522',
+  // Sparkles tucked around the bouquet.
+  'M82 110 L102 110 M92 100 L92 120',
+  'M512 230 L526 230 M519 223 L519 237',
+  'M60 400 L76 400 M68 392 L68 408',
+  'M500 430 L514 430 M507 423 L507 437',
+  // Two small falling petals.
+  'M110 280 Q102 292 100 285 Q98 278 108 270 Q116 274 110 280 Z',
+  'M482 320 Q490 332 492 325 Q494 318 484 310 Q476 314 482 320 Z',
 ]
 
 function getSwatch(number: number) {
@@ -165,7 +144,7 @@ type Confetti = { id: number; x: number; y: number; r: number; color: string; si
 export default function ColourByNumber() {
   const [selectedNumber, setSelectedNumber] = useState(1)
   const [coloured, setColoured] = useState<Record<string, number>>({})
-  const [message, setMessage] = useState('Pick 1 and start with the turquoise pieces.')
+  const [message, setMessage] = useState('Pick 1 and start with the turquoise vase.')
   const [splashes, setSplashes] = useState<Splash[]>([])
   const [confetti, setConfetti] = useState<Confetti[]>([])
   const splashSeed = useRef(0)
@@ -253,11 +232,11 @@ export default function ColourByNumber() {
             Kelly colours it in
           </p>
           <h2 className="mt-3 text-3xl font-black leading-tight text-slate-950">
-            A black-and-white little world waiting for her touch
+            A bouquet for Kelly, sketched and waiting for her colour
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-700">
-            Pick the numbered colour, then tap the matching pieces. The sketch fills in with turquoise, flowers,
-            fashion, snacks, plants, Lego, and tiny story details.
+            Pick the numbered colour, then tap the matching piece of the sketch. A turquoise vase, three blooms, two
+            long leaves, and a little floating heart — fill them in, in any order.
           </p>
 
           <div className="mt-5 grid grid-cols-2 gap-2">
@@ -293,7 +272,7 @@ export default function ColourByNumber() {
                 type="button"
                 onClick={() => {
                   setColoured({})
-                  setMessage('Clean page. Start with turquoise again.')
+                  setMessage('Fresh page. Start with the turquoise vase again.')
                 }}
                 className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 font-black text-slate-700 active:scale-95"
               >
@@ -324,10 +303,17 @@ export default function ColourByNumber() {
               </filter>
             </defs>
 
-            <path d="M23 520C95 463 139 455 203 493c58 34 112 31 171-8 49-32 95-54 159-33" fill="none" stroke="#0f172a" strokeWidth="5" strokeLinecap="round" opacity="0.22" />
-            <path d="M430 58c47 15 74 43 83 84M428 58c20 38 50 64 90 80M426 58c39-1 73 13 102 43" fill="none" stroke="#0f172a" strokeWidth="2" opacity="0.22" />
             {lineArt.map((line) => (
-              <path key={line} d={line} fill="none" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" opacity="0.24" />
+              <path
+                key={line}
+                d={line}
+                fill="none"
+                stroke="#0f172a"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                opacity="0.55"
+              />
             ))}
 
             {regions.map((region) => {
@@ -397,10 +383,6 @@ export default function ColourByNumber() {
                 }}
               />
             ))}
-
-            <path d="M234 132c16 13 38 13 55 0M229 146c21 16 48 16 68 0" fill="none" stroke="#0f172a" strokeWidth="3" strokeLinecap="round" opacity="0.35" />
-            <circle cx="238" cy="116" r="4" fill="#0f172a" opacity="0.55" />
-            <circle cx="278" cy="116" r="4" fill="#0f172a" opacity="0.55" />
           </svg>
 
           <div className="pointer-events-none absolute left-6 top-6 rounded-full border border-slate-200 bg-white/85 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-slate-700 shadow-lg backdrop-blur">
