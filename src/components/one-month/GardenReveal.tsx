@@ -129,10 +129,10 @@ export default function GardenReveal({ memories }: { memories: OneMonthMemory[] 
             Click to bloom
           </p>
           <h2 className="mt-3 text-3xl font-semibold leading-tight text-white">
-            <span className="one-month-title">A little garden of her moments</span>
+            <span className="one-month-title">A little garden of your moments</span>
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-300">
-            Each flower opens one photo and brings its colour back. It keeps the page about her: bright, creative,
+            Each flower opens one photo and brings its colour back. It keeps the page about you: bright, creative,
             nature-loving, and full of small joys.
           </p>
         </div>

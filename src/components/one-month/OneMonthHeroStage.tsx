@@ -234,7 +234,7 @@ export default function OneMonthHeroStage() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-100/80">Tap anywhere</p>
             <p className="mt-1 text-sm leading-6 text-slate-100">
-              Make the garden bloom around her little universe.
+              Make the garden bloom around your little universe.
             </p>
           </div>
           <Sparkles className="ml-auto mt-1 text-pink-100" size={18} aria-hidden="true" />

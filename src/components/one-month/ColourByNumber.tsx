@@ -21,7 +21,7 @@ const palette = [
 ]
 
 /**
- * Scene: a single bouquet for Kelly.
+ * Scene: a single bouquet for my girl.
  *
  * Three flowers rise from a turquoise vase, framed by two long leaves and a
  * tiny floating heart. Every region is part of one drawing — no orphans, no
@@ -229,10 +229,10 @@ export default function ColourByNumber() {
         <div className="p-5 md:p-7">
           <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.26em] text-teal-700">
             <Droplets size={16} aria-hidden="true" />
-            Kelly colours it in
+            You colour it in
           </p>
           <h2 className="mt-3 text-3xl font-black leading-tight text-slate-950">
-            A bouquet for Kelly, sketched and waiting for her colour
+            A bouquet for my girl, sketched and waiting for your colour
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-700">
             Pick the numbered colour, then tap the matching piece of the sketch. A turquoise vase, three blooms, two
@@ -295,7 +295,7 @@ export default function ColourByNumber() {
             viewBox="0 0 560 560"
             className="h-[34rem] max-h-[72svh] min-h-[31rem] w-full rounded-[1.35rem] border border-slate-200 bg-[radial-gradient(circle_at_50%_12%,#ffffff_0%,#f3fffd_46%,#f8fafc_100%)]"
             role="img"
-            aria-label="Interactive colour by number drawing for Kelly"
+            aria-label="Interactive colour by number drawing for you"
           >
             <defs>
               <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
@@ -393,7 +393,7 @@ export default function ColourByNumber() {
             <div className="absolute inset-x-6 bottom-6 rounded-2xl border border-teal-200 bg-white/95 p-4 text-sm font-black text-teal-800 shadow-xl backdrop-blur">
               <span className="inline-flex items-center gap-2">
                 <Check size={17} aria-hidden="true" />
-                Finished. Kelly brought the colour back.
+                Finished. You brought the colour back.
                 <Heart size={16} aria-hidden="true" />
                 <Sparkles size={16} aria-hidden="true" />
               </span>

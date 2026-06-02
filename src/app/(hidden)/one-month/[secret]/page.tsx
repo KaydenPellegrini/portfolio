@@ -117,7 +117,7 @@ export default async function OneMonthPage({ params }: Props) {
                 <span className="pointer-events-none absolute inset-[-6px] rounded-full border border-cyan-100/30 one-month-badge-rotate" />
               </div>
               <div className="lg:mt-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-100/80">About her</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-100/80">About you</p>
                 <h2 className="mt-2 text-2xl font-semibold">
                   <span className="one-month-title">Turquoise in human form</span>
                 </h2>
