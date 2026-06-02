@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-label="Escape room ops board — reset checklist">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#170026"/><stop offset="1" stop-color="#020005"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg3)"/>
+  <text x="60" y="80" font-family="Arial, sans-serif" font-size="34" font-weight="900" fill="#ffffff">Reset Checklist — Asylum</text>
+  <text x="60" y="116" font-family="Consolas, monospace" font-size="18" fill="#aa50ff" letter-spacing="2">4:00 TARGET · 3:12 ELAPSED</text>
+  <g font-family="Arial, sans-serif" font-size="20" fill="#f4f0ff">
+    <g>
+      <circle cx="80" cy="190" r="14" fill="#00ff88"/><path d="M73 190 l5 6 l10 -12" stroke="#061008" stroke-width="3" fill="none"/>
+      <text x="112" y="197">Props returned to start positions</text>
+    </g>
+    <g>
+      <circle cx="80" cy="250" r="14" fill="#00ff88"/><path d="M73 250 l5 6 l10 -12" stroke="#061008" stroke-width="3" fill="none"/>
+      <text x="112" y="257">Locks &amp; combinations re-scrambled</text>
+    </g>
+    <g>
+      <circle cx="80" cy="310" r="14" fill="#00ff88"/><path d="M73 310 l5 6 l10 -12" stroke="#061008" stroke-width="3" fill="none"/>
+      <text x="112" y="317">Maglocks &amp; sensors armed</text>
+    </g>
+    <g>
+      <circle cx="80" cy="370" r="14" fill="none" stroke="#aa50ff" stroke-width="3"/>
+      <text x="112" y="377" fill="#eadcff">Lighting &amp; audio cue reset</text>
+    </g>
+    <g opacity="0.6">
+      <circle cx="80" cy="430" r="14" fill="none" stroke="#6a0dad" stroke-width="3"/>
+      <text x="112" y="437" fill="#c7b5df">Final walk &amp; game-master brief</text>
+    </g>
+  </g>
+  <rect x="60" y="500" width="1080" height="12" rx="6" fill="#1c0a2e"/>
+  <rect x="60" y="500" width="648" height="12" rx="6" fill="#aa50ff"/>
+  <text x="60" y="556" font-family="Consolas, monospace" font-size="16" fill="#9dffcf">3 of 5 complete · next group 21:00</text>
+</svg>

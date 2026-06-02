@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import TronGrid from '@/components/portfolio/TronGrid'
+import Link from 'next/link'
+import HeroVisual from '@/components/portfolio/HeroVisual'
 import styles from './page.module.css'
 
 const experience = [
@@ -28,19 +29,19 @@ const experience = [
 
 const projects = [
   {
-    title: 'Inventory and sales reporting',
+    title: 'Inventory and sales intelligence',
     description:
-      'Power BI dashboards that help the team understand stock movement, sales performance, and where attention is needed before a problem becomes expensive.',
+      'Power BI dashboards that turn raw stock and sales numbers into clear decisions. The team can see what is selling, what is sitting still, and where to step in before a small gap turns into an expensive one.',
   },
   {
-    title: 'Procurement workflow tools',
+    title: 'Procurement workflow automation',
     description:
-      'Power Apps and Power Automate work that turns repeated manual steps into cleaner internal processes with fewer copy-paste mistakes.',
+      'Power Apps and Power Automate tools that take repeated manual steps and turn them into one reliable process. Fewer copy-paste mistakes, quicker approvals, and a lot less admin getting in the way.',
   },
   {
-    title: 'Modern web development',
+    title: 'Modern full-stack web',
     description:
-      'A growing Next.js and TypeScript portfolio, built to move beyond dashboards into full-stack tools that are clear, maintainable, and useful.',
+      'Real Next.js, React, and TypeScript work, including this site and the interactive builds in the Lab. It is where I am growing past dashboards into tools that a team can actually trust and maintain.',
   },
 ]
 
@@ -76,7 +77,7 @@ export default function Home() {
   return (
     <main className={styles.container}>
       <section className={styles.hero}>
-        <TronGrid />
+        <HeroVisual />
         <div className={styles.heroContent}>
           <Image
             src="/profile.webp"
@@ -91,10 +92,10 @@ export default function Home() {
             <p className={styles.kicker}>Power BI / Power Platform / Full-stack development</p>
             <h1>Kayden Pellegrini</h1>
             <p className={styles.tagline}>
-              I build practical data tools and web apps for teams that need clearer information and fewer manual steps.
+              I turn messy processes into clear data tools and web apps, so teams can spend less time wrestling spreadsheets and more time making decisions.
             </p>
             <p className={styles.personalHook}>
-              My work usually starts with a messy process, a spreadsheet that has been pushed too far, or a question nobody can answer quickly enough.
+              The work usually starts in the same place. A process held together by habit, a spreadsheet pushed years past what it was built for, or a question nobody can answer quickly enough. I build the thing that finally fixes it.
             </p>
             <div className={styles.signalStrip} aria-label="Current build focus">
               <span>Dashboards</span>
@@ -104,6 +105,9 @@ export default function Home() {
             </div>
 
             <div className={styles.heroButtons}>
+              <Link href="/showcase" className={styles.btnShowcase}>
+                Explore the Build Lab
+              </Link>
               <a href="/Kayden-Pellegrini-CV-2026.pdf" download="Kayden-Pellegrini-CV-2026.pdf" className={styles.btnDownload}>
                 Download CV
               </a>
@@ -129,23 +133,20 @@ export default function Home() {
         </div>
         <h2>About</h2>
         <p className={styles.summary}>
-          I am a developer and business intelligence specialist based in Johannesburg, currently working in the medical device distribution space.
+          I am a developer and business intelligence specialist based in Johannesburg, working in the medical device distribution space. My day sits close to the stock decisions, procurement, and sales numbers that keep the business moving.
         </p>
         <p>
-          I spend a lot of time turning scattered business information into something people can actually use: dashboards, forecasting models,
-          internal tools, and automations that remove repetitive admin. I like work that sits close to the people using it, because that is where
-          the useful details usually live.
+          Most of my time goes into turning scattered business information into something people actually use. That means dashboards, forecasting models, internal tools, and automations that quietly take hours of repetitive admin off everyone&apos;s plate. I like working close to the people using it, because that is where the useful details and the real problems tend to hide.
         </p>
         <p>
-          Alongside my Power BI and Power Platform work, I am building deeper full-stack skills with Next.js, React, TypeScript, and Node.js.
-          The aim is simple: build tools that are easier to trust, easier to maintain, and easier for real teams to adopt.
+          Alongside the Power BI and Power Platform work, I am building deeper full-stack skills with Next.js, React, TypeScript, and Node.js. The goal is simple. Build tools that are easy to trust, easy to maintain, and easy for a real team to pick up on a busy day.
         </p>
       </section>
 
       <section className={styles.section}>
         <h2>Selected Work</h2>
         <p className={styles.sectionIntro}>
-          A few places where I have been turning business problems into systems people can actually use.
+          A few places where I have turned business problems into systems people rely on every day. You can open the interactive builds in the Lab to see how they come together.
         </p>
         <div className={styles.projectGrid}>
           {projects.map((project) => (
@@ -155,6 +156,9 @@ export default function Home() {
             </article>
           ))}
         </div>
+        <Link href="/showcase" className={styles.sectionCta}>
+          Open the Build Lab →
+        </Link>
       </section>
 
       <section className={styles.section}>
