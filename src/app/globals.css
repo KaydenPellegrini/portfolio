@@ -267,6 +267,15 @@ body {
   animation: one-month-shimmer 5.2s ease-in-out infinite;
 }
 
+/* Highlighted reveal words need the reveal AND the shimmer; with a single class,
+   .one-month-highlight clobbers .one-month-word's animation and leaves opacity:0,
+   making the word invisible. Run both animations so it reveals like the rest. */
+.one-month-word.one-month-highlight {
+  animation:
+    one-month-word 720ms cubic-bezier(0.2, 1, 0.25, 1) forwards,
+    one-month-shimmer 5.2s ease-in-out infinite;
+}
+
 /* Animated ribbon below countdown */
 .one-month-ribbon {
   background: linear-gradient(
