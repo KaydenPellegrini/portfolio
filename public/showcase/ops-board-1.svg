@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-label="Escape room ops board — room tiles">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#170026"/><stop offset="1" stop-color="#020005"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg1)"/>
+  <text x="60" y="80" font-family="Arial, sans-serif" font-size="34" font-weight="900" fill="#ffffff">Ops Board — Tonight</text>
+  <text x="60" y="116" font-family="Consolas, monospace" font-size="18" fill="#00ff88" letter-spacing="2">6 ROOMS · LIVE STATUS</text>
+  <g font-family="Arial, sans-serif">
+    <g>
+      <rect x="60" y="160" width="345" height="240" rx="16" fill="#0c0014" stroke="#00ff88" stroke-opacity="0.4"/>
+      <text x="84" y="206" font-size="24" font-weight="800" fill="#ffffff">The Vault</text>
+      <text x="84" y="246" font-size="18" fill="#d9ffe9">In session · 23:41 left</text>
+      <rect x="84" y="270" width="297" height="10" rx="5" fill="#06210f"/>
+      <rect x="84" y="270" width="180" height="10" rx="5" fill="#00ff88"/>
+      <text x="84" y="330" font-size="16" fill="#9dffcf">Group of 5 · Booked</text>
+    </g>
+    <g>
+      <rect x="428" y="160" width="345" height="240" rx="16" fill="#0c0014" stroke="#aa50ff" stroke-opacity="0.45"/>
+      <text x="452" y="206" font-size="24" font-weight="800" fill="#ffffff">Asylum</text>
+      <text x="452" y="246" font-size="18" fill="#eadcff">Resetting · 4 min</text>
+      <rect x="452" y="270" width="297" height="10" rx="5" fill="#1c0a2e"/>
+      <rect x="452" y="270" width="240" height="10" rx="5" fill="#aa50ff"/>
+      <text x="452" y="330" font-size="16" fill="#c7b5df">Next: 21:00</text>
+    </g>
+    <g>
+      <rect x="796" y="160" width="345" height="240" rx="16" fill="#0c0014" stroke="#ff5470" stroke-opacity="0.5"/>
+      <text x="820" y="206" font-size="24" font-weight="800" fill="#ffffff">Heist</text>
+      <text x="820" y="246" font-size="18" fill="#ffd2da">Fault flagged · maglock</text>
+      <rect x="820" y="270" width="297" height="10" rx="5" fill="#2e0a12"/>
+      <rect x="820" y="270" width="90" height="10" rx="5" fill="#ff5470"/>
+      <text x="820" y="330" font-size="16" fill="#ffb3c0">Tech notified</text>
+    </g>
+    <g opacity="0.85">
+      <rect x="60" y="430" width="345" height="240" rx="16" fill="#0c0014" stroke="#00ff88" stroke-opacity="0.3"/>
+      <text x="84" y="476" font-size="24" font-weight="800" fill="#ffffff">Submarine</text>
+      <text x="84" y="516" font-size="18" fill="#d9ffe9">Ready · idle</text>
+    </g>
+    <g opacity="0.85">
+      <rect x="428" y="430" width="345" height="240" rx="16" fill="#0c0014" stroke="#00ff88" stroke-opacity="0.3"/>
+      <text x="452" y="476" font-size="24" font-weight="800" fill="#ffffff">Bunker</text>
+      <text x="452" y="516" font-size="18" fill="#d9ffe9">In session · 11:02 left</text>
+    </g>
+    <g opacity="0.85">
+      <rect x="796" y="430" width="345" height="240" rx="16" fill="#0c0014" stroke="#00ff88" stroke-opacity="0.3"/>
+      <text x="820" y="476" font-size="24" font-weight="800" fill="#ffffff">Cabin</text>
+      <text x="820" y="516" font-size="18" fill="#d9ffe9">Ready · booked 21:30</text>
+    </g>
+  </g>
+</svg>

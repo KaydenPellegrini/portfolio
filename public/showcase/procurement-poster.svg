@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Procurement workflow walkthrough placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#170026"/>
+      <stop offset="0.5" stop-color="#07000d"/>
+      <stop offset="1" stop-color="#020005"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0" stop-color="#00ff88" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <g fill="none" stroke="#00ff88" stroke-opacity="0.08">
+    <path d="M0 90 H1280 M0 180 H1280 M0 270 H1280 M0 360 H1280 M0 450 H1280 M0 540 H1280 M0 630 H1280"/>
+    <path d="M90 0 V720 M180 0 V720 M270 0 V720 M360 0 V720 M450 0 V720 M540 0 V720 M630 0 V720 M720 0 V720 M810 0 V720 M900 0 V720 M990 0 V720 M1080 0 V720 M1170 0 V720"/>
+  </g>
+  <circle cx="640" cy="320" r="64" fill="#00ff88" fill-opacity="0.12" stroke="#00ff88" stroke-opacity="0.5"/>
+  <path d="M620 290 L676 320 L620 350 Z" fill="#00ff88"/>
+  <text x="640" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="800" fill="#f4f0ff">Procurement Workflow</text>
+  <text x="640" y="482" text-anchor="middle" font-family="Consolas, monospace" font-size="20" fill="#00ff88" letter-spacing="3">WALKTHROUGH · DEMO CLIP</text>
+</svg>

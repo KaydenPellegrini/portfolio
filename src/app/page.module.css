@@ -161,7 +161,8 @@
 .btnPrimary,
 .btnSecondary,
 .btnOutline,
-.btnDownload {
+.btnDownload,
+.btnShowcase {
   min-width: 128px;
   padding: 12px 18px;
   border-radius: 10px;
@@ -175,8 +176,24 @@
 .btnPrimary:hover,
 .btnSecondary:hover,
 .btnOutline:hover,
-.btnDownload:hover {
+.btnDownload:hover,
+.btnShowcase:hover {
   transform: translateY(-2px);
+}
+
+.btnShowcase {
+  position: relative;
+  overflow: hidden;
+  color: #061008;
+  background: linear-gradient(120deg, #00ff88, #9dffcf 52%, #aa50ff);
+  background-size: 180% 100%;
+  border: 1px solid rgba(0, 255, 136, 0.5);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.34);
+  animation: showcaseSheen 6s ease-in-out infinite;
+}
+
+.btnShowcase:hover {
+  box-shadow: 0 0 38px rgba(170, 80, 255, 0.46);
 }
 
 .btnDownload {
@@ -499,6 +516,29 @@
   font-size: 0.88rem;
 }
 
+.sectionCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 136, 0.42);
+  background: rgba(0, 255, 136, 0.06);
+  color: #d9ffe9;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.sectionCta:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 255, 136, 0.66);
+  background: rgba(0, 255, 136, 0.12);
+  box-shadow: 0 0 28px rgba(0, 255, 136, 0.32);
+}
+
 .footer {
   position: relative;
   z-index: 1;
@@ -615,5 +655,22 @@
   50% {
     opacity: 0.92;
     transform: translateY(-4px);
+  }
+}
+
+@keyframes showcaseSheen {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btnShowcase {
+    animation: none;
   }
 }
