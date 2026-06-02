@@ -39,11 +39,20 @@ export default function FloatingHearts({
 }) {
   // Avoid hydration mismatch: only render on client.
   const [mounted, setMounted] = useState(false)
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setMounted(true), [])
+  const [viewport, setViewport] = useState(0)
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true)
+    setViewport(window.innerWidth)
+  }, [])
+
+  // Thin out ambient particles on small screens to cut paint/blur cost on mobile.
+  const isSmall = viewport > 0 && viewport < 640
+  const pieceCount = isSmall ? Math.round(pieces * 0.5) : pieces
+  const starCount = isSmall ? Math.round(stars * 0.55) : stars
 
   const fallingPieces = useMemo<Piece[]>(() => {
-    return Array.from({ length: pieces }, (_, id) => ({
+    return Array.from({ length: pieceCount }, (_, id) => ({
       id,
       left: rand(0, 100),
       size: rand(10, 26),
@@ -54,10 +63,10 @@ export default function FloatingHearts({
       color: COLORS[Math.floor(rand(0, COLORS.length))],
       opacity: rand(0.45, 0.95),
     }))
-  }, [pieces])
+  }, [pieceCount])
 
   const twinkleStars = useMemo<Star[]>(() => {
-    return Array.from({ length: stars }, (_, id) => ({
+    return Array.from({ length: starCount }, (_, id) => ({
       id,
       left: rand(0, 100),
       top: rand(0, 100),
@@ -65,7 +74,7 @@ export default function FloatingHearts({
       delay: -rand(0, 4),
       duration: rand(2.4, 5.2),
     }))
-  }, [stars])
+  }, [starCount])
 
   if (!mounted) return null
 

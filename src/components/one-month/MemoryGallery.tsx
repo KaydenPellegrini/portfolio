@@ -9,27 +9,33 @@ import {
   type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
 } from 'react'
+import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight, Heart } from 'lucide-react'
 import type { OneMonthMemory } from '@/data/oneMonth/story'
 
 function MemoryImage({
   memory,
-  onLoad,
+  sizes,
+  priority,
 }: {
   memory: OneMonthMemory
-  onLoad?: () => void
+  sizes?: string
+  priority?: boolean
 }) {
-  const [src, setSrc] = useState(memory.src)
+  // Fall back to the SVG placeholder (rendered unoptimized) if a user photo is missing.
+  const [errored, setErrored] = useState(false)
+  const src = errored ? '/one-month/placeholder.svg' : memory.src
 
   return (
-    // A plain img lets missing user-supplied photos fall back without breaking the card.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <Image
       src={src}
       alt={memory.alt}
-      className="h-full w-full select-none object-cover transition-transform duration-700 group-hover:scale-105"
-      onError={() => setSrc('/one-month/placeholder.svg')}
-      onLoad={onLoad}
+      fill
+      sizes={sizes ?? '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 82vw'}
+      priority={priority}
+      unoptimized={errored}
+      className="select-none object-cover transition-transform duration-700 group-hover:scale-105"
+      onError={() => setErrored(true)}
       draggable={false}
     />
   )
@@ -123,6 +129,8 @@ function Lightbox({
   onNext: () => void
   onPrev: () => void
 }) {
+  const closeRef = useRef<HTMLButtonElement>(null)
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
@@ -132,9 +140,15 @@ function Lightbox({
     window.addEventListener('keydown', onKey)
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+
+    // Move focus into the dialog and restore it to the trigger on close.
+    const previouslyFocused = document.activeElement as HTMLElement | null
+    closeRef.current?.focus()
+
     return () => {
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = prev
+      previouslyFocused?.focus?.()
     }
   }, [onClose, onNext, onPrev])
 
@@ -152,7 +166,7 @@ function Lightbox({
     >
       <div className="one-month-lightbox-card relative w-full max-w-4xl overflow-hidden rounded-[1.75rem] border border-white/15 bg-slate-900/90 shadow-[0_40px_120px_rgba(8,47,73,0.6)]">
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-black">
-          <MemoryImage memory={memory} />
+          <MemoryImage memory={memory} sizes="(min-width: 896px) 896px, 100vw" priority />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(45,212,191,0.18),transparent_50%),radial-gradient(circle_at_75%_75%,rgba(244,114,182,0.15),transparent_50%)]" />
         </div>
 
@@ -182,6 +196,7 @@ function Lightbox({
               <ChevronRight size={18} aria-hidden="true" />
             </button>
             <button
+              ref={closeRef}
               type="button"
               onClick={onClose}
               className="grid size-10 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-pink-100 transition hover:bg-pink-200/20"

@@ -85,13 +85,13 @@ export default async function OneMonthPage({ params }: Props) {
                 <div className="pointer-events-none absolute -right-6 -top-6 size-24 rounded-full bg-cyan-300/20 blur-2xl transition group-hover:bg-cyan-300/40" />
                 <CalendarHeart size={18} className="mb-3 text-cyan-100 one-month-float" aria-hidden="true" />
                 <span className="block text-cyan-100">Started</span>
-                <strong className="mt-1 block text-white">2 May 2026, 17:04:36</strong>
+                <strong className="mt-1 block text-white">{oneMonthStory.startedLabel}</strong>
               </div>
               <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur transition hover:-translate-y-0.5 hover:border-pink-200/40">
                 <div className="pointer-events-none absolute -right-6 -top-6 size-24 rounded-full bg-pink-300/20 blur-2xl transition group-hover:bg-pink-300/40" />
                 <Flower2 size={18} className="mb-3 text-pink-100 one-month-float" aria-hidden="true" />
                 <span className="block text-pink-100">One month</span>
-                <strong className="mt-1 block text-white">2 June 2026, 17:04:36</strong>
+                <strong className="mt-1 block text-white">{oneMonthStory.milestoneLabel}</strong>
               </div>
             </Reveal>
           </div>

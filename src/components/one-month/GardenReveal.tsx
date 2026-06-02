@@ -1,20 +1,24 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import Image from 'next/image'
 import { Flower2, Heart, Palette, Sparkles } from 'lucide-react'
 import type { OneMonthMemory } from '@/data/oneMonth/story'
 
 function GardenImage({ memory, isBloomed }: { memory: OneMonthMemory; isBloomed: boolean }) {
-  const [src, setSrc] = useState(memory.src)
+  // Fall back to the SVG placeholder (rendered unoptimized) if a user photo is missing.
+  const [errored, setErrored] = useState(false)
+  const src = errored ? '/one-month/placeholder.svg' : memory.src
 
   return (
-    // A plain img keeps the user-managed 1.jpg, 2.jpg flow flexible and fallbacks simple.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <Image
       src={src}
       alt={memory.alt}
-      onError={() => setSrc('/one-month/placeholder.svg')}
-      className={`h-full w-full select-none object-cover transition-all duration-[1100ms] ease-out ${
+      fill
+      sizes="(min-width: 1024px) 55vw, 100vw"
+      unoptimized={errored}
+      onError={() => setErrored(true)}
+      className={`select-none object-cover transition-all duration-[1100ms] ease-out ${
         isBloomed ? 'scale-100 saturate-150 contrast-110' : 'scale-110 grayscale contrast-90'
       }`}
       draggable={false}

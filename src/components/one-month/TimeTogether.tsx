@@ -29,6 +29,7 @@ function FlipDigit({ value, label, accent }: { value: number; label: string; acc
       <div className="relative">
         <p
           key={display}
+          suppressHydrationWarning
           className="one-month-flip-inner text-3xl font-bold tracking-tight text-white tabular-nums md:text-4xl"
         >
           {display}

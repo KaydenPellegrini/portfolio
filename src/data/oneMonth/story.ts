@@ -12,6 +12,10 @@ export const oneMonthStory = {
   eyebrow: 'One month with Kelly',
   startDate: '2026-05-02T17:04:36+02:00',
   milestoneDate: '2026-06-02T17:04:36+02:00',
+  // Display labels are kept as literal copy (not derived) so the exact 17:04:36 time
+  // can never be shifted by a server timezone during date formatting.
+  startedLabel: '2 May 2026, 17:04:36',
+  milestoneLabel: '2 June 2026, 17:04:36',
   fromName: 'Your favourite person',
   toName: 'Kelly',
   heroMessage:

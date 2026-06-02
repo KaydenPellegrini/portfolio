@@ -48,7 +48,9 @@ export default function OneMonthHeroStage() {
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
 
       seeds.length = 0
-      for (let index = 0; index < seedCount; index += 1) {
+      // Fewer seeds on small screens — each flower is a multi-gradient draw per frame.
+      const count = width < 480 ? 22 : width < 768 ? 32 : seedCount
+      for (let index = 0; index < count; index += 1) {
         seeds.push({
           x: Math.random() * width,
           y: Math.random() * height,
@@ -142,8 +144,34 @@ export default function OneMonthHeroStage() {
         const age = (time - bloom.born) / 1800
         drawFlower(bloom.x, bloom.y, 18 + age * 52, bloom.hue, 1 - age)
       })
+    }
 
-      frame = window.requestAnimationFrame(draw)
+    const loop = (time: number) => {
+      draw(time)
+      frame = window.requestAnimationFrame(loop)
+    }
+
+    // Respect reduced motion, and pause the rAF loop while offscreen or the tab is hidden.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let onScreen = true
+    let tabVisible = !document.hidden
+    const animating = () => onScreen && tabVisible && !reduceMotion
+
+    const start = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(loop)
+    }
+    const stop = () => {
+      if (!frame) return
+      window.cancelAnimationFrame(frame)
+      frame = 0
+    }
+    const sync = () => {
+      if (animating()) start()
+      else {
+        stop()
+        draw(performance.now()) // keep one static frame painted while paused
+      }
     }
 
     const bloomAt = (clientX: number, clientY: number) => {
@@ -154,19 +182,44 @@ export default function OneMonthHeroStage() {
         born: performance.now(),
         hue: Math.random() > 0.5 ? 176 : 330,
       })
+      if (!animating()) draw(performance.now()) // paint the tap even when paused/reduced-motion
     }
 
-    resize()
-    frame = window.requestAnimationFrame(draw)
-    window.addEventListener('resize', resize)
-    canvas.addEventListener('pointerdown', (event) => bloomAt(event.clientX, event.clientY))
-    canvas.addEventListener('pointermove', (event) => {
+    const onResize = () => {
+      resize()
+      if (!animating()) draw(performance.now())
+    }
+    const onVisibility = () => {
+      tabVisible = !document.hidden
+      sync()
+    }
+    const onPointerDown = (event: PointerEvent) => bloomAt(event.clientX, event.clientY)
+    const onPointerMove = (event: PointerEvent) => {
       if (event.pointerType !== 'mouse' && event.pressure > 0) bloomAt(event.clientX, event.clientY)
-    })
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        onScreen = entries[0]?.isIntersecting ?? true
+        sync()
+      },
+      { threshold: 0.01 },
+    )
+
+    resize()
+    observer.observe(canvas)
+    window.addEventListener('resize', onResize)
+    document.addEventListener('visibilitychange', onVisibility)
+    canvas.addEventListener('pointerdown', onPointerDown)
+    canvas.addEventListener('pointermove', onPointerMove)
+    sync()
 
     return () => {
-      window.cancelAnimationFrame(frame)
-      window.removeEventListener('resize', resize)
+      stop()
+      observer.disconnect()
+      window.removeEventListener('resize', onResize)
+      document.removeEventListener('visibilitychange', onVisibility)
+      canvas.removeEventListener('pointerdown', onPointerDown)
+      canvas.removeEventListener('pointermove', onPointerMove)
     }
   }, [])
 
