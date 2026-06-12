@@ -938,10 +938,28 @@ body {
   }
 }
 
+/* Gentle breeze sway for the tulip art (pivots at the base) */
+.bianca-sway {
+  animation: bianca-sway var(--bx-dur, 7.5s) ease-in-out var(--bx-delay, 0s) infinite;
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+
+@keyframes bianca-sway {
+  0%,
+  100% {
+    transform: rotate(var(--bx-rot, 1.4deg));
+  }
+  50% {
+    transform: rotate(calc(var(--bx-rot, 1.4deg) * -1));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bianca-pre,
   .bianca-in,
   .bianca-letter,
+  .bianca-sway,
   .bianca-float,
   .bianca-twinkle,
   .bianca-glow,
