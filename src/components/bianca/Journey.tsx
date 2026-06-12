@@ -22,7 +22,7 @@ export default function Journey() {
           <PhotoFrame
             photo={biancaPhotos.childhood}
             sizes="(min-width: 1024px) 30vw, 80vw"
-            caption="Toe en nou — dieselfde stralende glimlag."
+            caption="Toe en nou, dieselfde stralende glimlag."
           />
         </Reveal>
 

@@ -99,8 +99,8 @@ export const biancaContent = {
 
   words: {
     eyebrow: 'Wie jy is',
-    intro: 'Ses woorde — en steeds te min vir alles wat jy is.',
-    items: ['Sterk', 'Vurig', 'Vasberade', 'Veerkragtig', 'Goedhartig', 'Pragtig van binne en buite'],
+    intro: 'Ses woorde, en steeds te min vir alles wat jy is.',
+    items: ['Sterk', 'Vurig', 'Vasberade', 'Veerkragtig', 'Goedhartig', 'Pragtig'],
   },
 
   journey: {
@@ -137,7 +137,7 @@ export const biancaContent = {
     congrats: 'Baie geluk met jou gradeplegtigheid, Bianca.',
     blessing:
       'Moet nooit daardie helder lig verloor wat so mooi binne jou skyn nie. Terwyl jy die toekoms tegemoet stap, onthou dat die wêreld joune is om te verken, en dat dit soveel beter is omdat jy deel daarvan is.',
-    emphasis: ['Ek is so ongelooflik trots op jou.', 'Ek is so lief vir jou.'],
+    emphasis: ['Ek is so ongelooflik trots op jou.', 'Ek is oneindig baie lief vir jou.'],
     signoffLine: 'Met al my liefde en trots,',
     signoffName: 'Mammie',
   },
@@ -145,20 +145,20 @@ export const biancaContent = {
   climax: {
     eyebrow: 'Omring deur liefde',
     title: 'Jou oomblik, saam met ons',
-    line: 'Die soetste deel van die dag — gedeel met die mense wat jou die meeste liefhet.',
+    line: 'Die soetste deel van die dag.',
   },
 
   achievement: {
     eyebrow: 'Jou prestasie',
     title: 'Jy het dit verdien.',
-    line: 'Jy het nie net ’n graad verwerf nie — jy het bewys dat enigiets moontlik is met passie, toewyding, geloof en deursettingsvermoë.',
-    badge: 'Gradeplegtigheid · 2026',
+    line: 'Jy het nie net ’n graad verwerf nie. Jy het bewys dat enigiets moontlik is met passie, toewyding, geloof en deursettingsvermoë.',
+    badge: 'Klas van 2025',
   },
 
   future: {
     eyebrow: 'Die pad vorentoe',
     title: 'Terwyl jy die toekoms tegemoet stap…',
-    line: 'onthou dat die wêreld joune is om te verken — en dat dit soveel beter is omdat jy deel daarvan is.',
+    line: 'onthou dat die wêreld joune is om te verken, en dat dit soveel beter is omdat jy deel daarvan is.',
   },
 
   closing: {
@@ -166,4 +166,11 @@ export const biancaContent = {
     subtitle: 'En ek sal altyd jou grootste ondersteuner wees.',
     signoff: 'Mammie',
   },
+
+  tulips: {
+    eyebrow: 'Van my, vir jou',
+    title: 'Tulpe, geel soos sonskyn',
+    line: 'Die blomme wat ek vir jou gekies het. Geel soos sonskyn, net soos jy.',
+  },
 }
+

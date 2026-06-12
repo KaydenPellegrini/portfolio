@@ -13,6 +13,7 @@ import Journey from '@/components/bianca/Journey'
 import Letter from '@/components/bianca/Letter'
 import PhotoFrame from '@/components/bianca/PhotoFrame'
 import Reveal from '@/components/bianca/Reveal'
+import Tulips from '@/components/bianca/Tulips'
 import { biancaContent, biancaPhotos } from '@/data/bianca/letter'
 
 // Scoped to this page only — the elegant serif + script never touch the rest
@@ -91,14 +92,8 @@ export default async function BiancaPage({ params }: Props) {
             />
 
             <Reveal delay={1100} className="mt-7">
-              <p className="bianca-serif text-lg italic text-[#e9edf7] drop-shadow-[0_1px_12px_rgba(7,10,31,0.9)] sm:text-xl">
-                Met al my liefde en trots,
-              </p>
-              <p
-                className="bianca-script -mt-1 text-5xl text-[#f8fafc] sm:text-6xl"
-                style={{ textShadow: '0 0 30px rgba(214,217,255,0.5)' }}
-              >
-                Mammie
+              <p className="bianca-serif text-xl italic text-[#e9edf7] drop-shadow-[0_1px_12px_rgba(7,10,31,0.9)] sm:text-2xl">
+                Met al my liefde en trots
               </p>
             </Reveal>
           </div>
@@ -131,7 +126,7 @@ export default async function BiancaPage({ params }: Props) {
             <PhotoFrame
               photo={biancaPhotos.mammieLaughing}
               sizes="(min-width: 640px) 28rem, 88vw"
-              caption="Jy en ek."
+              caption="Ek en jy."
             />
           </Reveal>
         </section>
@@ -157,6 +152,9 @@ export default async function BiancaPage({ params }: Props) {
 
         {/* ---------- The road ahead ---------- */}
         <Future />
+
+        {/* ---------- Tulips from Mammie ---------- */}
+        <Tulips />
 
         {/* ---------- The world is yours ---------- */}
         <Closing />
