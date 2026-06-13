@@ -1,19 +1,27 @@
 import type { CSSProperties } from 'react'
 
+interface Props {
+  /** Accent mode: hidden from assistive tech (the real photos carry the alt text). */
+  decorative?: boolean
+  className?: string
+}
+
 /**
  * Hand-drawn SVG of the tulips Mammie gave Bianca: three yellow blooms with the
  * orange flame streaks of the real flowers, wrapped in yellow tissue and tied
  * with a black ribbon. The arrangement sways gently in the breeze; warm gold
  * glow against the page's cool navy, like a candle in the night.
  */
-export default function TulipArt() {
+export default function TulipArt({ decorative = false, className = 'mx-auto h-auto w-full' }: Props) {
+  const a11y = decorative
+    ? ({ 'aria-hidden': true } as const)
+    : ({
+        role: 'img',
+        'aria-label': 'Illustrasie van geel tulpe met ’n swart lint, soos die wat Mammie vir Bianca gegee het',
+      } as const)
+
   return (
-    <svg
-      viewBox="0 0 400 540"
-      role="img"
-      aria-label="Illustrasie van geel tulpe met ’n swart lint, soos die wat Mammie vir Bianca gegee het"
-      className="mx-auto h-auto w-full"
-    >
+    <svg viewBox="0 0 400 540" {...a11y} className={className}>
       <defs>
         <linearGradient id="tl-petal" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#FFE7A0" />

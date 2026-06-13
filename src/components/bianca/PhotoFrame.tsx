@@ -9,6 +9,8 @@ interface Props {
   caption?: string
   glow?: boolean
   rounded?: string
+  /** When set (e.g. "3 / 4"), the image is cropped to this ratio for tidy tiles. */
+  aspect?: string
 }
 
 /**
@@ -24,6 +26,7 @@ export default function PhotoFrame({
   caption,
   glow = true,
   rounded = '1.6rem',
+  aspect,
 }: Props) {
   return (
     <figure className={`group relative ${className}`}>
@@ -31,16 +34,30 @@ export default function PhotoFrame({
         className={`relative overflow-hidden border border-[#d6d9ff]/20 bg-[#111633]/50 p-2 backdrop-blur-sm transition-transform duration-700 ease-out group-hover:-translate-y-1 ${glow ? 'bianca-glow' : 'shadow-xl shadow-[#05070f]/50'}`}
         style={{ borderRadius: rounded }}
       >
-        <div className="relative overflow-hidden" style={{ borderRadius: `calc(${rounded} - 0.5rem)` }}>
-          <Image
-            src={photo.src}
-            width={photo.width}
-            height={photo.height}
-            alt={photo.alt}
-            sizes={sizes}
-            priority={priority}
-            className="h-auto w-full select-none object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.03]"
-          />
+        <div
+          className="relative overflow-hidden"
+          style={{ borderRadius: `calc(${rounded} - 0.5rem)`, aspectRatio: aspect }}
+        >
+          {aspect ? (
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              sizes={sizes}
+              priority={priority}
+              className="select-none object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.03]"
+            />
+          ) : (
+            <Image
+              src={photo.src}
+              width={photo.width}
+              height={photo.height}
+              alt={photo.alt}
+              sizes={sizes}
+              priority={priority}
+              className="h-auto w-full select-none object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.03]"
+            />
+          )}
           {/* cool starlight wash on the edges — keeps faces warm, ties to palette */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#0b1026]/35 via-transparent to-[#7c3aed]/12" />
           <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-[#a5b4fc]/10 to-transparent" />

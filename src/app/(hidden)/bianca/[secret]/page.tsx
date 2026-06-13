@@ -11,6 +11,7 @@ import FloatingWords from '@/components/bianca/FloatingWords'
 import Future from '@/components/bianca/Future'
 import Journey from '@/components/bianca/Journey'
 import Letter from '@/components/bianca/Letter'
+import MusicPlayer from '@/components/bianca/MusicPlayer'
 import PhotoFrame from '@/components/bianca/PhotoFrame'
 import Reveal from '@/components/bianca/Reveal'
 import Tulips from '@/components/bianca/Tulips'
@@ -159,6 +160,8 @@ export default async function BiancaPage({ params }: Props) {
         {/* ---------- The world is yours ---------- */}
         <Closing />
       </div>
+
+      <MusicPlayer />
     </main>
   )
 }

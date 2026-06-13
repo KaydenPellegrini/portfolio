@@ -172,5 +172,48 @@ export const biancaContent = {
     title: 'Tulpe, geel soos sonskyn',
     line: 'Die blomme wat ek vir jou gekies het. Geel soos sonskyn, net soos jy.',
   },
+
+  music: {
+    src: '/bianca/my-wish.mp3',
+    title: 'My Wish',
+    artist: 'Rascal Flatts',
+    play: 'Speel ons liedjie',
+    pause: 'Stop die liedjie',
+    hint: 'Tik om te speel',
+  },
 }
+
+// The real tulips Mammie gave Bianca. Bouquet first, then close-ups.
+export const biancaTulips: BiancaPhoto[] = [
+  {
+    src: '/bianca/tulips/bouquet.jpg',
+    width: 757,
+    height: 1600,
+    alt: 'Die tulpe in geel sypapier toegedraai met ’n swart lint, soos Mammie dit vir Bianca gegee het',
+  },
+  {
+    src: '/bianca/tulips/pair.jpg',
+    width: 757,
+    height: 1600,
+    alt: 'Twee geel-en-oranje tulpe van naderby',
+  },
+  {
+    src: '/bianca/tulips/bloom-1.jpg',
+    width: 757,
+    height: 1600,
+    alt: 'Geel tulp met oranje vlamstrepe',
+  },
+  {
+    src: '/bianca/tulips/bloom-2.jpg',
+    width: 757,
+    height: 1600,
+    alt: 'Geel tulp met groen blare en geel sypapier',
+  },
+  {
+    src: '/bianca/tulips/bloom-3.jpg',
+    width: 757,
+    height: 1600,
+    alt: 'Geel-en-oranje tulp op ’n lang steel',
+  },
+]
 
