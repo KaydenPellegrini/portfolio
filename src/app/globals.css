@@ -955,11 +955,45 @@ body {
   }
 }
 
+/* Music player: equalizer bars + pulse ring */
+.REDACTED-eq {
+  height: 16px;
+  transform-origin: bottom center;
+  animation: REDACTED-eq 0.9s ease-in-out var(--bx-delay, 0s) infinite;
+}
+
+@keyframes REDACTED-eq {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.REDACTED-pulse-ring {
+  animation: REDACTED-pulse-ring 2s ease-out infinite;
+}
+
+@keyframes REDACTED-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .REDACTED-pre,
   .REDACTED-in,
   .REDACTED-letter,
   .REDACTED-sway,
+  .REDACTED-eq,
+  .REDACTED-pulse-ring,
   .REDACTED-float,
   .REDACTED-twinkle,
   .REDACTED-glow,
