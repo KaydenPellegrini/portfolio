@@ -1,8 +1,10 @@
 import Image from 'next/image'
 import type { BiancaPhoto } from '@/data/bianca/letter'
+import { privateMediaUrl } from '@/lib/privateMedia'
 
 interface Props {
   photo: BiancaPhoto
+  secret: string
   className?: string
   sizes?: string
   priority?: boolean
@@ -20,6 +22,7 @@ interface Props {
  */
 export default function PhotoFrame({
   photo,
+  secret,
   className = '',
   sizes = '(min-width: 768px) 40vw, 90vw',
   priority = false,
@@ -28,6 +31,8 @@ export default function PhotoFrame({
   rounded = '1.6rem',
   aspect,
 }: Props) {
+  const src = privateMediaUrl('bianca', secret, photo.src)
+
   return (
     <figure className={`group relative ${className}`}>
       <div
@@ -40,7 +45,7 @@ export default function PhotoFrame({
         >
           {aspect ? (
             <Image
-              src={photo.src}
+              src={src}
               alt={photo.alt}
               fill
               sizes={sizes}
@@ -49,7 +54,7 @@ export default function PhotoFrame({
             />
           ) : (
             <Image
-              src={photo.src}
+              src={src}
               width={photo.width}
               height={photo.height}
               alt={photo.alt}

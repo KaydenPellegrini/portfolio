@@ -5,14 +5,14 @@ import { biancaContent, biancaPhotos } from '@/data/bianca/letter'
 /**
  * A tasteful achievement beat built around the certificate photo.
  */
-export default function Achievement() {
+export default function Achievement({ secret }: { secret: string }) {
   const a = biancaContent.achievement
 
   return (
     <section className="relative mx-auto w-full max-w-5xl px-5 py-16 sm:py-24">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <Reveal className="mx-auto w-full max-w-xs sm:max-w-sm lg:order-2">
-          <PhotoFrame photo={biancaPhotos.certificate} sizes="(min-width: 1024px) 34vw, 80vw" />
+          <PhotoFrame photo={biancaPhotos.certificate} secret={secret} sizes="(min-width: 1024px) 34vw, 80vw" />
         </Reveal>
 
         <Reveal className="lg:order-1">

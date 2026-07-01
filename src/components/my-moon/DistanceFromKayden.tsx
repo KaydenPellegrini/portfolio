@@ -3,40 +3,14 @@
 import { useState } from 'react'
 import { MapPin } from 'lucide-react'
 
-function parseCoordinate(value: string | undefined) {
-  return value ? Number(value) : Number.NaN
-}
-
-const kaydenLat = parseCoordinate(process.env.NEXT_PUBLIC_KAYDEN_LAT)
-const kaydenLng = parseCoordinate(process.env.NEXT_PUBLIC_KAYDEN_LNG)
-
-function toRadians(degrees: number) {
-  return (degrees * Math.PI) / 180
-}
-
-function getDistanceKm(fromLat: number, fromLng: number, toLat: number, toLng: number) {
-  const earthRadiusKm = 6371
-  const latDelta = toRadians(toLat - fromLat)
-  const lngDelta = toRadians(toLng - fromLng)
-  const a =
-    Math.sin(latDelta / 2) ** 2 +
-    Math.cos(toRadians(fromLat)) * Math.cos(toRadians(toLat)) * Math.sin(lngDelta / 2) ** 2
-
-  return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-}
-
-export default function DistanceFromKayden() {
+// Kayden's base coordinate is resolved server-side (see
+// /api/my-moon/distance) so it never ships as plaintext in client JS — only
+// the computed distance ever reaches the browser.
+export default function DistanceFromKayden({ secret }: { secret: string }) {
   const [distance, setDistance] = useState<number | null>(null)
   const [status, setStatus] = useState('No location is stored. Your browser only uses it for this little calculation.')
 
-  const hasBaseLocation = Number.isFinite(kaydenLat) && Number.isFinite(kaydenLng)
-
   const calculateDistance = () => {
-    if (!hasBaseLocation) {
-      setStatus('Kayden still needs to set his base location for this to work.')
-      return
-    }
-
     if (!navigator.geolocation) {
       setStatus('Your browser does not support location sharing here.')
       return
@@ -45,16 +19,29 @@ export default function DistanceFromKayden() {
     setStatus('Asking your browser where you are, just for this moment.')
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const nextDistance = getDistanceKm(
-          position.coords.latitude,
-          position.coords.longitude,
-          kaydenLat,
-          kaydenLng,
-        )
+      async (position) => {
+        try {
+          const response = await fetch('/api/my-moon/distance', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              secret,
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            }),
+          })
 
-        setDistance(nextDistance)
-        setStatus('Calculated in your browser. Not saved anywhere.')
+          if (!response.ok) {
+            setStatus('Kayden still needs to set his base location for this to work.')
+            return
+          }
+
+          const data = await response.json()
+          setDistance(data.distanceKm)
+          setStatus('Calculated just now. Not saved anywhere.')
+        } catch {
+          setStatus('Could not reach the server just now. Try again in a moment.')
+        }
       },
       () => {
         setStatus('Location was not shared, and that is completely okay.')

@@ -26,7 +26,10 @@ export default function LiveEmbed({ url, title }: Props) {
         src={url}
         title={title ?? 'Live project preview'}
         loading="lazy"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        // No allow-same-origin: combined with allow-scripts, a sandboxed
+        // iframe can otherwise strip its own sandbox restrictions if the
+        // embedded content is ever attacker-controlled.
+        sandbox="allow-scripts allow-popups allow-forms"
       />
       <a
         className={styles.embedOpen}

@@ -6,7 +6,7 @@ import { biancaContent, biancaPhotos } from '@/data/bianca/letter'
  * Looking forward: the cap-adjustment photographs, family settling her into the
  * road ahead.
  */
-export default function Future() {
+export default function Future({ secret }: { secret: string }) {
   const f = biancaContent.future
 
   return (
@@ -19,10 +19,10 @@ export default function Future() {
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
         <Reveal>
-          <PhotoFrame photo={biancaPhotos.capWide} sizes="(min-width: 640px) 46vw, 92vw" rounded="1.6rem" />
+          <PhotoFrame photo={biancaPhotos.capWide} secret={secret} sizes="(min-width: 640px) 46vw, 92vw" rounded="1.6rem" />
         </Reveal>
         <Reveal delay={130}>
-          <PhotoFrame photo={biancaPhotos.cap} sizes="(min-width: 640px) 46vw, 92vw" rounded="1.6rem" />
+          <PhotoFrame photo={biancaPhotos.cap} secret={secret} sizes="(min-width: 640px) 46vw, 92vw" rounded="1.6rem" />
         </Reveal>
       </div>
     </section>

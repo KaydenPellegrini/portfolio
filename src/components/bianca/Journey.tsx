@@ -7,7 +7,7 @@ import { biancaContent, biancaPhotos } from '@/data/bianca/letter'
  * photo of Bianca holding her childhood graduation picture. A glowing spine
  * with four stations reveals as you scroll.
  */
-export default function Journey() {
+export default function Journey({ secret }: { secret: string }) {
   const { eyebrow, title, steps } = biancaContent.journey
 
   return (
@@ -21,6 +21,7 @@ export default function Journey() {
         <Reveal className="mx-auto w-full max-w-xs sm:max-w-sm">
           <PhotoFrame
             photo={biancaPhotos.childhood}
+            secret={secret}
             sizes="(min-width: 1024px) 30vw, 80vw"
             caption="Toe en nou, dieselfde stralende glimlag."
           />

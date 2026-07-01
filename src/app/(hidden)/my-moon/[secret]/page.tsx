@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { matchesSecret } from '@/lib/secretGate'
 import Countdown from '@/components/my-moon/Countdown'
 import DistanceFromKayden from '@/components/my-moon/DistanceFromKayden'
 import MemoryPlace from '@/components/my-moon/MemoryPlace'
@@ -25,7 +26,7 @@ interface Props {
 export default async function MyMoonPage({ params }: Props) {
   const { secret } = await params
 
-  if (!process.env.MY_MOON_TOKEN || secret !== process.env.MY_MOON_TOKEN) {
+  if (!matchesSecret(secret, process.env.MY_MOON_TOKEN)) {
     notFound()
   }
 
@@ -72,8 +73,8 @@ export default async function MyMoonPage({ params }: Props) {
         <SharedUniverse />
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <DistanceFromKayden />
-          <MemoryPlace />
+          <DistanceFromKayden secret={secret} />
+          <MemoryPlace secret={secret} />
         </div>
 
         <OpenWhenCards />

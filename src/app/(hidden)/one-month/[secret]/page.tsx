@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { CalendarHeart, Flower2, Heart, Palette, Sparkles, Stars } from 'lucide-react'
 import { notFound } from 'next/navigation'
+import { matchesSecret } from '@/lib/secretGate'
 import AboutHerReveal from '@/components/one-month/AboutHerReveal'
 import AnimatedTitle from '@/components/one-month/AnimatedTitle'
 import ClosingFireworks from '@/components/one-month/ClosingFireworks'
@@ -38,11 +39,11 @@ function getImageCount() {
 export default async function OneMonthPage({ params }: Props) {
   const { secret } = await params
 
-  if (!process.env.ONE_MONTH_TOKEN || secret !== process.env.ONE_MONTH_TOKEN) {
+  if (!matchesSecret(secret, process.env.ONE_MONTH_TOKEN)) {
     notFound()
   }
 
-  const memories = createOneMonthMemories(getImageCount())
+  const memories = createOneMonthMemories(getImageCount(), secret)
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#031312] text-white">

@@ -8,7 +8,7 @@ import { biancaContent, biancaTulips } from '@/data/bianca/letter'
  * section (the wrapped bouquet as the feature, the blooms in a small grid), with
  * the hand-drawn art kept as a delicate glowing crown above the title.
  */
-export default function Tulips() {
+export default function Tulips({ secret }: { secret: string }) {
   const t = biancaContent.tulips
   const [bouquet, ...closeups] = biancaTulips
 
@@ -24,13 +24,20 @@ export default function Tulips() {
       </Reveal>
 
       <Reveal className="mx-auto mt-10 w-full max-w-[15rem] sm:max-w-[17rem]">
-        <PhotoFrame photo={bouquet} sizes="(min-width: 640px) 17rem, 60vw" />
+        <PhotoFrame photo={bouquet} secret={secret} sizes="(min-width: 640px) 17rem, 60vw" />
       </Reveal>
 
       <div className="mx-auto mt-5 grid max-w-3xl grid-cols-2 gap-3 sm:mt-6 sm:grid-cols-4 sm:gap-5">
         {closeups.map((p, i) => (
           <Reveal key={p.src} delay={i * 110}>
-            <PhotoFrame photo={p} glow={false} rounded="1.2rem" aspect="3 / 4" sizes="(min-width: 640px) 22vw, 44vw" />
+            <PhotoFrame
+              photo={p}
+              secret={secret}
+              glow={false}
+              rounded="1.2rem"
+              aspect="3 / 4"
+              sizes="(min-width: 640px) 22vw, 44vw"
+            />
           </Reveal>
         ))}
       </div>

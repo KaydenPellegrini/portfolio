@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { biancaContent } from '@/data/bianca/letter'
+import { privateMediaUrl } from '@/lib/privateMedia'
 
 /**
  * Floating music control for "My Wish". Browsers block autoplay-with-sound, so
@@ -9,8 +10,9 @@ import { biancaContent } from '@/data/bianca/letter'
  * touch) and gently fades in — while an always-visible button lets her
  * pause/replay. Reduced-motion users still get a static, working control.
  */
-export default function MusicPlayer() {
+export default function MusicPlayer({ secret }: { secret: string }) {
   const m = biancaContent.music
+  const src = privateMediaUrl('bianca', secret, m.src)
   const rootRef = useRef<HTMLDivElement | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const disarmRef = useRef<() => void>(() => {})
@@ -140,7 +142,7 @@ export default function MusicPlayer() {
         )}
       </button>
 
-      <audio ref={audioRef} src={m.src} loop preload="metadata" />
+      <audio ref={audioRef} src={src} loop preload="metadata" />
     </div>
   )
 }

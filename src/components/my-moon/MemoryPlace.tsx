@@ -1,18 +1,12 @@
 import { Map } from 'lucide-react'
 
-function parseCoordinate(value: string | undefined) {
-  return value ? Number(value) : Number.NaN
-}
-
-const placeLat = parseCoordinate(process.env.NEXT_PUBLIC_MY_MOON_PLACE_LAT)
-const placeLng = parseCoordinate(process.env.NEXT_PUBLIC_MY_MOON_PLACE_LNG)
 const placeName = process.env.NEXT_PUBLIC_MY_MOON_PLACE_NAME || 'Our little beginning'
 
-export default function MemoryPlace() {
-  const hasPlace = Number.isFinite(placeLat) && Number.isFinite(placeLng)
-  const mapHref = hasPlace
-    ? `https://www.google.com/maps/search/?api=1&query=${placeLat},${placeLng}`
-    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeName)}`
+// The exact coordinate is resolved server-side and only ever handed out as a
+// redirect (see /api/my-moon/place/[secret]) — it never appears in this
+// page's HTML or client JS.
+export default function MemoryPlace({ secret }: { secret: string }) {
+  const mapHref = `/api/my-moon/place/${encodeURIComponent(secret)}`
 
   return (
     <section className="rounded-[2rem] border border-white/15 bg-slate-950/45 p-5 shadow-2xl shadow-fuchsia-950/20 backdrop-blur md:p-7">

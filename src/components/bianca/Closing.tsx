@@ -7,13 +7,13 @@ import { biancaContent, biancaPhotos } from '@/data/bianca/letter'
  * The closing blessing — "Die wêreld is joune, Bianca." — ending on her smile
  * and a final handwritten signature.
  */
-export default function Closing() {
+export default function Closing({ secret }: { secret: string }) {
   const c = biancaContent.closing
 
   return (
     <section className="relative mx-auto w-full max-w-4xl px-5 py-24 text-center sm:py-32">
       <Reveal className="mx-auto mb-12 w-full max-w-[15rem] sm:max-w-xs">
-        <PhotoFrame photo={biancaPhotos.portraitJoy} sizes="(min-width: 640px) 20rem, 60vw" />
+        <PhotoFrame photo={biancaPhotos.portraitJoy} secret={secret} sizes="(min-width: 640px) 20rem, 60vw" />
       </Reveal>
 
       <CascadeTitle

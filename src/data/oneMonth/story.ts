@@ -1,3 +1,5 @@
+import { privateMediaUrl } from '@/lib/privateMedia'
+
 export type OneMonthMemory = {
   id: number
   src: string
@@ -26,13 +28,13 @@ export const oneMonthStory = {
     'This is only one month, my baby, but it already feels like the start of something I am lucky to keep discovering.',
 }
 
-export function createOneMonthMemories(count: number): OneMonthMemory[] {
+export function createOneMonthMemories(count: number, secret: string): OneMonthMemory[] {
   return Array.from({ length: count }, (_, index) => {
     const id = index + 1
 
     return {
       id,
-      src: `/one-month/${id}.jpg`,
+      src: privateMediaUrl('one-month', secret, `/one-month/${id}.jpg`),
       alt: `Memory ${id} from our first month together`,
       caption: `Memory ${id}`,
     }

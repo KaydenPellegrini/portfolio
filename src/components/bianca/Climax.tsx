@@ -6,7 +6,7 @@ import { biancaContent, biancaPhotos } from '@/data/bianca/letter'
  * Emotional high point: the family kissing Bianca's cheeks, with a quiet row
  * of supporting family photographs beneath it.
  */
-export default function Climax() {
+export default function Climax({ secret }: { secret: string }) {
   const c = biancaContent.climax
 
   return (
@@ -18,13 +18,13 @@ export default function Climax() {
       </Reveal>
 
       <Reveal className="mx-auto mt-10 max-w-3xl">
-        <PhotoFrame photo={biancaPhotos.familyKiss} sizes="(min-width: 768px) 70vw, 92vw" rounded="2rem" />
+        <PhotoFrame photo={biancaPhotos.familyKiss} secret={secret} sizes="(min-width: 768px) 70vw, 92vw" rounded="2rem" />
       </Reveal>
 
       <div className="mt-5 grid grid-cols-3 gap-3 sm:mt-6 sm:gap-5">
         {[biancaPhotos.family1, biancaPhotos.familyThree, biancaPhotos.family2].map((p, i) => (
           <Reveal key={p.src} delay={i * 120}>
-            <PhotoFrame photo={p} glow={false} rounded="1.2rem" sizes="(min-width: 768px) 30vw, 31vw" />
+            <PhotoFrame photo={p} secret={secret} glow={false} rounded="1.2rem" sizes="(min-width: 768px) 30vw, 31vw" />
           </Reveal>
         ))}
       </div>

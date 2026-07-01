@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { Cormorant_Garamond, Great_Vibes } from 'next/font/google'
 import { notFound } from 'next/navigation'
+import { matchesSecret } from '@/lib/secretGate'
+import { privateMediaUrl } from '@/lib/privateMedia'
 import Achievement from '@/components/bianca/Achievement'
 import Atmosphere from '@/components/bianca/Atmosphere'
 import CascadeTitle from '@/components/bianca/CascadeTitle'
@@ -49,7 +51,7 @@ interface Props {
 export default async function BiancaPage({ params }: Props) {
   const { secret } = await params
 
-  if (!process.env.BIANCA_TOKEN || secret !== process.env.BIANCA_TOKEN) {
+  if (!matchesSecret(secret, process.env.BIANCA_TOKEN)) {
     notFound()
   }
 
@@ -65,7 +67,7 @@ export default async function BiancaPage({ params }: Props) {
         {/* ---------- Hero ---------- */}
         <section className="relative flex min-h-[100svh] flex-col items-center justify-end overflow-hidden px-5 pb-24 pt-24 text-center sm:pb-28">
           <Image
-            src={biancaPhotos.embrace.src}
+            src={privateMediaUrl('bianca', secret, biancaPhotos.embrace.src)}
             alt={biancaPhotos.embrace.alt}
             fill
             priority
@@ -119,13 +121,14 @@ export default async function BiancaPage({ params }: Props) {
         <FloatingWords />
 
         {/* ---------- The journey ---------- */}
-        <Journey />
+        <Journey secret={secret} />
 
         {/* ---------- Mother & daughter, into the letter ---------- */}
         <section className="mx-auto w-full max-w-md px-5 pt-4">
           <Reveal>
             <PhotoFrame
               photo={biancaPhotos.mammieLaughing}
+              secret={secret}
               sizes="(min-width: 640px) 28rem, 88vw"
               caption="Ek en jy."
             />
@@ -137,31 +140,31 @@ export default async function BiancaPage({ params }: Props) {
         <section className="mx-auto w-full max-w-4xl px-5 pb-4">
           <div className="grid gap-5 sm:grid-cols-2">
             <Reveal>
-              <PhotoFrame photo={biancaPhotos.mammieGarden} sizes="(min-width: 640px) 44vw, 90vw" />
+              <PhotoFrame photo={biancaPhotos.mammieGarden} secret={secret} sizes="(min-width: 640px) 44vw, 90vw" />
             </Reveal>
             <Reveal delay={130}>
-              <PhotoFrame photo={biancaPhotos.portraitWarm} sizes="(min-width: 640px) 44vw, 90vw" />
+              <PhotoFrame photo={biancaPhotos.portraitWarm} secret={secret} sizes="(min-width: 640px) 44vw, 90vw" />
             </Reveal>
           </div>
         </section>
 
         {/* ---------- Surrounded by love ---------- */}
-        <Climax />
+        <Climax secret={secret} />
 
         {/* ---------- The achievement ---------- */}
-        <Achievement />
+        <Achievement secret={secret} />
 
         {/* ---------- The road ahead ---------- */}
-        <Future />
+        <Future secret={secret} />
 
         {/* ---------- Tulips from Mammie ---------- */}
-        <Tulips />
+        <Tulips secret={secret} />
 
         {/* ---------- The world is yours ---------- */}
-        <Closing />
+        <Closing secret={secret} />
       </div>
 
-      <MusicPlayer />
+      <MusicPlayer secret={secret} />
     </main>
   )
 }
