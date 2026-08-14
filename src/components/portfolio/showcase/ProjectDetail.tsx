@@ -7,11 +7,23 @@ import styles from '@/app/showcase/showcase.module.css'
 import LiveEmbed from './LiveEmbed'
 import BuildSimulation from './BuildSimulation'
 import VideoLoop from './VideoLoop'
+import ArchitectureFlow from './ArchitectureFlow'
+import RfidStocktake from './RfidStocktake'
+import BiDashboard from './BiDashboard'
 
 type Props = {
   project: ShowcaseProject
   onClose: () => void
 }
+
+/** The six questions, in the order they are answered in the modal. */
+const CASE_BLOCKS = [
+  { key: 'problem', heading: 'The problem' },
+  { key: 'built', heading: 'What I built' },
+  { key: 'technology', heading: 'Technology' },
+  { key: 'ownership', heading: 'What I owned' },
+  { key: 'outcome', heading: 'Outcome' },
+] as const
 
 function DisplayMedia({ project }: { project: ShowcaseProject }) {
   const { display } = project
@@ -22,9 +34,17 @@ function DisplayMedia({ project }: { project: ShowcaseProject }) {
       return <BuildSimulation steps={display.steps} language={display.language} />
     case 'video':
       return <VideoLoop src={display.src} poster={display.poster} />
+    case 'flow':
+      return <ArchitectureFlow stages={display.stages} payload={display.payload} />
+    case 'rfid':
+      return <RfidStocktake />
+    case 'bi':
+      return <BiDashboard />
+    case 'none':
+      return null
     case 'case':
       return (
-        <div className={styles.caseGrid}>
+        <div className={styles.gallery}>
           {display.gallery.map((src) => (
             <img key={src} src={src} alt={`${project.title} screen`} loading="lazy" />
           ))}
@@ -93,7 +113,11 @@ export default function ProjectDetail({ project, onClose }: Props) {
           ×
         </button>
 
-        <span className={styles.modalBadge}>{project.badge}</span>
+        <div className={styles.modalTop}>
+          <span className={styles.modalBadge}>{project.badge}</span>
+          {project.context && <span className={styles.modalContext}>{project.context}</span>}
+        </div>
+
         <h2 className={styles.modalTitle} id={titleId}>
           {project.title}
         </h2>
@@ -106,23 +130,24 @@ export default function ProjectDetail({ project, onClose }: Props) {
           ))}
         </div>
 
-        <div className={styles.mediaPane}>
-          <DisplayMedia project={project} />
+        {project.display.kind !== 'none' && (
+          <div className={styles.mediaPane}>
+            <DisplayMedia project={project} />
+          </div>
+        )}
+
+        <div className={styles.caseStudy}>
+          {CASE_BLOCKS.map((block) => (
+            <div key={block.key} className={styles.caseBlock}>
+              <h3>{block.heading}</h3>
+              <p>{project.case[block.key]}</p>
+            </div>
+          ))}
         </div>
 
-        <div className={styles.caseGrid}>
-          <div className={styles.caseBlock}>
-            <h3>Problem</h3>
-            <p>{project.problem}</p>
-          </div>
-          <div className={styles.caseBlock}>
-            <h3>Approach</h3>
-            <p>{project.approach}</p>
-          </div>
-          <div className={styles.caseBlock}>
-            <h3>Outcome</h3>
-            <p>{project.outcome}</p>
-          </div>
+        <div className={styles.sanitisedNote}>
+          <h3>Sanitised for confidentiality</h3>
+          <p>{project.case.sanitised}</p>
         </div>
 
         {(project.links?.live || project.links?.repo) && (

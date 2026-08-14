@@ -100,13 +100,13 @@
 }
 
 .kicker {
-  margin: 0 0 14px;
+  max-width: 640px;
+  margin: 16px 0 0;
   color: #00ff88;
-  font-size: 0.8rem;
+  font-size: 1.02rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  text-shadow: 0 0 18px rgba(0, 255, 136, 0.55);
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 18px rgba(0, 255, 136, 0.45);
 }
 
 .hero h1 {
@@ -120,17 +120,10 @@
 
 .tagline {
   max-width: 700px;
-  margin: 24px 0 0;
+  margin: 20px 0 0;
   color: #eadcff;
-  font-size: 1.32rem;
-  line-height: 1.55;
-}
-
-.personalHook {
-  max-width: 700px;
-  margin: 16px 0 0;
-  color: #c7b5df;
-  font-size: 1.05rem;
+  font-size: 1.16rem;
+  line-height: 1.6;
 }
 
 .signalStrip {
@@ -313,13 +306,27 @@
   font-size: 1.18rem !important;
 }
 
-.projectGrid {
+.pillarGrid,
+.workGrid,
+.personalGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   margin-top: 26px;
 }
 
+.pillarGrid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.workGrid {
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+}
+
+.personalGrid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.pillarCard,
 .projectCard,
 .highlightCard {
   position: relative;
@@ -332,6 +339,7 @@
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.26);
 }
 
+.pillarCard::before,
 .projectCard::before,
 .highlightCard::before {
   content: '';
@@ -340,31 +348,78 @@
   background: linear-gradient(120deg, transparent 0%, rgba(0, 255, 136, 0.12) 48%, transparent 54%);
   transform: translateX(-120%);
   transition: transform 0.5s ease;
+  pointer-events: none;
 }
 
+.pillarCard:hover::before,
 .projectCard:hover::before,
 .highlightCard:hover::before {
   transform: translateX(120%);
 }
 
+.pillarCard,
 .projectCard {
   padding: 24px;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
+.pillarCard:hover,
 .projectCard:hover,
 .highlightCard:hover {
   border-color: rgba(0, 255, 136, 0.48);
   transform: translateY(-4px);
 }
 
+.pillarCard h3,
 .projectCard h3,
-.highlightCard h3,
-.grid h3 {
+.highlightCard h3 {
   position: relative;
   margin: 0 0 10px;
   color: #ffffff;
   font-size: 1.25rem;
+}
+
+.pillarCard p,
+.projectCard p {
+  position: relative;
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.projectContext {
+  margin: -6px 0 10px !important;
+  color: #00ff88 !important;
+  font-size: 0.8rem !important;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.tagRow {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.tagRow span {
+  border: 1px solid rgba(0, 255, 136, 0.22);
+  border-radius: 999px;
+  background: rgba(0, 255, 136, 0.05);
+  color: #d9ffe9;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.disclaimer {
+  max-width: 860px;
+  margin-top: 24px !important;
+  border-left: 3px solid rgba(170, 80, 255, 0.55);
+  padding-left: 14px;
+  color: #ad98c8 !important;
+  font-size: 0.92rem !important;
 }
 
 .cardStack {
@@ -378,27 +433,62 @@
 }
 
 .period {
-  margin: 0 0 12px;
+  position: relative;
+  margin: 0 0 4px;
   color: #00ff88 !important;
   font-size: 0.95rem !important;
 }
 
-.grid,
+.periodDates {
+  position: relative;
+  margin: 0 0 14px;
+  color: #ad98c8 !important;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.04em;
+}
+
+.bulletList {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 9px;
+}
+
+.bulletListWide {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 26px;
+}
+
+.bulletList li {
+  position: relative;
+  padding-left: 18px;
+  color: #c7b5df;
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.bulletList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #00ff88;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
 .educationSkillsGrid {
   display: grid;
   gap: 36px;
-}
-
-.grid {
-  grid-template-columns: 1fr 1fr;
-}
-
-.educationSkillsGrid {
-  grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.22fr);
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
   align-items: start;
 }
 
-.grid > div,
 .educationPanel,
 .skillsPanel {
   border: 1px solid rgba(0, 255, 136, 0.14);
@@ -464,56 +554,27 @@
   margin-bottom: 8px !important;
 }
 
-.skillsMeterList {
+.skillGroups {
   display: grid;
   gap: 14px;
 }
 
-.skillMeter {
+.skillGroup {
   border: 1px solid rgba(0, 255, 136, 0.14);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.035);
-  padding: 14px;
+  padding: 16px;
 }
 
-.skillMeterHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
+.skillGroup h4 {
+  margin: 0;
   color: #ffffff;
   font-size: 0.95rem;
   font-weight: 800;
 }
 
-.skillMeterHeader strong {
-  color: #00ff88;
-  text-shadow: 0 0 14px rgba(0, 255, 136, 0.52);
-}
-
-.skillTrack {
-  height: 9px;
+.skillGroup .tagRow {
   margin-top: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(0, 255, 136, 0.18);
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.34);
-}
-
-.skillFill {
-  height: 100%;
-  border-radius: inherit;
-  background:
-    linear-gradient(90deg, #00ff88, #9dffcf 54%, #aa50ff),
-    #00ff88;
-  box-shadow: 0 0 18px rgba(0, 255, 136, 0.42);
-  animation: skillBoot 1.1s ease-out both;
-}
-
-.skillMeter p {
-  margin: 8px 0 0;
-  color: #ad98c8;
-  font-size: 0.88rem;
 }
 
 .sectionCta {
@@ -553,11 +614,19 @@
   color: #a994c7;
 }
 
+.footer a {
+  color: #00ff88;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 860px) {
   .heroContent,
-  .grid,
   .educationSkillsGrid,
-  .projectGrid {
+  .bulletListWide {
     grid-template-columns: 1fr;
   }
 
@@ -577,8 +646,12 @@
     font-size: 3rem;
   }
 
+  .kicker {
+    font-size: 0.95rem;
+  }
+
   .tagline {
-    font-size: 1.12rem;
+    font-size: 1.06rem;
   }
 
   .signalStrip,
@@ -630,18 +703,6 @@
 
   50% {
     background-position: 100% 50%;
-  }
-}
-
-@keyframes skillBoot {
-  from {
-    transform: scaleX(0);
-    transform-origin: left;
-  }
-
-  to {
-    transform: scaleX(1);
-    transform-origin: left;
   }
 }
 

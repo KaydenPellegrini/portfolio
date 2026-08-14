@@ -1,14 +1,31 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { showcaseProjects } from '@/data/showcase/projects'
-import ShowcaseGrid from '@/components/portfolio/showcase/ShowcaseGrid'
+import { personalProjects, professionalProjects } from '@/data/showcase/projects'
+import ShowcaseGrid, { type ShowcaseGroup } from '@/components/portfolio/showcase/ShowcaseGrid'
 import styles from './showcase.module.css'
 
 export const metadata: Metadata = {
-  title: 'Build Lab | Kayden Pellegrini',
+  title: 'Work | Kayden Pellegrini',
   description:
-    'Interactive showcases of Kayden Pellegrini\'s work, including live demos, animated build replays, walkthroughs, and case studies across data tools and full-stack web.',
+    'Case studies covering RFID stocktaking, Power BI reporting and forecasting, Sage and print automation, secure internal tools and cross site broadcast, with reconstructions built on synthetic data.',
 }
+
+const groups: ShowcaseGroup[] = [
+  {
+    id: 'professional-work',
+    title: 'Professional work',
+    intro:
+      'Systems, reporting and integrations built in a working business. Each case study covers the problem, what I built, the technology, the part I owned, the outcome, and what has been changed or invented for this page. The demonstrations are reconstructions using synthetic data, not the employer systems themselves.',
+    projects: professionalProjects,
+  },
+  {
+    id: 'personal-builds',
+    title: 'Personal builds',
+    intro:
+      'Development work done on my own time. This is where the Next.js, React and TypeScript side lives, including this site. None of it was commercial work.',
+    projects: personalProjects,
+  },
+]
 
 export default function ShowcasePage() {
   return (
@@ -19,24 +36,21 @@ export default function ShowcasePage() {
         </Link>
 
         <header className={styles.header}>
-          <p className={styles.kicker}>The Build Lab</p>
-          <h1 className={styles.title}>Work, simulated</h1>
+          <p className={styles.kicker}>Build Lab</p>
+          <h1 className={styles.title}>Selected work</h1>
           <p className={styles.lead}>
-            A hands-on look at how I build. Open any project to step inside it. Some run live, some
-            replay how they were put together, and some walk through in motion. Each one comes with
-            the problem it solved and the thinking behind it.
+            Business systems, reporting and automation built for real operations, alongside personal
+            development projects. Open any card for the full case study. Every panel can be read
+            without touching it.
           </p>
-          <div className={styles.legend} aria-hidden="true">
-            <span>Live demos</span>
-            <span>Build replays</span>
-            <span>Walkthroughs</span>
-            <span>Case studies</span>
-          </div>
+          <p className={styles.disclaimer}>
+            All demonstrations of employer systems are reconstructions built for this site using
+            invented products, serial numbers and figures. No customer, hospital, financial or
+            proprietary information appears anywhere.
+          </p>
         </header>
 
-        <ShowcaseGrid projects={showcaseProjects} />
-
-        <p className={styles.note}>More builds are on the way. This lab grows as the work does.</p>
+        <ShowcaseGrid groups={groups} />
       </div>
     </main>
   )

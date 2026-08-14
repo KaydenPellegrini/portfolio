@@ -14,13 +14,14 @@ export default function ShowcaseCard({ project, onOpen }: Props) {
       type="button"
       className={styles.card}
       onClick={() => onOpen(project)}
-      aria-label={`Open ${project.title}`}
+      aria-label={`Open the ${project.title} case study`}
     >
       <div className={styles.cardTop}>
         <span className={styles.badge}>{project.badge}</span>
         <span className={styles.year}>{project.year}</span>
       </div>
-      <h2 className={styles.cardTitle}>{project.title}</h2>
+      <h3 className={styles.cardTitle}>{project.title}</h3>
+      {project.context && <p className={styles.cardContext}>{project.context}</p>}
       <p className={styles.cardSummary}>{project.summary}</p>
       <div className={styles.stackRow}>
         {project.stack.slice(0, 4).map((tech) => (
@@ -29,7 +30,7 @@ export default function ShowcaseCard({ project, onOpen }: Props) {
           </span>
         ))}
       </div>
-      <span className={styles.cardCta}>Open the build →</span>
+      <span className={styles.cardCta}>Open the case study →</span>
     </button>
   )
 }

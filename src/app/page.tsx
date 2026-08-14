@@ -1,77 +1,21 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import HeroVisual from '@/components/portfolio/HeroVisual'
+import {
+  contact,
+  cvFileName,
+  education,
+  experience,
+  heroSummary,
+  identity,
+  pillars,
+  skillGroups,
+  summary,
+} from '@/data/cv/profile'
+import { personalProjects, professionalProjects } from '@/data/showcase/projects'
 import styles from './page.module.css'
 
-const experience = [
-  {
-    role: 'Developer / Business Intelligence',
-    company: 'Virtumed (Pty) Ltd, Johannesburg',
-    period: 'April 2024 - Present',
-    description:
-      'I build Power BI reports, forecasting models, and Power Apps tools for a medical device distribution team. Most of the work sits close to real operations: stock decisions, procurement, sales visibility, and the small process gaps that slow people down.',
-  },
-  {
-    role: 'Escape Room Manager',
-    company: 'Hashtag Escape, Johannesburg',
-    period: 'February 2022 - March 2024',
-    description:
-      'I ran the rooms, looked after the technical systems, supported customers, and learned how to stay calm when something breaks five minutes before a booking. That habit followed me into development in the best way.',
-  },
-  {
-    role: 'Waiter',
-    company: 'The Fat Ginger, Johannesburg',
-    period: 'June 2021 - January 2022',
-    description:
-      'A busy service floor taught me how to read people, communicate clearly, and keep moving without losing the details.',
-  },
-]
-
-const projects = [
-  {
-    title: 'Inventory and sales intelligence',
-    description:
-      'Power BI dashboards that turn raw stock and sales numbers into clear decisions. The team can see what is selling, what is sitting still, and where to step in before a small gap turns into an expensive one.',
-  },
-  {
-    title: 'Procurement workflow automation',
-    description:
-      'Power Apps and Power Automate tools that take repeated manual steps and turn them into one reliable process. Fewer copy-paste mistakes, quicker approvals, and a lot less admin getting in the way.',
-  },
-  {
-    title: 'Modern full-stack web',
-    description:
-      'Real Next.js, React, and TypeScript work, including this site and the interactive builds in the Lab. It is where I am growing past dashboards into tools that a team can actually trust and maintain.',
-  },
-]
-
-const skills = [
-  { name: 'Power BI', level: 82, note: 'Dashboards, modelling, reporting' },
-  { name: 'Power Apps', level: 86, note: 'Internal tools and workflows' },
-  { name: 'Power Automate', level: 84, note: 'Process automation' },
-  { name: 'SQL', level: 78, note: 'Queries and data shaping' },
-  { name: 'DAX', level: 74, note: 'Measures and business logic' },
-  { name: 'Next.js / React', level: 66, note: 'Portfolio and full-stack growth' },
-  { name: 'TypeScript', level: 62, note: 'Typed app development' },
-  { name: 'Node.js', level: 56, note: 'APIs and server-side basics' },
-]
-
-const education = [
-  {
-    title: 'Diploma in Systems Development',
-    place: 'Boston City Campus',
-    period: '2020-2023',
-    detail: 'SQL, Java, Android development, PHP, HTML, CSS, and CompTIA A+ fundamentals.',
-  },
-  {
-    title: 'National Senior Certificate',
-    place: 'Jeppe High School for Boys',
-    period: '2016-2020',
-    detail: 'A practical base before moving into systems, support, data, and development.',
-  },
-]
-
-const signals = ['DAX_OK', 'FLOW_ARMED', 'MODEL_SYNC', 'UI_SCAN', 'QUERY_READY', 'BUILD_GREEN']
+const signals = ['DAX_OK', 'FLOW_ARMED', 'MODEL_SYNC', 'RFID_READ', 'QUERY_READY', 'BUILD_GREEN']
 
 export default function Home() {
   return (
@@ -89,123 +33,151 @@ export default function Home() {
           />
 
           <div className={styles.heroText}>
-            <p className={styles.kicker}>Power BI / Power Platform / Full-stack development</p>
-            <h1>Kayden Pellegrini</h1>
-            <p className={styles.tagline}>
-              I turn messy processes into clear data tools and web apps, so teams can spend less time wrestling spreadsheets and more time making decisions.
-            </p>
-            <p className={styles.personalHook}>
-              The work usually starts in the same place. A process held together by habit, a spreadsheet pushed years past what it was built for, or a question nobody can answer quickly enough. I build the thing that finally fixes it.
-            </p>
-            <div className={styles.signalStrip} aria-label="Current build focus">
-              <span>Dashboards</span>
-              <span>Automation</span>
-              <span>Internal tools</span>
-              <span>Full-stack</span>
+            <h1>{identity.name}</h1>
+            <p className={styles.kicker}>{identity.title}</p>
+            <p className={styles.tagline}>{heroSummary}</p>
+
+            <div className={styles.signalStrip} aria-label="Main areas of work">
+              {pillars.map((pillar) => (
+                <span key={pillar.id}>{pillar.name}</span>
+              ))}
             </div>
 
             <div className={styles.heroButtons}>
               <Link href="/showcase" className={styles.btnShowcase}>
-                Explore the Build Lab
+                View Work
               </Link>
-              <a href="/Kayden-Pellegrini-CV-2026.pdf" download="Kayden-Pellegrini-CV-2026.pdf" className={styles.btnDownload}>
+              <a href={`/${cvFileName}`} download={cvFileName} className={styles.btnDownload}>
                 Download CV
               </a>
-              <a href="https://github.com/KaydenPellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
+              <a href={contact.github} target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
                 GitHub
               </a>
-              <a href="https://linkedin.com/in/kaydenpellegrini" target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
+              <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
                 LinkedIn
               </a>
-              <a href="mailto:developer.kayden@gmail.com" className={styles.btnOutline}>
-                Contact me
+              <a href={`mailto:${contact.email}`} className={styles.btnOutline}>
+                Contact
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      <section className={styles.section}>
+      <section className={styles.section} aria-labelledby="about-heading">
         <div className={styles.crypticRail} aria-hidden="true">
           {signals.map((signal) => (
             <span key={signal}>{signal}</span>
           ))}
         </div>
-        <h2>About</h2>
-        <p className={styles.summary}>
-          I am a developer and business intelligence specialist based in Johannesburg, working in the medical device distribution space. My day sits close to the stock decisions, procurement, and sales numbers that keep the business moving.
-        </p>
-        <p>
-          Most of my time goes into turning scattered business information into something people actually use. That means dashboards, forecasting models, internal tools, and automations that quietly take hours of repetitive admin off everyone&apos;s plate. I like working close to the people using it, because that is where the useful details and the real problems tend to hide.
-        </p>
-        <p>
-          Alongside the Power BI and Power Platform work, I am building deeper full-stack skills with Next.js, React, TypeScript, and Node.js. The goal is simple. Build tools that are easy to trust, easy to maintain, and easy for a real team to pick up on a busy day.
-        </p>
-      </section>
+        <h2 id="about-heading">What I do</h2>
+        {summary.map((paragraph, index) => (
+          <p key={paragraph.slice(0, 24)} className={index === 0 ? styles.summary : undefined}>
+            {paragraph}
+          </p>
+        ))}
 
-      <section className={styles.section}>
-        <h2>Selected Work</h2>
-        <p className={styles.sectionIntro}>
-          A few places where I have turned business problems into systems people rely on every day. You can open the interactive builds in the Lab to see how they come together.
-        </p>
-        <div className={styles.projectGrid}>
-          {projects.map((project) => (
-            <article key={project.title} className={styles.projectCard}>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
+        <div className={styles.pillarGrid}>
+          {pillars.map((pillar) => (
+            <article key={pillar.id} className={styles.pillarCard}>
+              <h3>{pillar.name}</h3>
+              <p>{pillar.description}</p>
+              <div className={styles.tagRow}>
+                {pillar.skills.map((skill) => (
+                  <span key={skill}>{skill}</span>
+                ))}
+              </div>
             </article>
           ))}
         </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="work-heading">
+        <h2 id="work-heading">Selected professional work</h2>
+        <p className={styles.sectionIntro}>
+          Systems, reporting and integrations built for day to day business operations. Open the Build
+          Lab for the full case study on each one, including the technology, the part I owned and what
+          has been changed for confidentiality.
+        </p>
+        <div className={styles.workGrid}>
+          {professionalProjects.map((project) => (
+            <article key={project.id} className={styles.projectCard}>
+              <h3>{project.title}</h3>
+              {project.context && <p className={styles.projectContext}>{project.context}</p>}
+              <p>{project.summary}</p>
+              <div className={styles.tagRow}>
+                {project.stack.slice(0, 4).map((tech) => (
+                  <span key={tech}>{tech}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className={styles.disclaimer}>
+          Demonstrations of employer systems on this site are reconstructions using invented products,
+          serial numbers and figures. No customer, hospital, financial or proprietary information is
+          shown.
+        </p>
         <Link href="/showcase" className={styles.sectionCta}>
           Open the Build Lab →
         </Link>
       </section>
 
-      <section className={styles.section}>
-        <h2>Experience</h2>
+      <section className={styles.section} aria-labelledby="experience-heading">
+        <h2 id="experience-heading">Experience</h2>
         <div className={styles.cardStack}>
           {experience.map((item) => (
             <article key={`${item.role}-${item.period}`} className={styles.highlightCard}>
               <h3>{item.role}</h3>
               <p className={styles.period}>
-                {item.company} - {item.period}
+                {item.company}, {item.location}
               </p>
-              <p>{item.description}</p>
+              <p className={styles.periodDates}>{item.period}</p>
+              <ul className={`${styles.bulletList} ${item.bullets.length > 6 ? styles.bulletListWide : ''}`}>
+                {item.bullets.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
             </article>
           ))}
         </div>
       </section>
 
-      <section className={styles.section}>
-        <h2>Education & Skills</h2>
+      <section className={styles.section} aria-labelledby="education-heading">
+        <h2 id="education-heading">Education and skills</h2>
         <div className={styles.educationSkillsGrid}>
           <div className={styles.educationPanel}>
             <h3>Education</h3>
             <div className={styles.educationTimeline}>
               {education.map((item) => (
-                <article key={item.title} className={styles.educationItem}>
+                <article key={item.qualification} className={styles.educationItem}>
                   <span>{item.period}</span>
-                  <h4>{item.title}</h4>
+                  <h4>{item.qualification}</h4>
                   <p className={styles.educationPlace}>{item.place}</p>
-                  <p>{item.detail}</p>
+                  {item.notes.length > 0 && <p>{item.notes.join(' · ')}</p>}
+                  {item.subjects && (
+                    <div className={styles.tagRow}>
+                      {item.subjects.map((subject) => (
+                        <span key={subject}>{subject}</span>
+                      ))}
+                    </div>
+                  )}
                 </article>
               ))}
             </div>
           </div>
 
           <div className={styles.skillsPanel}>
-            <h3>Core Skills</h3>
-            <div className={styles.skillsMeterList}>
-              {skills.map((skill) => (
-                <article key={skill.name} className={styles.skillMeter}>
-                  <div className={styles.skillMeterHeader}>
-                    <span>{skill.name}</span>
-                    <strong>{skill.level}%</strong>
+            <h3>Skills</h3>
+            <div className={styles.skillGroups}>
+              {skillGroups.map((group) => (
+                <article key={group.name} className={styles.skillGroup}>
+                  <h4>{group.name}</h4>
+                  <div className={styles.tagRow}>
+                    {group.skills.map((skill) => (
+                      <span key={skill}>{skill}</span>
+                    ))}
                   </div>
-                  <div className={styles.skillTrack} aria-hidden="true">
-                    <div className={styles.skillFill} style={{ width: `${skill.level}%` }} />
-                  </div>
-                  <p>{skill.note}</p>
                 </article>
               ))}
             </div>
@@ -213,9 +185,33 @@ export default function Home() {
         </div>
       </section>
 
+      <section className={styles.section} aria-labelledby="personal-heading">
+        <h2 id="personal-heading">Personal builds</h2>
+        <p className={styles.sectionIntro}>
+          Development work done on my own time, separate from my professional work. This is where the
+          Next.js, React and TypeScript side sits, including this site.
+        </p>
+        <div className={styles.personalGrid}>
+          {personalProjects.map((project) => (
+            <article key={project.id} className={styles.projectCard}>
+              <h3>{project.title}</h3>
+              <p className={styles.projectContext}>{project.badge}</p>
+              <p>{project.summary}</p>
+              <div className={styles.tagRow}>
+                {project.stack.slice(0, 4).map((tech) => (
+                  <span key={tech}>{tech}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <footer className={styles.footer}>
-        <p>Edenvale / Johannesburg, South Africa - {new Date().getFullYear()}</p>
-        <p>Building better tools one stubborn workflow at a time.</p>
+        <p>
+          {identity.location} · <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        </p>
+        <p>© {new Date().getFullYear()} Kayden Pellegrini</p>
       </footer>
     </main>
   )

@@ -83,31 +83,51 @@
   font-size: 1.18rem;
 }
 
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 26px 0 8px;
+.disclaimer {
+  max-width: 760px;
+  margin: 20px 0 0;
+  border-left: 3px solid rgba(0, 255, 136, 0.5);
+  padding-left: 14px;
+  color: #ad98c8;
+  font-size: 0.94rem;
 }
 
-.legend span {
-  border: 1px solid rgba(0, 255, 136, 0.28);
-  border-radius: 999px;
-  background: rgba(0, 255, 136, 0.06);
-  color: #d9ffe9;
-  padding: 6px 12px;
-  font-size: 0.78rem;
+/* ---- Groups, grid + cards ---- */
+
+.group {
+  margin-top: 54px;
+}
+
+.groupTitle {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.75rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
 }
 
-/* ---- Grid + cards ---- */
+.groupTitle::after {
+  content: '';
+  display: block;
+  width: 68px;
+  height: 3px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: #00ff88;
+  box-shadow: 0 0 22px rgba(0, 255, 136, 0.62);
+}
+
+.groupIntro {
+  max-width: 820px;
+  margin: 16px 0 0;
+  color: #c7b5df;
+  font-size: 1rem;
+}
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 22px;
-  margin-top: 36px;
+  margin-top: 26px;
 }
 
 .card {
@@ -184,6 +204,14 @@
   color: #ffffff;
   font-size: 1.45rem;
   font-weight: 800;
+}
+
+.cardContext {
+  margin: -8px 0 0;
+  color: #00ff88;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
 }
 
 .cardSummary {
@@ -270,9 +298,24 @@
   transform: translateY(-1px);
 }
 
+.modalTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-right: 48px;
+}
+
+.modalContext {
+  color: #00ff88;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
 .modalBadge {
   display: inline-block;
-  margin-bottom: 12px;
   border: 1px solid rgba(170, 80, 255, 0.4);
   border-radius: 999px;
   background: rgba(106, 13, 173, 0.3);
@@ -303,10 +346,24 @@
   margin: 8px 0 26px;
 }
 
-.caseGrid {
+.gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+}
+
+.gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 136, 0.18);
+}
+
+.caseStudy {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
 }
 
 .caseBlock h3 {
@@ -322,6 +379,29 @@
   margin: 0;
   color: #d8ccf0;
   font-size: 0.98rem;
+}
+
+.sanitisedNote {
+  margin-top: 24px;
+  border: 1px solid rgba(170, 80, 255, 0.34);
+  border-radius: 14px;
+  background: rgba(106, 13, 173, 0.16);
+  padding: 18px 20px;
+}
+
+.sanitisedNote h3 {
+  margin: 0 0 8px;
+  color: #eadcff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sanitisedNote p {
+  margin: 0;
+  color: #d8ccf0;
+  font-size: 0.95rem;
 }
 
 .linkRow {
@@ -594,19 +674,574 @@
   padding: 5px 12px;
 }
 
-/* ---- Empty / footer ---- */
+/* ---- Architecture flow ---- */
 
-.note {
-  margin-top: 60px;
-  text-align: center;
-  color: #a994c7;
-  font-size: 0.92rem;
+.flowWrap {
+  display: grid;
+  gap: 18px;
+}
+
+/* Fixed column count so the connecting arrow can be suppressed at the end of
+   each row with :nth-child. auto-fit would leave arrows pointing at nothing. */
+.flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flowStage {
+  position: relative;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 12px;
+  background: linear-gradient(150deg, rgba(106, 13, 173, 0.2), rgba(0, 0, 0, 0.34));
+  padding: 14px 14px 16px;
+}
+
+/* Arrow into the next stage. Hidden on the last card via :last-child. */
+.flowStage::after {
+  content: '→';
+  position: absolute;
+  top: 50%;
+  right: -13px;
+  transform: translateY(-50%);
+  color: rgba(0, 255, 136, 0.7);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.flowStage:nth-child(3n)::after,
+.flowStage:last-child::after {
+  content: none;
+}
+
+.flowIndex {
+  display: block;
+  color: #aa50ff;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+.flowName {
+  margin: 6px 0 6px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.flowRole {
+  margin: 0;
+  color: #c7b5df;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.flowChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.flowChip {
+  border: 1px solid rgba(0, 255, 136, 0.22);
+  border-radius: 999px;
+  background: rgba(0, 255, 136, 0.05);
+  color: #d9ffe9;
+  padding: 3px 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.payload {
+  margin: 0;
+  border: 1px solid rgba(0, 255, 136, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.payloadHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.14);
+  padding: 10px 14px;
+}
+
+.payloadTitle {
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.payloadNote {
+  color: #ad98c8;
+  font-size: 0.76rem;
+}
+
+.payloadCode {
+  margin: 0;
+  padding: 14px;
+  overflow-x: auto;
+  color: #9dffcf;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.78rem;
+  line-height: 1.75;
+}
+
+/* ---- Shared demo shell (RFID + reporting) ---- */
+
+.demo {
+  display: grid;
+  gap: 16px;
+}
+
+.demoHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.syntheticBadge {
+  border: 1px solid rgba(255, 95, 126, 0.5);
+  border-radius: 999px;
+  background: rgba(255, 95, 126, 0.12);
+  color: #ffc2ce;
+  padding: 4px 11px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.demoTitle {
+  color: #d9ffe9;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.demoSummary {
+  margin: 0;
+  color: #d8ccf0;
+  font-size: 0.95rem;
+}
+
+.demoControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.demoStatus {
+  margin: 14px 0 0;
+  color: #ad98c8;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+/* ---- RFID stocktake ---- */
+
+.rfidGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.scanFeed,
+.tallyPanel {
+  border: 1px solid rgba(0, 255, 136, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.42);
+  padding: 16px;
+  min-height: 250px;
+}
+
+.scanEmpty {
+  margin: 0;
+  color: #6f5d8a;
+  font-size: 0.82rem;
+}
+
+.scanRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 7px 0;
+  animation: showcaseSnap 0.3s ease both;
+}
+
+.scanSerial {
+  color: #9dffcf;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.78rem;
+}
+
+.statusChip {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 3px 9px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.confirmed {
+  border-color: rgba(0, 255, 136, 0.42);
+  background: rgba(0, 255, 136, 0.1);
+  color: #9dffcf;
+}
+
+.duplicate {
+  border-color: rgba(170, 80, 255, 0.44);
+  background: rgba(106, 13, 173, 0.28);
+  color: #e2ccff;
+}
+
+.unexpected {
+  border-color: rgba(245, 166, 35, 0.5);
+  background: rgba(245, 166, 35, 0.12);
+  color: #ffdca8;
+}
+
+.missing {
+  border-color: rgba(255, 95, 126, 0.5);
+  background: rgba(255, 95, 126, 0.12);
+  color: #ffc2ce;
+}
+
+.pending {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ad98c8;
+}
+
+.tallyList {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.tally {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 9px 0;
+}
+
+.tally dt {
+  color: #c7b5df;
+  font-size: 0.86rem;
+}
+
+.tally dd {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.tallyGood {
+  color: #00ff88 !important;
+}
+
+.tallyWarn {
+  color: #ffca7a !important;
+}
+
+.tallyRisk {
+  color: #ff8fa5 !important;
+}
+
+.tableScroll {
+  max-height: 320px;
+  overflow: auto;
+  border: 1px solid rgba(0, 255, 136, 0.16);
+  border-radius: 12px;
+}
+
+.demoTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.tableCaption {
+  padding: 10px 14px;
+  color: #ad98c8;
+  font-size: 0.76rem;
+  text-align: left;
+}
+
+.demoTable th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #0d0016;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+  color: #00ff88;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 9px 14px;
+}
+
+.demoTable td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #d8ccf0;
+  padding: 9px 14px;
+}
+
+.mono {
+  color: #9dffcf !important;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.78rem;
+}
+
+/* ---- Reporting dashboard ---- */
+
+.questionTabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+.questionTab {
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.34);
+  color: #c7b5df;
+  padding: 12px 14px;
+  text-align: left;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.questionTab:hover {
+  border-color: rgba(0, 255, 136, 0.46);
+  color: #eadcff;
+}
+
+.questionTabActive {
+  border-color: rgba(0, 255, 136, 0.6);
+  background: rgba(0, 255, 136, 0.09);
+  color: #ffffff;
+  box-shadow: 0 0 24px rgba(0, 255, 136, 0.16);
+}
+
+.answerPanel {
+  border: 1px solid rgba(170, 80, 255, 0.26);
+  border-radius: 12px;
+  background: linear-gradient(150deg, rgba(106, 13, 173, 0.2), rgba(0, 0, 0, 0.3));
+  padding: 18px 20px;
+}
+
+.answerQuestion {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+.answerText {
+  margin: 0;
+  color: #eadcff;
+  font-size: 0.98rem;
+}
+
+.answerMethod {
+  margin: 10px 0 0;
+  color: #ad98c8;
+  font-size: 0.86rem;
+}
+
+.barChart,
+.lineChart {
+  border: 1px solid rgba(0, 255, 136, 0.16);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 18px;
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.legendA,
+.legendB {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #c7b5df;
+}
+
+.legendA::before,
+.legendB::before {
+  content: '';
+  width: 12px;
+  height: 4px;
+  border-radius: 999px;
+  background: #00ff88;
+}
+
+.legendB::before {
+  background: rgba(170, 80, 255, 0.85);
+}
+
+.barRow,
+.compareRow {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 62px;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 0;
+}
+
+.barLabel {
+  color: #c7b5df;
+  font-size: 0.82rem;
+}
+
+.barTrack {
+  position: relative;
+  display: block;
+  height: 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.compareBars {
+  display: grid;
+  gap: 4px;
+}
+
+.compareBars .barTrack {
+  height: 9px;
+}
+
+.barFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #00ff88, #9dffcf);
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.3);
+  transform-origin: left;
+  animation: showcaseGrow 0.5s ease-out both;
+}
+
+.barPrior {
+  background: linear-gradient(90deg, rgba(170, 80, 255, 0.9), rgba(214, 179, 255, 0.85));
+  box-shadow: none;
+}
+
+.barRisk {
+  background: linear-gradient(90deg, #ff5f7e, #ff9db0);
+  box-shadow: 0 0 14px rgba(255, 95, 126, 0.3);
+}
+
+.barThreshold {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.barValue {
+  color: #ffffff;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.priorValue {
+  display: block;
+  color: #ad98c8;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.chartFoot {
+  margin: 14px 0 0;
+  color: #ad98c8;
+  font-size: 0.78rem;
+}
+
+.lineSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.lineActual,
+.lineProjected {
+  fill: none;
+  stroke: #00ff88;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lineProjected {
+  stroke: #aa50ff;
+  stroke-dasharray: 7 6;
+}
+
+.lineDivider {
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.dotActual {
+  fill: #00ff88;
+}
+
+.dotProjected {
+  fill: #0d0016;
+  stroke: #aa50ff;
+  stroke-width: 2;
+}
+
+.lineLabel {
+  fill: #ad98c8;
+  font-size: 12px;
+  text-anchor: middle;
 }
 
 @media (max-width: 860px) {
   .grid,
   .build,
-  .caseGrid {
+  .gallery,
+  .caseStudy,
+  .rfidGrid {
     grid-template-columns: 1fr;
   }
 
@@ -624,6 +1259,34 @@
 
   .embedFrame {
     height: 340px;
+  }
+
+  /* Stack the flow vertically and point the arrow downward. */
+  .flow {
+    grid-template-columns: 1fr;
+  }
+
+  .flowStage::after {
+    content: '↓';
+    top: auto;
+    bottom: -15px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .flowStage:nth-child(3n)::after {
+    content: '↓';
+  }
+
+  .flowStage:last-child::after {
+    content: none;
+  }
+
+  .barRow,
+  .compareRow {
+    grid-template-columns: 76px minmax(0, 1fr) 54px;
+    gap: 9px;
   }
 }
 
@@ -652,12 +1315,19 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+@keyframes showcaseGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .page::before,
   .cursor,
   .block,
   .overlay,
-  .modal {
+  .modal,
+  .scanRow,
+  .barFill {
     animation: none;
   }
 }
