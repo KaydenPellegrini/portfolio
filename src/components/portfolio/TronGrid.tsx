@@ -200,10 +200,7 @@ export default function TronGrid() {
       context.shadowBlur = 0
     }
 
-    const draw = (time = performance.now()) => {
-      const deltaSeconds = Math.min((time - lastFrame) / 1000, 0.05)
-      lastFrame = time
-
+    const renderFrame = (deltaSeconds: number) => {
       const pointer = pointerRef.current
       context.clearRect(0, 0, width, height)
 
@@ -230,8 +227,13 @@ export default function TronGrid() {
       })
       riders.forEach((rider) => moveRider(rider, occupied, deltaSeconds))
       riders.forEach(drawRider)
+    }
 
-      animationFrame = window.requestAnimationFrame(draw)
+    const loop = (time = performance.now()) => {
+      const deltaSeconds = Math.min((time - lastFrame) / 1000, 0.05)
+      lastFrame = time
+      renderFrame(deltaSeconds)
+      animationFrame = window.requestAnimationFrame(loop)
     }
 
     const onPointerMove = (event: PointerEvent) => {
@@ -242,14 +244,32 @@ export default function TronGrid() {
       }
     }
 
-    resize()
-    draw()
-    window.addEventListener('resize', resize)
-    canvas.addEventListener('pointermove', onPointerMove)
+    // Reduced motion still gets the grid and the light trails, just held on a
+    // single frame instead of animating, and with no cursor parallax.
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+    const start = () => {
+      window.cancelAnimationFrame(animationFrame)
+      canvas.removeEventListener('pointermove', onPointerMove)
+      resize()
+      if (motionQuery.matches) {
+        pointerRef.current = { x: 0.5, y: 0.5 }
+        renderFrame(0)
+        return
+      }
+      canvas.addEventListener('pointermove', onPointerMove)
+      lastFrame = performance.now()
+      loop()
+    }
+
+    start()
+    window.addEventListener('resize', start)
+    motionQuery.addEventListener('change', start)
 
     return () => {
       window.cancelAnimationFrame(animationFrame)
-      window.removeEventListener('resize', resize)
+      window.removeEventListener('resize', start)
+      motionQuery.removeEventListener('change', start)
       canvas.removeEventListener('pointermove', onPointerMove)
     }
   }, [])

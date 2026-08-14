@@ -39,16 +39,15 @@ export function proxy(request: NextRequest) {
   const isDev = process.env.NODE_ENV === 'development'
   const requestHeaders = new Headers(request.headers)
 
-  // Nonce-based strict-dynamic script-src only for the hidden pages, which are
-  // already dynamically rendered (they gate on process.env/params per request).
-  // Applying it site-wide would force the static public pages into dynamic
-  // rendering too — not worth the trade-off for a portfolio with no user input.
-  let scriptSrc = `'self'${isDev ? " 'unsafe-eval'" : ''}`
-  if (matchesPrefix(pathname, HIDDEN_PAGE_PREFIXES)) {
-    const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
-    requestHeaders.set('x-nonce', nonce)
-    scriptSrc = `'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''}`
-  }
+  // Nonce-based strict-dynamic script-src on every page. Next renders its
+  // bootstrap and RSC payload as inline <script> tags and picks the nonce up
+  // from the Content-Security-Policy request header set below, so without a
+  // nonce those scripts are blocked and the page never hydrates. This does opt
+  // the public pages into dynamic rendering, which is the price of not falling
+  // back to 'unsafe-inline'.
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
+  requestHeaders.set('x-nonce', nonce)
+  const scriptSrc = `'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''}`
 
   // style-src stays 'unsafe-inline' everywhere: the app renders plenty of
   // React inline `style={{...}}` attributes (skill bars, animation timings),
