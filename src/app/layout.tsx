@@ -18,14 +18,14 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const description =
-  'Business systems developer and data analyst in Johannesburg. I build internal applications, reporting and automation using the Power Platform, Power BI, system integrations and RFID.';
+  'Data engineer and AI systems developer in Johannesburg. I build data pipelines and models with dbt and SQL, LLM tooling connected to business systems through Model Context Protocol, and the internal applications and reporting that operations runs on.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(contact.website),
-  title: 'Kayden Pellegrini | Business Systems Developer & Data Analyst',
+  title: 'Kayden Pellegrini | Data Engineer & AI Systems Developer',
   description,
   openGraph: {
-    title: 'Kayden Pellegrini | Business Systems Developer & Data Analyst',
+    title: 'Kayden Pellegrini | Data Engineer & AI Systems Developer',
     description,
     type: 'profile',
     url: contact.website,
@@ -51,13 +51,14 @@ const personJsonLd = {
   },
   sameAs: [contact.github, contact.linkedin],
   knowsAbout: [
-    'Power Apps',
-    'Power Automate',
-    'Dataverse',
-    'Power BI',
-    'DAX',
+    'Data engineering',
+    'dbt',
     'SQL',
-    'REST APIs',
+    'Python',
+    'Model Context Protocol',
+    'Large language model tooling',
+    'Power Platform',
+    'Power BI',
     'RFID systems',
   ],
 };

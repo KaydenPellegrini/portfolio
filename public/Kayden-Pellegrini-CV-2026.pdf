@@ -13,25 +13,25 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 5 0 obj
-<< /Length 11256 >>
+<< /Length 9828 >>
 stream
 0.11 0.11 0.14 rg
 BT
 /F2 21 Tf
 1 0 0 1 48.00 770.89 Tm
-(Kayden Pellegrini) Tj
+(Kayden Pellegrini ) Tj
 ET
 0 0.42 0.3 rg
 BT
 /F2 10.6 Tf
 1 0 0 1 48.00 752.29 Tm
-(Business Systems Developer | Data Analyst | Power Platform Specialist) Tj
+(Data Engineer | AI Systems Developer ) Tj
 ET
 0.36 0.36 0.42 rg
 BT
 /F1 8.8 Tf
 1 0 0 1 48.00 733.49 Tm
-(Edenvale / Johannesburg, South Africa) Tj
+(Edenvale / Johannesburg, South Africa ) Tj
 ET
 0.36 0.36 0.42 rg
 BT
@@ -43,7 +43,7 @@ ET
 BT
 /F1 8.8 Tf
 1 0 0 1 212.69 733.49 Tm
-(064 511 5136) Tj
+(064 511 5136 ) Tj
 ET
 0.36 0.36 0.42 rg
 BT
@@ -55,7 +55,7 @@ ET
 BT
 /F1 8.8 Tf
 1 0 0 1 278.59 733.49 Tm
-(developer.kayden@gmail.com) Tj
+(developer.kayden@gmail.com ) Tj
 ET
 0.36 0.36 0.42 rg
 BT
@@ -67,13 +67,13 @@ ET
 BT
 /F1 8.8 Tf
 1 0 0 1 409.14 733.49 Tm
-(linkedin.com/in/kaydenpellegrini) Tj
+(linkedin.com/in/kaydenpellegrini ) Tj
 ET
 0 0.42 0.3 rg
 BT
 /F1 8.8 Tf
 1 0 0 1 48.00 721.49 Tm
-(github.com/KaydenPellegrini) Tj
+(github.com/KaydenPellegrini ) Tj
 ET
 0.36 0.36 0.42 rg
 BT
@@ -85,450 +85,384 @@ ET
 BT
 /F1 8.8 Tf
 1 0 0 1 171.59 721.49 Tm
-(kayden.co.za) Tj
+(kayden.co.za ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 8.8 Tf
+1 0 0 1 48.00 708.49 Tm
+(Italian and South African citizen. Full EU work authorisation, no sponsorship required. ) Tj
 ET
 0 0.42 0.3 rg
 BT
 /F2 10.4 Tf
-1 0 0 1 48.00 697.49 Tm
-(PROFESSIONAL SUMMARY) Tj
+1 0 0 1 48.00 684.49 Tm
+(PROFESSIONAL SUMMARY ) Tj
 ET
 0.78 0.82 0.8 RG
 0.9 w
-48.00 691.49 m 547.28 691.49 l S
+48.00 678.49 m 547.28 678.49 l S
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 48.00 670.89 Tm
-(I work as a developer and business intelligence analyst for a medical device distribution company in Johannesburg.) Tj
+1 0 0 1 48.00 657.89 Tm
+(On the data side I work on modelling, cost and margin at the grain of the individual unit, reconciliation between ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 48.00 658.09 Tm
-(Most of what I build sits inside live operations: procurement, inventory, stock movement, stocktaking, receiving and) Tj
+1 0 0 1 48.00 645.09 Tm
+(systems that disagree with each other, and tests that fail the build when a number stops being trustworthy. On the AI ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 48.00 645.29 Tm
-(the reporting that management uses to make decisions.) Tj
+1 0 0 1 48.00 632.29 Tm
+(side I work on LLM tooling connected to live business systems through Model Context Protocol, audit skills that verify ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 48.00 627.49 Tm
-(The core of the work is Power Apps and Dataverse for internal applications, Power BI for reporting and forecasting,) Tj
+1 0 0 1 48.00 619.49 Tm
+(their own fixes, and a written set of standards for what AI-assisted analysis is allowed to claim. ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 48.00 614.69 Tm
-(and Power Automate for the workflows that connect those systems to finance, printing and email. Around that I work) Tj
+1 0 0 1 48.00 601.69 Tm
+(I do this for a medical device distribution company in Johannesburg, where I also build the internal applications and ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 48.00 601.89 Tm
-(with RFID hardware, REST APIs, secure internal web pages and broadcast AV infrastructure.) Tj
+1 0 0 1 48.00 588.89 Tm
+(reporting that operations runs on. That covers procurement, inventory, stock movement, stocktaking and receiving in ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 48.00 576.09 Tm
+(Power Apps and Dataverse, reporting and forecasting in Power BI, and the Power Automate workflows that connect ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 48.00 563.29 Tm
+(those to finance, printing and email. Around that I work with RFID and barcode identification, REST APIs, secure ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 48.00 550.49 Tm
+(internal web pages and broadcast AV infrastructure. ) Tj
 ET
 0 0.42 0.3 rg
 BT
 /F2 10.4 Tf
-1 0 0 1 48.00 579.69 Tm
-(KEY SKILLS) Tj
+1 0 0 1 48.00 528.29 Tm
+(KEY SKILLS ) Tj
 ET
 0.78 0.82 0.8 RG
 0.9 w
-48.00 573.69 m 547.28 573.69 l S
+48.00 522.29 m 547.28 522.29 l S
 0.11 0.11 0.14 rg
 BT
 /F2 9.6 Tf
-1 0 0 1 48.00 553.09 Tm
-(Data and BI:) Tj
+1 0 0 1 48.00 501.69 Tm
+(Data Engineering: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 108.01 553.09 Tm
-(Power BI, DAX, Excel, SQL, Data modelling, Forecasting, Data validation, Reconciliation) Tj
-ET
-0.11 0.11 0.14 rg
-BT
-/F2 9.6 Tf
-1 0 0 1 48.00 537.29 Tm
-(Power Platform:) Tj
+1 0 0 1 134.15 501.69 Tm
+(dbt, DuckDB, SQL, Python, ETL, Data modelling, Data quality testing, Reconciliation, ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 125.61 537.29 Tm
-(Power Apps, Power Automate, Dataverse) Tj
+1 0 0 1 48.00 488.89 Tm
+(Forecasting, Git, GitHub Actions, CI/CD ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F2 9.6 Tf
-1 0 0 1 48.00 521.49 Tm
-(Systems and Integration:) Tj
+1 0 0 1 48.00 473.09 Tm
+(AI: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 166.69 521.49 Tm
-(REST APIs, JSON, Sage Accounting, PrintNode, HTML, SharePoint, Microsoft Entra ID,) Tj
-ET
-0.11 0.11 0.14 rg
-BT
-/F1 9.6 Tf
-1 0 0 1 48.00 508.69 Tm
-(Cloudflare Access) Tj
+1 0 0 1 64.80 473.09 Tm
+(Model Context Protocol, LLM tooling, Prompt engineering, Agent evaluation, Claude Code skills ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F2 9.6 Tf
-1 0 0 1 48.00 492.89 Tm
-(Technical:) Tj
+1 0 0 1 48.00 457.29 Tm
+(Power Platform and BI: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 99.48 492.89 Tm
-(RFID, Barcode systems, vMix, NDI, Networking, System testing, Deployment, Troubleshooting) Tj
+1 0 0 1 157.62 457.29 Tm
+(Power Apps, Power Automate, Dataverse, Power BI, DAX, Excel ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F2 9.6 Tf
-1 0 0 1 48.00 477.09 Tm
-(Development Foundation:) Tj
+1 0 0 1 48.00 441.49 Tm
+(Languages and Frameworks: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.6 Tf
-1 0 0 1 170.41 477.09 Tm
-(Java, SQL, Android development, HTML, CSS) Tj
+1 0 0 1 184.84 441.49 Tm
+(Python, TypeScript, Swift, Java, Next.js, React, Three.js and WebGL, Android ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 48.00 428.69 Tm
+(development, HTML, CSS ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F2 9.6 Tf
+1 0 0 1 48.00 412.89 Tm
+(Systems and Integration: ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 166.69 412.89 Tm
+(REST APIs, JSON, Sage Accounting, PrintNode, SharePoint, Microsoft Entra ID, ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 48.00 400.09 Tm
+(Cloudflare Access, AWS EC2 ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F2 9.6 Tf
+1 0 0 1 48.00 384.29 Tm
+(Identification and Hardware: ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 181.09 384.29 Tm
+(RFID, SGTIN-96 and EPC decoding, GS1 barcode and DataMatrix, Bluetooth Low ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 48.00 371.49 Tm
+(Energy, Barcode systems, Mobile scanner integration ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F2 9.6 Tf
+1 0 0 1 48.00 355.69 Tm
+(Delivery and Broadcast: ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.6 Tf
+1 0 0 1 161.90 355.69 Tm
+(System testing, Deployment, Troubleshooting, Networking, vMix, NDI ) Tj
 ET
 0 0.42 0.3 rg
 BT
 /F2 10.4 Tf
-1 0 0 1 48.00 456.89 Tm
-(EXPERIENCE) Tj
+1 0 0 1 48.00 335.49 Tm
+(EXPERIENCE ) Tj
 ET
 0.78 0.82 0.8 RG
 0.9 w
-48.00 450.89 m 547.28 450.89 l S
+48.00 329.49 m 547.28 329.49 l S
 0.11 0.11 0.14 rg
 BT
 /F2 10.6 Tf
-1 0 0 1 48.00 429.29 Tm
-(Developer / Business Intelligence) Tj
+1 0 0 1 48.00 307.89 Tm
+(Data and Systems Developer ) Tj
 ET
 0.36 0.36 0.42 rg
 BT
 /F1 9 Tf
-1 0 0 1 48.00 417.49 Tm
-(Virtumed \(Pty\) Ltd, Johannesburg, Gauteng  |  April 2024 to Present) Tj
+1 0 0 1 48.00 296.09 Tm
+(Virtumed \(Pty\) Ltd, Johannesburg, Gauteng  |  April 2024 to Present ) Tj
 ET
 0 0.42 0.3 rg
-49.60 405.10 m
-49.60 405.98 50.32 406.70 51.20 406.70 c
-52.08 406.70 52.80 405.98 52.80 405.10 c
-52.80 404.21 52.08 403.50 51.20 403.50 c
-50.32 403.50 49.60 404.21 49.60 405.10 c
+49.60 283.70 m
+49.60 284.58 50.32 285.30 51.20 285.30 c
+52.08 285.30 52.80 284.58 52.80 283.70 c
+52.80 282.81 52.08 282.10 51.20 282.10 c
+50.32 282.10 49.60 282.81 49.60 283.70 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 402.09 Tm
-(Design, develop and maintain internal systems for procurement, inventory, stock movement, stocktaking, receiving) Tj
+1 0 0 1 61.00 280.69 Tm
+(Design and maintain the data flows that move transactional data between Sage Accounting, Dataverse, internal web ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 389.69 Tm
-(and reporting using Power Apps, Power Automate and Dataverse.) Tj
+1 0 0 1 61.00 268.29 Tm
+(applications and the reporting layer, using REST APIs, Power Automate and Python. ) Tj
 ET
 0 0.42 0.3 rg
-49.60 380.30 m
-49.60 381.18 50.32 381.90 51.20 381.90 c
-52.08 381.90 52.80 381.18 52.80 380.30 c
-52.80 379.41 52.08 378.70 51.20 378.70 c
-50.32 378.70 49.60 379.41 49.60 380.30 c
+49.60 258.90 m
+49.60 259.78 50.32 260.50 51.20 260.50 c
+52.08 260.50 52.80 259.78 52.80 258.90 c
+52.80 258.01 52.08 257.30 51.20 257.30 c
+50.32 257.30 49.60 258.01 49.60 258.90 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 377.29 Tm
-(Build Power BI dashboards and reports covering sales, inventory, stock risk, representative performance, locations,) Tj
+1 0 0 1 61.00 255.89 Tm
+(Model the operational data in Dataverse, including the table relationships and the serial level traceability that links ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 364.89 Tm
-(product groups and management reporting.) Tj
+1 0 0 1 61.00 243.49 Tm
+(inventory records to purchase order lines and their actual cost. ) Tj
 ET
 0 0.42 0.3 rg
-49.60 355.50 m
-49.60 356.38 50.32 357.10 51.20 357.10 c
-52.08 357.10 52.80 356.38 52.80 355.50 c
-52.80 354.61 52.08 353.90 51.20 353.90 c
-50.32 353.90 49.60 354.61 49.60 355.50 c
+49.60 234.10 m
+49.60 234.98 50.32 235.70 51.20 235.70 c
+52.08 235.70 52.80 234.98 52.80 234.10 c
+52.80 233.21 52.08 232.50 51.20 232.50 c
+50.32 232.50 49.60 233.21 49.60 234.10 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 352.49 Tm
-(Use historical company data for forecasting and comparative analysis.) Tj
+1 0 0 1 61.00 231.09 Tm
+(Reconcile and rebuild business datasets before they are used for analysis, including a 6,984 line purchases export ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 218.69 Tm
+(across 145 suppliers cross checked against a separate item level report, and a 16,597 row inventory register merged ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 206.29 Tm
+(from two misaligned source tables. ) Tj
 ET
 0 0.42 0.3 rg
-49.60 343.10 m
-49.60 343.98 50.32 344.70 51.20 344.70 c
-52.08 344.70 52.80 343.98 52.80 343.10 c
-52.80 342.21 52.08 341.50 51.20 341.50 c
-50.32 341.50 49.60 342.21 49.60 343.10 c
+49.60 196.90 m
+49.60 197.78 50.32 198.50 51.20 198.50 c
+52.08 198.50 52.80 197.78 52.80 196.90 c
+52.80 196.01 52.08 195.30 51.20 195.30 c
+50.32 195.30 49.60 196.01 49.60 196.90 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 340.09 Tm
-(Use Excel and business system data for analysis, validation and reconciliation.) Tj
+1 0 0 1 61.00 193.89 Tm
+(Build cost and margin models from source transaction data, reconstructing landed cost from supplier price, actual ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 181.49 Tm
+(exchange rate, freight, customs and bank charges rather than list price or valuation figures. ) Tj
 ET
 0 0.42 0.3 rg
-49.60 330.70 m
-49.60 331.58 50.32 332.30 51.20 332.30 c
-52.08 332.30 52.80 331.58 52.80 330.70 c
-52.80 329.81 52.08 329.10 51.20 329.10 c
-50.32 329.10 49.60 329.81 49.60 330.70 c
+49.60 172.10 m
+49.60 172.98 50.32 173.70 51.20 173.70 c
+52.08 173.70 52.80 172.98 52.80 172.10 c
+52.80 171.21 52.08 170.50 51.20 170.50 c
+50.32 170.50 49.60 171.21 49.60 172.10 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 327.69 Tm
-(Build Power Automate workflows to automate repetitive processes.) Tj
+1 0 0 1 61.00 169.09 Tm
+(Apply data quality controls as standard practice, covering join validation before results are trusted, duplicate and ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 156.69 Tm
+(truncation checks, grain control on serialised records, and explicit separation of verified results from assumptions in ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 144.29 Tm
+(every output. ) Tj
 ET
 0 0.42 0.3 rg
-49.60 318.30 m
-49.60 319.18 50.32 319.90 51.20 319.90 c
-52.08 319.90 52.80 319.18 52.80 318.30 c
-52.80 317.41 52.08 316.70 51.20 316.70 c
-50.32 316.70 49.60 317.41 49.60 318.30 c
+49.60 134.90 m
+49.60 135.78 50.32 136.50 51.20 136.50 c
+52.08 136.50 52.80 135.78 52.80 134.90 c
+52.80 134.01 52.08 133.30 51.20 133.30 c
+50.32 133.30 49.60 134.01 49.60 134.90 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 315.29 Tm
-(Integrated Sage Accounting with Power Automate and PrintNode for delivery note processing and printing.) Tj
+1 0 0 1 61.00 131.89 Tm
+(Write Python for data processing and validation with reproducibility in mind, keeping source files untouched, logging ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 119.49 Tm
+(every transformation applied, and proving logic on a slice before running it at full scale. ) Tj
 ET
 0 0.42 0.3 rg
-49.60 305.90 m
-49.60 306.78 50.32 307.50 51.20 307.50 c
-52.08 307.50 52.80 306.78 52.80 305.90 c
-52.80 305.01 52.08 304.30 51.20 304.30 c
-50.32 304.30 49.60 305.01 49.60 305.90 c
+49.60 110.10 m
+49.60 110.98 50.32 111.70 51.20 111.70 c
+52.08 111.70 52.80 110.98 52.80 110.10 c
+52.80 109.21 52.08 108.50 51.20 108.50 c
+50.32 108.50 49.60 109.21 49.60 110.10 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 302.89 Tm
-(Built an RFID stocktake system using handheld RFID scanners, Power Apps, Dataverse and Power Automate.) Tj
+1 0 0 1 61.00 107.09 Tm
+(Designed and built a multi agent verification framework for AI generated work, using independent review and ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 94.69 Tm
+(confirmation passes followed by an adjudication pass that checks each change against the actual result and ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 82.29 Tm
+(classifies it as verified, overclaimed, hallucinated, cosmetic or a regression. ) Tj
 ET
 0 0.42 0.3 rg
-49.60 293.50 m
-49.60 294.38 50.32 295.10 51.20 295.10 c
-52.08 295.10 52.80 294.38 52.80 293.50 c
-52.80 292.61 52.08 291.90 51.20 291.90 c
-50.32 291.90 49.60 292.61 49.60 293.50 c
+49.60 72.90 m
+49.60 73.78 50.32 74.50 51.20 74.50 c
+52.08 74.50 52.80 73.78 52.80 72.90 c
+52.80 72.01 52.08 71.30 51.20 71.30 c
+50.32 71.30 49.60 72.01 49.60 72.90 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 290.49 Tm
-(Developed scanner input functionality for mobile RFID capture.) Tj
-ET
-0 0.42 0.3 rg
-49.60 281.10 m
-49.60 281.98 50.32 282.70 51.20 282.70 c
-52.08 282.70 52.80 281.98 52.80 281.10 c
-52.80 280.21 52.08 279.50 51.20 279.50 c
-50.32 279.50 49.60 280.21 49.60 281.10 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 278.09 Tm
-(Created automated HTML email and printable stocktake reports.) Tj
-ET
-0 0.42 0.3 rg
-49.60 268.70 m
-49.60 269.58 50.32 270.30 51.20 270.30 c
-52.08 270.30 52.80 269.58 52.80 268.70 c
-52.80 267.81 52.08 267.10 51.20 267.10 c
-50.32 267.10 49.60 267.81 49.60 268.70 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 265.69 Tm
-(Work with serialised medical device inventory, stock movements, receiving, replenishment, stocktakes,) Tj
+1 0 0 1 61.00 69.89 Tm
+(Integrated LLM tooling into the Microsoft stack through Model Context Protocol across Dataverse, Power Apps and ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 253.29 Tm
-(discrepancies and location control.) Tj
-ET
-0 0.42 0.3 rg
-49.60 243.90 m
-49.60 244.78 50.32 245.50 51.20 245.50 c
-52.08 245.50 52.80 244.78 52.80 243.90 c
-52.80 243.01 52.08 242.30 51.20 242.30 c
-50.32 242.30 49.60 243.01 49.60 243.90 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 240.89 Tm
-(Support purchasing and stock provisioning through purchase order validation, supplier and product checks,) Tj
-ET
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 228.49 Tm
-(replenishment requirements and stock analysis.) Tj
-ET
-0 0.42 0.3 rg
-49.60 219.10 m
-49.60 219.98 50.32 220.70 51.20 220.70 c
-52.08 220.70 52.80 219.98 52.80 219.10 c
-52.80 218.21 52.08 217.50 51.20 217.50 c
-50.32 217.50 49.60 218.21 49.60 219.10 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 216.09 Tm
-(Develop secure internal web pages using HTML, Cloudflare Access, Cloudflare Zero Trust and Microsoft Entra) Tj
-ET
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 203.69 Tm
-(authentication.) Tj
-ET
-0 0.42 0.3 rg
-49.60 194.30 m
-49.60 195.18 50.32 195.90 51.20 195.90 c
-52.08 195.90 52.80 195.18 52.80 194.30 c
-52.80 193.41 52.08 192.70 51.20 192.70 c
-50.32 192.70 49.60 193.41 49.60 194.30 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 191.29 Tm
-(Work with finance, stock, sales, logistics and management to gather requirements and build internal systems.) Tj
-ET
-0 0.42 0.3 rg
-49.60 181.90 m
-49.60 182.78 50.32 183.50 51.20 183.50 c
-52.08 183.50 52.80 182.78 52.80 181.90 c
-52.80 181.01 52.08 180.30 51.20 180.30 c
-50.32 180.30 49.60 181.01 49.60 181.90 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 178.89 Tm
-(Test, deploy, troubleshoot and support internal systems.) Tj
-ET
-0 0.42 0.3 rg
-49.60 169.50 m
-49.60 170.38 50.32 171.10 51.20 171.10 c
-52.08 171.10 52.80 170.38 52.80 169.50 c
-52.80 168.61 52.08 167.90 51.20 167.90 c
-50.32 167.90 49.60 168.61 49.60 169.50 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 166.49 Tm
-(Research and evaluate technical systems, equipment and vendor proposals.) Tj
-ET
-0 0.42 0.3 rg
-49.60 157.10 m
-49.60 157.98 50.32 158.70 51.20 158.70 c
-52.08 158.70 52.80 157.98 52.80 157.10 c
-52.80 156.21 52.08 155.50 51.20 155.50 c
-50.32 155.50 49.60 156.21 49.60 157.10 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 154.09 Tm
-(Work with broadcast and AV infrastructure for medical events.) Tj
-ET
-0.11 0.11 0.14 rg
-BT
-/F2 10.6 Tf
-1 0 0 1 48.00 133.49 Tm
-(Escape Room Manager) Tj
-ET
-0.36 0.36 0.42 rg
-BT
-/F1 9 Tf
-1 0 0 1 48.00 121.69 Tm
-(Hashtag Escape, Johannesburg, Gauteng  |  February 2022 to March 2024) Tj
-ET
-0 0.42 0.3 rg
-49.60 109.30 m
-49.60 110.18 50.32 110.90 51.20 110.90 c
-52.08 110.90 52.80 110.18 52.80 109.30 c
-52.80 108.41 52.08 107.70 51.20 107.70 c
-50.32 107.70 49.60 108.41 49.60 109.30 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 106.29 Tm
-(Managed daily escape room operations and bookings.) Tj
-ET
-0 0.42 0.3 rg
-49.60 96.90 m
-49.60 97.78 50.32 98.50 51.20 98.50 c
-52.08 98.50 52.80 97.78 52.80 96.90 c
-52.80 96.01 52.08 95.30 51.20 95.30 c
-50.32 95.30 49.60 96.01 49.60 96.90 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 93.89 Tm
-(Managed and troubleshot room equipment, software and technical systems.) Tj
-ET
-0 0.42 0.3 rg
-49.60 84.50 m
-49.60 85.38 50.32 86.10 51.20 86.10 c
-52.08 86.10 52.80 85.38 52.80 84.50 c
-52.80 83.61 52.08 82.90 51.20 82.90 c
-50.32 82.90 49.60 83.61 49.60 84.50 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 81.49 Tm
-(Diagnosed faults between sessions.) Tj
-ET
-0 0.42 0.3 rg
-49.60 72.10 m
-49.60 72.98 50.32 73.70 51.20 73.70 c
-52.08 73.70 52.80 72.98 52.80 72.10 c
-52.80 71.21 52.08 70.50 51.20 70.50 c
-50.32 70.50 49.60 71.21 49.60 72.10 c
-f
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 61.00 69.09 Tm
-(Supported customers and daily operations.) Tj
+1 0 0 1 61.00 57.49 Tm
+(Microsoft 365. ) Tj
 ET
 endstream
 endobj
@@ -555,197 +489,442 @@ endobj
 /Contents 5 0 R >>
 endobj
 12 0 obj
-<< /Length 3601 >>
+<< /Length 9740 >>
 stream
-0.11 0.11 0.14 rg
-BT
-/F2 10.6 Tf
-1 0 0 1 48.00 778.29 Tm
-(Waiter) Tj
-ET
-0.36 0.36 0.42 rg
-BT
-/F1 9 Tf
-1 0 0 1 48.00 766.49 Tm
-(The Fat Ginger, Johannesburg, Gauteng  |  June 2021 to January 2022) Tj
-ET
 0 0.42 0.3 rg
-49.60 754.10 m
-49.60 754.98 50.32 755.70 51.20 755.70 c
-52.08 755.70 52.80 754.98 52.80 754.10 c
-52.80 753.21 52.08 752.50 51.20 752.50 c
-50.32 752.50 49.60 753.21 49.60 754.10 c
+49.60 789.50 m
+49.60 790.38 50.32 791.10 51.20 791.10 c
+52.08 791.10 52.80 790.38 52.80 789.50 c
+52.80 788.61 52.08 787.90 51.20 787.90 c
+50.32 787.90 49.60 788.61 49.60 789.50 c
 f
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 61.00 751.09 Tm
-(Customer service and daily floor operations in a busy restaurant.) Tj
+1 0 0 1 61.00 786.49 Tm
+(Set the internal standards for AI-assisted analysis, covering one source of truth per data domain, confidence ) Tj
 ET
-0 0.42 0.3 rg
-BT
-/F2 10.4 Tf
-1 0 0 1 48.00 734.09 Tm
-(EDUCATION) Tj
-ET
-0.78 0.82 0.8 RG
-0.9 w
-48.00 728.09 m 547.28 728.09 l S
 0.11 0.11 0.14 rg
 BT
-/F2 10 Tf
-1 0 0 1 48.00 707.09 Tm
-(Diploma in Systems Development) Tj
+/F1 9.4 Tf
+1 0 0 1 61.00 774.09 Tm
+(labelling, read-only scoping on live systems and human confirmation before destructive operations. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 764.70 m
+49.60 765.58 50.32 766.30 51.20 766.30 c
+52.08 766.30 52.80 765.58 52.80 764.70 c
+52.80 763.81 52.08 763.10 51.20 763.10 c
+50.32 763.10 49.60 763.81 49.60 764.70 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 761.69 Tm
+(Built reusable validation and analysis modules and shared them with colleagues. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 752.30 m
+49.60 753.18 50.32 753.90 51.20 753.90 c
+52.08 753.90 52.80 753.18 52.80 752.30 c
+52.80 751.41 52.08 750.70 51.20 750.70 c
+50.32 750.70 49.60 751.41 49.60 752.30 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 749.29 Tm
+(Build Power BI dashboards and reports covering sales, inventory, stock risk, sales activity, locations and product ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 736.89 Tm
+(groups, with forecasting and comparative analysis from historical company data. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 727.50 m
+49.60 728.38 50.32 729.10 51.20 729.10 c
+52.08 729.10 52.80 728.38 52.80 727.50 c
+52.80 726.61 52.08 725.90 51.20 725.90 c
+50.32 725.90 49.60 726.61 49.60 727.50 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 724.49 Tm
+(Design, develop and maintain the internal systems for procurement, inventory, stock movement, stocktaking, ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 712.09 Tm
+(receiving and reporting in Power Apps, Power Automate and Dataverse, including the Sage Accounting and ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 699.69 Tm
+(PrintNode integration that processes and prints delivery notes. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 690.30 m
+49.60 691.18 50.32 691.90 51.20 691.90 c
+52.08 691.90 52.80 691.18 52.80 690.30 c
+52.80 689.41 52.08 688.70 51.20 688.70 c
+50.32 688.70 49.60 689.41 49.60 690.30 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 687.29 Tm
+(Built an RFID stocktake system using handheld RFID scanners, Power Apps, Dataverse and Power Automate, with ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 674.89 Tm
+(automated HTML email and printable stocktake reports. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 665.50 m
+49.60 666.38 50.32 667.10 51.20 667.10 c
+52.08 667.10 52.80 666.38 52.80 665.50 c
+52.80 664.61 52.08 663.90 51.20 663.90 c
+50.32 663.90 49.60 664.61 49.60 665.50 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 662.49 Tm
+(Developed a native iOS capture application in Swift that decodes SGTIN-96 EPC tags and GS1 barcodes over ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 650.09 Tm
+(Bluetooth Low Energy and feeds serials directly into the stocktake app, cutting a 30 item scan to under 15 seconds. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 640.70 m
+49.60 641.58 50.32 642.30 51.20 642.30 c
+52.08 642.30 52.80 641.58 52.80 640.70 c
+52.80 639.81 52.08 639.10 51.20 639.10 c
+50.32 639.10 49.60 639.81 49.60 640.70 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 637.69 Tm
+(Act as technical lead for a cross site medical broadcast system used during live clinical cases, including provisioning ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 625.29 Tm
+(and running an AWS EC2 relay in the Cape Town region as the low latency endpoint linking sites, alongside vMix ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 612.89 Tm
+(production, NDI and SRT transport and network design. ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F2 10.6 Tf
+1 0 0 1 48.00 592.29 Tm
+(Escape Room Manager ) Tj
 ET
 0.36 0.36 0.42 rg
 BT
 /F1 9 Tf
-1 0 0 1 48.00 695.09 Tm
-(Boston City Campus  |  2021 to 2023  |  Certificate received 2024  |  NQF Level 6) Tj
+1 0 0 1 48.00 580.49 Tm
+(Hashtag Escape, Johannesburg, Gauteng  |  February 2022 to March 2024 ) Tj
+ET
+0 0.42 0.3 rg
+49.60 568.10 m
+49.60 568.98 50.32 569.70 51.20 569.70 c
+52.08 569.70 52.80 568.98 52.80 568.10 c
+52.80 567.21 52.08 566.50 51.20 566.50 c
+50.32 566.50 49.60 567.21 49.60 568.10 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 565.09 Tm
+(Managed daily escape room operations and bookings. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 555.70 m
+49.60 556.58 50.32 557.30 51.20 557.30 c
+52.08 557.30 52.80 556.58 52.80 555.70 c
+52.80 554.81 52.08 554.10 51.20 554.10 c
+50.32 554.10 49.60 554.81 49.60 555.70 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 552.69 Tm
+(Managed and troubleshot room equipment, software and technical systems. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 543.30 m
+49.60 544.18 50.32 544.90 51.20 544.90 c
+52.08 544.90 52.80 544.18 52.80 543.30 c
+52.80 542.41 52.08 541.70 51.20 541.70 c
+50.32 541.70 49.60 542.41 49.60 543.30 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 540.29 Tm
+(Diagnosed faults between sessions. ) Tj
+ET
+0 0.42 0.3 rg
+49.60 530.90 m
+49.60 531.78 50.32 532.50 51.20 532.50 c
+52.08 532.50 52.80 531.78 52.80 530.90 c
+52.80 530.01 52.08 529.30 51.20 529.30 c
+50.32 529.30 49.60 530.01 49.60 530.90 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 527.89 Tm
+(Supported customers and daily operations. ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F2 10.6 Tf
+1 0 0 1 48.00 507.29 Tm
+(Waiter ) Tj
+ET
+0.36 0.36 0.42 rg
+BT
+/F1 9 Tf
+1 0 0 1 48.00 495.49 Tm
+(The Fat Ginger, Johannesburg, Gauteng  |  June 2021 to January 2022 ) Tj
+ET
+0 0.42 0.3 rg
+49.60 483.10 m
+49.60 483.98 50.32 484.70 51.20 484.70 c
+52.08 484.70 52.80 483.98 52.80 483.10 c
+52.80 482.21 52.08 481.50 51.20 481.50 c
+50.32 481.50 49.60 482.21 49.60 483.10 c
+f
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 61.00 480.09 Tm
+(Customer service and daily floor operations in a busy restaurant. ) Tj
+ET
+0 0.42 0.3 rg
+BT
+/F2 10.4 Tf
+1 0 0 1 48.00 463.09 Tm
+(EDUCATION ) Tj
+ET
+0.78 0.82 0.8 RG
+0.9 w
+48.00 457.09 m 547.28 457.09 l S
+0.11 0.11 0.14 rg
+BT
+/F2 10 Tf
+1 0 0 1 48.00 436.09 Tm
+(Diploma in Systems Development ) Tj
+ET
+0.36 0.36 0.42 rg
+BT
+/F1 9 Tf
+1 0 0 1 48.00 424.09 Tm
+(Boston City Campus  |  2021 to 2023  |  Certificate received 2024  |  NQF Level 6 ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F2 9.2 Tf
-1 0 0 1 48.00 681.29 Tm
-(Relevant study:) Tj
+1 0 0 1 48.00 410.29 Tm
+(Relevant study: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.2 Tf
-1 0 0 1 120.50 681.29 Tm
-(Java, Database Programming, SQL, Android Application Development, Systems Analysis and Design,) Tj
+1 0 0 1 120.50 410.29 Tm
+(Java, Database Programming, SQL, Android Application Development, Systems Analysis and Design, ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.2 Tf
-1 0 0 1 48.00 668.89 Tm
-(Workflow Management, Software Testing, Technical Systems and Support, Systems Development Project Management) Tj
+1 0 0 1 48.00 397.89 Tm
+(Workflow Management, Software Testing, Technical Systems and Support, Systems Development Project Management ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F2 10 Tf
-1 0 0 1 48.00 649.69 Tm
-(National Senior Certificate) Tj
+1 0 0 1 48.00 378.69 Tm
+(National Senior Certificate ) Tj
 ET
 0.36 0.36 0.42 rg
 BT
 /F1 9 Tf
-1 0 0 1 48.00 637.69 Tm
-(Jeppe High School for Boys  |  2016 to 2020) Tj
+1 0 0 1 48.00 366.69 Tm
+(Jeppe High School for Boys  |  2016 to 2020 ) Tj
 ET
 0 0.42 0.3 rg
 BT
 /F2 10.4 Tf
-1 0 0 1 48.00 620.09 Tm
-(SELECTED WORK) Tj
+1 0 0 1 48.00 349.09 Tm
+(SELECTED WORK ) Tj
 ET
 0.78 0.82 0.8 RG
 0.9 w
-48.00 614.09 m 547.28 614.09 l S
+48.00 343.09 m 547.28 343.09 l S
 0.11 0.11 0.14 rg
 BT
 /F2 9.4 Tf
-1 0 0 1 48.00 593.69 Tm
-(RFID Stocktake and Inventory System:) Tj
+1 0 0 1 48.00 322.69 Tm
+(Serial Level Margin and Purchase Reconciliation: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 224.38 593.69 Tm
-(Handheld RFID scanning into Power Apps and Dataverse, with confirmed,) Tj
+1 0 0 1 271.93 322.69 Tm
+(A dbt project that rebuilds gross margin at the grain of the ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 48.00 581.29 Tm
-(missing and unexpected stock reconciled in one pass.) Tj
-ET
-0.11 0.11 0.14 rg
-BT
-/F2 9.4 Tf
-1 0 0 1 48.00 564.89 Tm
-(Business Intelligence and Forecasting:) Tj
+1 0 0 1 48.00 310.29 Tm
+(individual serialised unit, from purchase order to invoice, on synthetic data. Repository: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 226.47 564.89 Tm
-(Power BI reporting across sales, inventory, representatives, locations and) Tj
-ET
-0.11 0.11 0.14 rg
-BT
-/F1 9.4 Tf
-1 0 0 1 48.00 552.49 Tm
-(groups, with forecasting from historical data.) Tj
+1 0 0 1 48.00 297.89 Tm
+(github.com/KaydenPellegrini/serial-margin-dbt ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F2 9.4 Tf
-1 0 0 1 48.00 536.09 Tm
-(Sage and Print Automation:) Tj
+1 0 0 1 48.00 281.49 Tm
+(Readiness Audits: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 175.78 536.09 Tm
-(Power Automate moving operational delivery information into Sage Accounting and out to) Tj
+1 0 0 1 134.01 281.49 Tm
+(Two Claude Code audit skills that verify their own fixes, one for AI agents and one for normal ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 48.00 523.69 Tm
-(a physical printer through PrintNode.) Tj
+1 0 0 1 48.00 269.09 Tm
+(codebases. Repository: github.com/KaydenPellegrini/readiness-audits ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F2 9.4 Tf
-1 0 0 1 48.00 507.29 Tm
-(Secure Internal Operations Tools:) Tj
+1 0 0 1 48.00 252.69 Tm
+(RFID Stocktake and Inventory System: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 202.96 507.29 Tm
-(Internal web pages for stock movement, receiving and business workflows,) Tj
+1 0 0 1 224.38 252.69 Tm
+(Handheld RFID scanning into Power Apps and Dataverse, with confirmed, ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 48.00 494.89 Tm
-(published behind Cloudflare Access and Microsoft Entra.) Tj
+1 0 0 1 48.00 240.29 Tm
+(missing and unexpected stock reconciled in one pass. ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F2 9.4 Tf
-1 0 0 1 48.00 478.49 Tm
-(Cross Site Medical Broadcast:) Tj
+1 0 0 1 48.00 223.89 Tm
+(Business Intelligence and Forecasting: ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 187.29 478.49 Tm
-(Low latency audiovisual communication between doctors at separate clinical sites) Tj
+1 0 0 1 226.47 223.89 Tm
+(Power BI reporting across sales, inventory, stock risk, locations and product ) Tj
 ET
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 48.00 466.09 Tm
-(during medical cases.) Tj
+1 0 0 1 48.00 211.49 Tm
+(groups, with forecasting from historical data. ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F2 9.4 Tf
+1 0 0 1 48.00 195.09 Tm
+(Sage and Print Automation: ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 175.78 195.09 Tm
+(Power Automate moving operational delivery information into Sage Accounting and out to ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 48.00 182.69 Tm
+(a physical printer through PrintNode. ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F2 9.4 Tf
+1 0 0 1 48.00 166.29 Tm
+(Secure Internal Operations Tools: ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 202.96 166.29 Tm
+(Internal web pages for stock movement, receiving and business workflows, ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 48.00 153.89 Tm
+(published behind Cloudflare Access and Microsoft Entra. ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F2 9.4 Tf
+1 0 0 1 48.00 137.49 Tm
+(Cross Site Medical Broadcast: ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 187.29 137.49 Tm
+(Low latency audiovisual communication between doctors at separate clinical sites ) Tj
+ET
+0.11 0.11 0.14 rg
+BT
+/F1 9.4 Tf
+1 0 0 1 48.00 125.09 Tm
+(during medical cases. ) Tj
 ET
 0 0.42 0.3 rg
 BT
 /F2 10.4 Tf
-1 0 0 1 48.00 445.09 Tm
-(LANGUAGES) Tj
+1 0 0 1 48.00 104.09 Tm
+(LANGUAGES ) Tj
 ET
 0.78 0.82 0.8 RG
 0.9 w
-48.00 439.09 m 547.28 439.09 l S
+48.00 98.09 m 547.28 98.09 l S
 0.11 0.11 0.14 rg
 BT
 /F1 9.4 Tf
-1 0 0 1 48.00 418.69 Tm
-(English \(fluent\) | Afrikaans \(moderate\)) Tj
+1 0 0 1 48.00 77.69 Tm
+(English \(fluent\) | Afrikaans \(moderate\) ) Tj
 ET
 endstream
 endobj
@@ -756,7 +935,7 @@ endobj
 /Contents 12 0 R >>
 endobj
 14 0 obj
-<< /Title (Kayden Pellegrini CV) /Author (Kayden Pellegrini) /Subject (Business Systems Developer | Data Analyst | Power Platform Specialist) /Keywords (Power Apps, Power Automate, Dataverse, Power BI, DAX, SQL, REST API, RFID, business systems, data analyst) /Creator (kayden.co.za) /Producer (kayden.co.za) >>
+<< /Title (Kayden Pellegrini CV) /Author (Kayden Pellegrini) /Subject (Data Engineer | AI Systems Developer) /Keywords (data engineering, dbt, SQL, Python, Model Context Protocol, LLM tooling, Power Platform, Power BI, Dataverse, RFID) /Creator (kayden.co.za) /Producer (kayden.co.za) >>
 endobj
 xref
 0 15
@@ -766,17 +945,17 @@ xref
 0000000143 00000 n 
 0000000240 00000 n 
 0000000342 00000 n 
-0000011651 00000 n 
-0000011805 00000 n 
-0000011978 00000 n 
-0000012158 00000 n 
-0000012332 00000 n 
-0000012493 00000 n 
-0000012677 00000 n 
-0000016331 00000 n 
-0000016475 00000 n 
+0000010222 00000 n 
+0000010376 00000 n 
+0000010549 00000 n 
+0000010729 00000 n 
+0000010903 00000 n 
+0000011064 00000 n 
+0000011248 00000 n 
+0000021041 00000 n 
+0000021185 00000 n 
 trailer
 << /Size 15 /Root 1 0 R /Info 14 0 R >>
 startxref
-16803
+21489
 %%EOF

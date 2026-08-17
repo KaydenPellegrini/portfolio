@@ -56,7 +56,7 @@ const doc = new PdfDocument({
   author: profile.identity.name,
   subject: profile.identity.title,
   keywords:
-    'Power Apps, Power Automate, Dataverse, Power BI, DAX, SQL, REST API, RFID, business systems, data analyst',
+    'data engineering, dbt, SQL, Python, Model Context Protocol, LLM tooling, Power Platform, Power BI, Dataverse, RFID',
 })
 
 let page = doc.addPage()
@@ -71,11 +71,23 @@ function ensureSpace(needed) {
   if (y - needed < MARGIN_BOTTOM) newPage()
 }
 
+/**
+ * Every wrapped line is drawn as its own text-showing operation. A text
+ * extractor that concatenates those operations without inserting whitespace
+ * would join the last word of one line to the first word of the next
+ * ("product checks," + "replenishment" -> "checks,replenishment"), which is
+ * exactly what some applicant tracking systems do. A trailing space is
+ * invisible when rendered and makes the concatenation come out correct.
+ */
+function drawn(text) {
+  return `${text} `
+}
+
 /** Draw one line of text and move the cursor down. */
 function line(text, { font = FONTS.regular, size = 9.6, leading = 13, colour = INK, x = MARGIN_X } = {}) {
   ensureSpace(leading)
   y -= size
-  page.text(toAscii(text), x, y, font, size, colour)
+  page.text(drawn(toAscii(text)), x, y, font, size, colour)
   y -= leading - size
 }
 
@@ -90,7 +102,7 @@ function paragraph(
     const left = index === 0 ? x : x + indent
     ensureSpace(leading)
     y -= size
-    page.text(content, left, y, font, size, colour)
+    page.text(drawn(content), left, y, font, size, colour)
     y -= leading - size
   })
   y -= after
@@ -110,8 +122,8 @@ function labelledParagraph(label, body, { size = 9.6, leading = 12.8, gap = 4, a
 
   ensureSpace(leading)
   y -= size
-  page.text(labelText, MARGIN_X, y, FONTS.bold, size, INK)
-  if (firstLine.length) page.text(firstLine.join(' '), MARGIN_X + labelWidth, y, FONTS.regular, size, INK)
+  page.text(drawn(labelText), MARGIN_X, y, FONTS.bold, size, INK)
+  if (firstLine.length) page.text(drawn(firstLine.join(' ')), MARGIN_X + labelWidth, y, FONTS.regular, size, INK)
   y -= leading - size
 
   if (words.length) {
@@ -124,7 +136,7 @@ function labelledParagraph(label, body, { size = 9.6, leading = 12.8, gap = 4, a
 function sectionHeading(title) {
   ensureSpace(38)
   y -= 14
-  page.text(toAscii(title.toUpperCase()), MARGIN_X, y, FONTS.bold, 10.4, ACCENT)
+  page.text(drawn(toAscii(title.toUpperCase())), MARGIN_X, y, FONTS.bold, 10.4, ACCENT)
   y -= 6
   page.rule(MARGIN_X, y, A4.width - MARGIN_X, [0.78, 0.82, 0.8], 0.9)
   y -= 11
@@ -138,7 +150,7 @@ function bullet(text, { size = 9.4, leading = 12.4 } = {}) {
     ensureSpace(leading)
     y -= size
     if (index === 0) page.dot(MARGIN_X + 3.2, y + size * 0.32, 1.6, ACCENT)
-    page.text(content, MARGIN_X + indent, y, FONTS.regular, size, INK)
+    page.text(drawn(content), MARGIN_X + indent, y, FONTS.regular, size, INK)
     y -= leading - size
   })
 }
@@ -146,9 +158,9 @@ function bullet(text, { size = 9.4, leading = 12.4 } = {}) {
 // ----------------------------------------------------------------- header ---
 
 y -= 4
-page.text(toAscii(profile.identity.name), MARGIN_X, y - 21, FONTS.bold, 21, INK)
+page.text(drawn(toAscii(profile.identity.name)), MARGIN_X, y - 21, FONTS.bold, 21, INK)
 y -= 21 + 8
-page.text(toAscii(profile.identity.title), MARGIN_X, y - 10.6, FONTS.bold, 10.6, ACCENT)
+page.text(drawn(toAscii(profile.identity.title)), MARGIN_X, y - 10.6, FONTS.bold, 10.6, ACCENT)
 y -= 10.6 + 10
 
 const contactParts = [
@@ -174,10 +186,15 @@ for (const [index, part] of contactParts.entries()) {
     page.text(SEPARATOR, cursorX, y, FONTS.regular, CONTACT_SIZE, MUTED)
     cursorX += measure(SEPARATOR, FONTS.regular, CONTACT_SIZE)
   }
-  page.text(text, cursorX, y, FONTS.regular, CONTACT_SIZE, part.uri ? ACCENT : MUTED)
+  // Trailing space for the same reason as `drawn`: the contact row wraps
+  // without drawing a separator, and the work authorisation line follows it.
+  page.text(drawn(text), cursorX, y, FONTS.regular, CONTACT_SIZE, part.uri ? ACCENT : MUTED)
+  // The link annotation covers the visible text only, not the trailing space.
   if (part.uri) page.link(part.uri, cursorX, y - 2, width, CONTACT_SIZE + 3)
   cursorX += width
 }
+y -= 13
+page.text(drawn(toAscii(profile.workAuthorisation)), MARGIN_X, y, FONTS.regular, CONTACT_SIZE, INK)
 y -= 10
 
 // ---------------------------------------------------------------- summary ---
@@ -207,7 +224,8 @@ for (const [index, role] of profile.experience.entries()) {
     colour: MUTED,
   })
   y -= 2
-  for (const item of role.bullets) {
+  // Bullets are ordered strongest first, so slicing drops the weakest.
+  for (const item of role.bullets.slice(0, role.cvMaxBullets ?? role.bullets.length)) {
     bullet(item)
   }
 }
@@ -229,9 +247,12 @@ for (const [index, entry] of profile.education.entries()) {
 
 // --------------------------------------------------------------- projects ---
 
+// Public repositories first: they are the work a reader can go and verify.
 sectionHeading('Selected work')
-for (const project of showcase.professionalProjects) {
-  labelledParagraph(project.title, project.summary, { size: 9.4, leading: 12.4, after: 4 })
+for (const project of [...showcase.openSourceProjects, ...showcase.professionalProjects]) {
+  const repo = project.links?.repo?.replace(/^https?:\/\//, '')
+  const body = repo ? `${project.summary} Repository: ${repo}` : project.summary
+  labelledParagraph(project.title, body, { size: 9.4, leading: 12.4, after: 4 })
 }
 
 // -------------------------------------------------------------- languages ---

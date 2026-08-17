@@ -1,16 +1,23 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { personalProjects, professionalProjects } from '@/data/showcase/projects'
+import { openSourceProjects, personalProjects, professionalProjects } from '@/data/showcase/projects'
 import ShowcaseGrid, { type ShowcaseGroup } from '@/components/portfolio/showcase/ShowcaseGrid'
 import styles from './showcase.module.css'
 
 export const metadata: Metadata = {
   title: 'Work | Kayden Pellegrini',
   description:
-    'Case studies covering RFID stocktaking, Power BI reporting and forecasting, Sage and print automation, secure internal tools and cross site broadcast, with reconstructions built on synthetic data.',
+    'Data engineering and AI case studies, including a dbt margin pipeline and two self-verifying audit skills, alongside RFID stocktaking, Power BI reporting, systems integration and cross site broadcast.',
 }
 
 const groups: ShowcaseGroup[] = [
+  {
+    id: 'open-source',
+    title: 'Open source',
+    intro:
+      'Public repositories you can read and run. Both are built on synthetic data, so nothing has been withheld and every claim on this page can be checked against the code.',
+    projects: openSourceProjects,
+  },
   {
     id: 'professional-work',
     title: 'Professional work',
@@ -39,9 +46,9 @@ export default function ShowcasePage() {
           <p className={styles.kicker}>Build Lab</p>
           <h1 className={styles.title}>Selected work</h1>
           <p className={styles.lead}>
-            Business systems, reporting and automation built for real operations, alongside personal
-            development projects. Open any card for the full case study. Every panel can be read
-            without touching it.
+            Data engineering and AI work with the code in the open, alongside the business systems,
+            reporting and automation built for real operations. Open any card for the full case
+            study. Every panel can be read without touching it.
           </p>
           <p className={styles.disclaimer}>
             All demonstrations of employer systems are reconstructions built for this site using

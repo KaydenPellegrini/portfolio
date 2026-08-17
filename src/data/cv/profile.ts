@@ -31,7 +31,14 @@ export type Role = {
   company: string
   location: string
   period: string
+  /** Ordered strongest first. The site renders all of them. */
   bullets: string[]
+  /**
+   * How many bullets the CV prints, since it has to fit two pages while the
+   * site does not. Because `bullets` is ordered by importance, truncating takes
+   * the weakest off the end. Omit to print all of them.
+   */
+  cvMaxBullets?: number
 }
 
 export type EducationEntry = {
@@ -49,9 +56,13 @@ export type SkillGroup = {
 
 export const identity = {
   name: 'Kayden Pellegrini',
-  title: 'Business Systems Developer | Data Analyst | Power Platform Specialist',
+  title: 'Data Engineer | AI Systems Developer',
   location: 'Edenvale / Johannesburg, South Africa',
 }
+
+/** Shown next to the contact details on the site and in the CV. */
+export const workAuthorisation =
+  'Italian and South African citizen. Full EU work authorisation, no sponsorship required.'
 
 export const contact: Contact = {
   email: 'developer.kayden@gmail.com',
@@ -63,68 +74,105 @@ export const contact: Contact = {
 
 /** Short hero paragraph. Kept to one sentence pair on purpose. */
 export const heroSummary =
-  'I build internal systems, analytics and automations that are used in day to day business operations. The work spans Power Platform, Power BI, APIs, RFID and technical infrastructure.'
+  'I build the data layer and the AI layer that business operations run on. Pipelines and models that produce a number people can stand behind, and LLM tooling connected to the systems those numbers come from.'
 
 /** Longer About copy for the site, and the CV professional summary. */
 export const summary = [
-  'I work as a developer and business intelligence analyst for a medical device distribution company in Johannesburg. Most of what I build sits inside live operations: procurement, inventory, stock movement, stocktaking, receiving and the reporting that management uses to make decisions.',
-  'The core of the work is Power Apps and Dataverse for internal applications, Power BI for reporting and forecasting, and Power Automate for the workflows that connect those systems to finance, printing and email. Around that I work with RFID hardware, REST APIs, secure internal web pages and broadcast AV infrastructure.',
+  'On the data side I work on modelling, cost and margin at the grain of the individual unit, reconciliation between systems that disagree with each other, and tests that fail the build when a number stops being trustworthy. On the AI side I work on LLM tooling connected to live business systems through Model Context Protocol, audit skills that verify their own fixes, and a written set of standards for what AI-assisted analysis is allowed to claim.',
+  'I do this for a medical device distribution company in Johannesburg, where I also build the internal applications and reporting that operations runs on. That covers procurement, inventory, stock movement, stocktaking and receiving in Power Apps and Dataverse, reporting and forecasting in Power BI, and the Power Automate workflows that connect those to finance, printing and email. Around that I work with RFID and barcode identification, REST APIs, secure internal web pages and broadcast AV infrastructure.',
 ]
 
 export const pillars: Pillar[] = [
   {
-    id: 'systems-development',
-    name: 'Systems Development',
+    id: 'data-engineering',
+    name: 'Data Engineering',
     description:
-      'Internal business applications built around how a team actually works, from requirements through to implementation and support.',
-    skills: ['Power Apps', 'Dataverse', 'HTML', 'Requirements analysis', 'System implementation'],
+      'Pipelines and models that produce a defensible number. Cost and margin at unit grain, reconciliation between systems that disagree, and tests that fail the build when the data stops holding up.',
+    skills: ['dbt', 'DuckDB', 'SQL', 'Python', 'Data modelling', 'Data quality testing', 'Reconciliation'],
   },
   {
-    id: 'data-and-analytics',
-    name: 'Data and Analytics',
+    id: 'ai-systems',
+    name: 'AI Systems',
     description:
-      'Reporting and analysis on sales, stock and performance, including forecasting from historical company data and reconciliation work.',
-    skills: ['Power BI', 'DAX', 'Excel', 'SQL', 'Forecasting', 'Data validation', 'Reconciliation'],
+      'LLM tooling connected to live business systems through Model Context Protocol, audit skills that verify their own fixes, and written standards for what AI-assisted analysis is allowed to claim.',
+    skills: ['Model Context Protocol', 'LLM tooling', 'Prompt engineering', 'Agent evaluation'],
   },
   {
-    id: 'automation-and-integration',
-    name: 'Automation and Integration',
+    id: 'business-systems',
+    name: 'Business Systems and Automation',
     description:
-      'Workflows that move information between systems so operational activity reaches finance and documentation without manual re-entry.',
-    skills: ['Power Automate', 'REST APIs', 'JSON', 'Sage Accounting', 'PrintNode'],
+      'Internal applications, reporting and workflow automation used in day to day operations, from requirements through to implementation and support.',
+    skills: ['Power Apps', 'Dataverse', 'Power Automate', 'Power BI', 'DAX', 'REST APIs', 'Sage Accounting'],
   },
   {
     id: 'technical-delivery',
     name: 'Technical Delivery',
     description:
-      'The hardware, access and infrastructure side: scanners, deployment, secure application access, troubleshooting and broadcast AV.',
-    skills: ['RFID systems', 'Mobile scanner integration', 'Deployment', 'Troubleshooting', 'Secure access', 'Broadcast AV'],
+      'Hardware, identification and infrastructure. RFID and barcode capture, deployment, secure application access, troubleshooting and broadcast AV.',
+    skills: ['RFID', 'SGTIN-96 and EPC', 'GS1 and DataMatrix', 'Bluetooth Low Energy', 'AWS EC2', 'Networking'],
   },
 ]
 
+/**
+ * AI and LLM work. Two areas plus the standards that govern them, kept here so
+ * the site section and the CV read from the same place.
+ */
+export const aiWork = {
+  intro:
+    'Most of what I do with AI is making it usable against real systems and then constraining what it is allowed to say. The integrations matter less than the rules around them.',
+  areas: [
+    {
+      name: 'LLM tooling in the Microsoft stack',
+      description:
+        'Model Context Protocol integrations that give LLM tooling working access to Dataverse, Power Apps and Microsoft 365, so analysis runs against the live systems instead of a pasted extract.',
+      tags: ['Model Context Protocol', 'Dataverse', 'Power Apps', 'Microsoft 365'],
+    },
+    {
+      name: 'Reusable validation and analysis modules',
+      description:
+        'Validation and analysis modules built once and shared with colleagues, so the same checks get applied the same way by other people rather than being rewritten from scratch each time.',
+      tags: ['Validation', 'Analysis', 'Shared tooling'],
+    },
+  ],
+  standardsIntro:
+    'The standards I set for AI-assisted analysis on our systems. They exist because a confident wrong answer is worse than no answer.',
+  standards: [
+    'One stated source of truth per data domain.',
+    'Confidence labelling on every answer.',
+    'Read-only scoping on live systems.',
+    'Human confirmation before any destructive operation.',
+    'No merging of records that have not been verified.',
+    'No margin calculated from a placeholder cost.',
+  ],
+}
+
 export const experience: Role[] = [
   {
-    role: 'Developer / Business Intelligence',
+    role: 'Data and Systems Developer',
     company: 'Virtumed (Pty) Ltd',
     location: 'Johannesburg, Gauteng',
     period: 'April 2024 to Present',
+    // Ordered data engineering, then AI, then Power Platform and delivery.
+    // The CV prints the first `cvMaxBullets`.
+    cvMaxBullets: 15,
     bullets: [
-      'Design, develop and maintain internal systems for procurement, inventory, stock movement, stocktaking, receiving and reporting using Power Apps, Power Automate and Dataverse.',
-      'Build Power BI dashboards and reports covering sales, inventory, stock risk, representative performance, locations, product groups and management reporting.',
-      'Use historical company data for forecasting and comparative analysis.',
-      'Use Excel and business system data for analysis, validation and reconciliation.',
-      'Build Power Automate workflows to automate repetitive processes.',
-      'Integrated Sage Accounting with Power Automate and PrintNode for delivery note processing and printing.',
-      'Built an RFID stocktake system using handheld RFID scanners, Power Apps, Dataverse and Power Automate.',
-      'Developed scanner input functionality for mobile RFID capture.',
-      'Created automated HTML email and printable stocktake reports.',
-      'Work with serialised medical device inventory, stock movements, receiving, replenishment, stocktakes, discrepancies and location control.',
-      'Support purchasing and stock provisioning through purchase order validation, supplier and product checks, replenishment requirements and stock analysis.',
+      'Design and maintain the data flows that move transactional data between Sage Accounting, Dataverse, internal web applications and the reporting layer, using REST APIs, Power Automate and Python.',
+      'Model the operational data in Dataverse, including the table relationships and the serial level traceability that links inventory records to purchase order lines and their actual cost.',
+      'Reconcile and rebuild business datasets before they are used for analysis, including a 6,984 line purchases export across 145 suppliers cross checked against a separate item level report, and a 16,597 row inventory register merged from two misaligned source tables.',
+      'Build cost and margin models from source transaction data, reconstructing landed cost from supplier price, actual exchange rate, freight, customs and bank charges rather than list price or valuation figures.',
+      'Apply data quality controls as standard practice, covering join validation before results are trusted, duplicate and truncation checks, grain control on serialised records, and explicit separation of verified results from assumptions in every output.',
+      'Write Python for data processing and validation with reproducibility in mind, keeping source files untouched, logging every transformation applied, and proving logic on a slice before running it at full scale.',
+      'Designed and built a multi agent verification framework for AI generated work, using independent review and confirmation passes followed by an adjudication pass that checks each change against the actual result and classifies it as verified, overclaimed, hallucinated, cosmetic or a regression.',
+      'Integrated LLM tooling into the Microsoft stack through Model Context Protocol across Dataverse, Power Apps and Microsoft 365.',
+      'Set the internal standards for AI-assisted analysis, covering one source of truth per data domain, confidence labelling, read-only scoping on live systems and human confirmation before destructive operations.',
+      'Built reusable validation and analysis modules and shared them with colleagues.',
+      'Build Power BI dashboards and reports covering sales, inventory, stock risk, sales activity, locations and product groups, with forecasting and comparative analysis from historical company data.',
+      'Design, develop and maintain the internal systems for procurement, inventory, stock movement, stocktaking, receiving and reporting in Power Apps, Power Automate and Dataverse, including the Sage Accounting and PrintNode integration that processes and prints delivery notes.',
+      'Built an RFID stocktake system using handheld RFID scanners, Power Apps, Dataverse and Power Automate, with automated HTML email and printable stocktake reports.',
+      'Developed a native iOS capture application in Swift that decodes SGTIN-96 EPC tags and GS1 barcodes over Bluetooth Low Energy and feeds serials directly into the stocktake app, cutting a 30 item scan to under 15 seconds.',
+      'Act as technical lead for a cross site medical broadcast system used during live clinical cases, including provisioning and running an AWS EC2 relay in the Cape Town region as the low latency endpoint linking sites, alongside vMix production, NDI and SRT transport and network design.',
       'Develop secure internal web pages using HTML, Cloudflare Access, Cloudflare Zero Trust and Microsoft Entra authentication.',
-      'Work with finance, stock, sales, logistics and management to gather requirements and build internal systems.',
-      'Test, deploy, troubleshoot and support internal systems.',
-      'Research and evaluate technical systems, equipment and vendor proposals.',
-      'Work with broadcast and AV infrastructure for medical events.',
+      'Support purchasing and stock provisioning through purchase order validation, supplier and product checks, replenishment requirements and stock analysis.',
     ],
   },
   {
@@ -176,24 +224,32 @@ export const education: EducationEntry[] = [
 
 export const skillGroups: SkillGroup[] = [
   {
-    name: 'Data and BI',
-    skills: ['Power BI', 'DAX', 'Excel', 'SQL', 'Data modelling', 'Forecasting', 'Data validation', 'Reconciliation'],
+    name: 'Data Engineering',
+    skills: ['dbt', 'DuckDB', 'SQL', 'Python', 'ETL', 'Data modelling', 'Data quality testing', 'Reconciliation', 'Forecasting', 'Git', 'GitHub Actions', 'CI/CD'],
   },
   {
-    name: 'Power Platform',
-    skills: ['Power Apps', 'Power Automate', 'Dataverse'],
+    name: 'AI',
+    skills: ['Model Context Protocol', 'LLM tooling', 'Prompt engineering', 'Agent evaluation', 'Claude Code skills'],
+  },
+  {
+    name: 'Power Platform and BI',
+    skills: ['Power Apps', 'Power Automate', 'Dataverse', 'Power BI', 'DAX', 'Excel'],
+  },
+  {
+    name: 'Languages and Frameworks',
+    skills: ['Python', 'TypeScript', 'Swift', 'Java', 'Next.js', 'React', 'Three.js and WebGL', 'Android development', 'HTML', 'CSS'],
   },
   {
     name: 'Systems and Integration',
-    skills: ['REST APIs', 'JSON', 'Sage Accounting', 'PrintNode', 'HTML', 'SharePoint', 'Microsoft Entra ID', 'Cloudflare Access'],
+    skills: ['REST APIs', 'JSON', 'Sage Accounting', 'PrintNode', 'SharePoint', 'Microsoft Entra ID', 'Cloudflare Access', 'AWS EC2'],
   },
   {
-    name: 'Technical',
-    skills: ['RFID', 'Barcode systems', 'vMix', 'NDI', 'Networking', 'System testing', 'Deployment', 'Troubleshooting'],
+    name: 'Identification and Hardware',
+    skills: ['RFID', 'SGTIN-96 and EPC decoding', 'GS1 barcode and DataMatrix', 'Bluetooth Low Energy', 'Barcode systems', 'Mobile scanner integration'],
   },
   {
-    name: 'Development Foundation',
-    skills: ['Java', 'SQL', 'Android development', 'HTML', 'CSS'],
+    name: 'Delivery and Broadcast',
+    skills: ['System testing', 'Deployment', 'Troubleshooting', 'Networking', 'vMix', 'NDI'],
   },
 ]
 
