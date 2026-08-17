@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import HeroVisual from '@/components/portfolio/HeroVisual'
 import {
+  aiWork,
   contact,
   cvFileName,
   education,
@@ -11,11 +12,12 @@ import {
   pillars,
   skillGroups,
   summary,
+  workAuthorisation,
 } from '@/data/cv/profile'
-import { personalProjects, professionalProjects } from '@/data/showcase/projects'
+import { openSourceProjects, personalProjects, professionalProjects } from '@/data/showcase/projects'
 import styles from './page.module.css'
 
-const signals = ['DAX_OK', 'FLOW_ARMED', 'MODEL_SYNC', 'RFID_READ', 'QUERY_READY', 'BUILD_GREEN']
+const signals = ['DBT_BUILD', 'TESTS_37', 'MCP_LINKED', 'RFID_READ', 'QUERY_READY', 'CI_GREEN']
 
 export default function Home() {
   return (
@@ -60,6 +62,8 @@ export default function Home() {
                 Contact
               </a>
             </div>
+
+            <p className={styles.workAuth}>{workAuthorisation}</p>
           </div>
         </div>
       </section>
@@ -87,6 +91,67 @@ export default function Home() {
                   <span key={skill}>{skill}</span>
                 ))}
               </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="ai-heading">
+        <h2 id="ai-heading">AI and LLM work</h2>
+        <p className={styles.summary}>{aiWork.intro}</p>
+
+        <div className={styles.aiGrid}>
+          {aiWork.areas.map((area) => (
+            <article key={area.name} className={styles.pillarCard}>
+              <h3>{area.name}</h3>
+              <p>{area.description}</p>
+              <div className={styles.tagRow}>
+                {area.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+
+          <article className={styles.standardsCard}>
+            <h3>Standards I set for AI-assisted analysis</h3>
+            <p>{aiWork.standardsIntro}</p>
+            <ul className={styles.standardsList}>
+              {aiWork.standards.map((rule) => (
+                <li key={rule}>{rule}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="open-source-heading">
+        <h2 id="open-source-heading">Open source</h2>
+        <p className={styles.sectionIntro}>
+          Public repositories you can read and run. Both are built on synthetic data, so every claim
+          about them can be checked against the code.
+        </p>
+        <div className={styles.personalGrid}>
+          {openSourceProjects.map((project) => (
+            <article key={project.id} className={styles.projectCard}>
+              <h3>{project.title}</h3>
+              <p className={styles.projectContext}>{project.badge}</p>
+              <p>{project.summary}</p>
+              <div className={styles.tagRow}>
+                {project.stack.slice(0, 4).map((tech) => (
+                  <span key={tech}>{tech}</span>
+                ))}
+              </div>
+              {project.links?.repo && (
+                <a
+                  className={styles.cardLink}
+                  href={project.links.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on GitHub ↗
+                </a>
+              )}
             </article>
           ))}
         </div>

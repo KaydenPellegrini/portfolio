@@ -146,7 +146,9 @@ export default function ProjectDetail({ project, onClose }: Props) {
         </div>
 
         <div className={styles.sanitisedNote}>
-          <h3>Sanitised for confidentiality</h3>
+          {/* Public repos have nothing withheld, so the heading names what the section
+              actually covers there: the data and the limits. */}
+          <h3>{project.category === 'open-source' ? 'Data and limits' : 'Sanitised for confidentiality'}</h3>
           <p>{project.case.sanitised}</p>
         </div>
 
