@@ -28,9 +28,11 @@ export default function ShowcaseCard({ project, onOpen }: Props) {
           <p>
             <span className={styles.cardLineLabel}>My part:</span> {project.cardLines.part}
           </p>
-          <p>
-            <span className={styles.cardLineLabel}>Outcome:</span> {project.cardLines.outcome ?? 'TBC'}
-          </p>
+          {project.cardLines.outcome && (
+            <p>
+              <span className={styles.cardLineLabel}>Outcome:</span> {project.cardLines.outcome}
+            </p>
+          )}
         </div>
       )}
       <div className={styles.stackRow}>

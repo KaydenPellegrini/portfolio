@@ -1,4 +1,4 @@
-/* Supreme Diesel — page-scoped styles.
+/* Supreme Diesel: page-scoped styles.
    Dark industrial theme built around the logo's red/white split-rule motif. */
 
 .page {
@@ -75,7 +75,7 @@
   margin: 0;
 }
 
-/* Scroll reveal — pure CSS, visible by default (no JS dependency).
+/* Scroll reveal: pure CSS, visible by default (no JS dependency).
    Where scroll-driven animations are supported, each block fades/rises in as it
    enters view; everywhere else the content is simply shown. */
 .reveal {
