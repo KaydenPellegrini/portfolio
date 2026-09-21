@@ -174,9 +174,10 @@
 
 .cardTop {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px 12px;
 }
 
 .badge {
@@ -218,6 +219,25 @@
   margin: 0;
   color: #c7b5df;
   font-size: 1rem;
+}
+
+.cardLines {
+  display: grid;
+  gap: 6px;
+  border-top: 1px solid rgba(0, 255, 136, 0.14);
+  padding-top: 12px;
+}
+
+.cardLines p {
+  margin: 0;
+  color: #c7b5df;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.cardLineLabel {
+  color: #00ff88;
+  font-weight: 800;
 }
 
 .stackRow {
@@ -1075,8 +1095,7 @@
   font-size: 0.86rem;
 }
 
-.barChart,
-.lineChart {
+.barChart {
   border: 1px solid rgba(0, 255, 136, 0.16);
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.4);
@@ -1193,49 +1212,6 @@
   margin: 14px 0 0;
   color: #ad98c8;
   font-size: 0.78rem;
-}
-
-.lineSvg {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-
-.lineActual,
-.lineProjected {
-  fill: none;
-  stroke: #00ff88;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.lineProjected {
-  stroke: #aa50ff;
-  stroke-dasharray: 7 6;
-}
-
-.lineDivider {
-  stroke: rgba(255, 255, 255, 0.18);
-  stroke-width: 1;
-  stroke-dasharray: 3 5;
-}
-
-.dotActual {
-  fill: #00ff88;
-}
-
-.dotProjected {
-  fill: #0d0016;
-  stroke: #aa50ff;
-  stroke-width: 2;
-}
-
-.lineLabel {
-  fill: #ad98c8;
-  font-size: 12px;
-  text-anchor: middle;
 }
 
 @media (max-width: 860px) {

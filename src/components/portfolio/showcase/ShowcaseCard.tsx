@@ -23,6 +23,16 @@ export default function ShowcaseCard({ project, onOpen }: Props) {
       <h3 className={styles.cardTitle}>{project.title}</h3>
       {project.context && <p className={styles.cardContext}>{project.context}</p>}
       <p className={styles.cardSummary}>{project.summary}</p>
+      {project.cardLines && (
+        <div className={styles.cardLines}>
+          <p>
+            <span className={styles.cardLineLabel}>My part:</span> {project.cardLines.part}
+          </p>
+          <p>
+            <span className={styles.cardLineLabel}>Outcome:</span> {project.cardLines.outcome ?? 'TBC'}
+          </p>
+        </div>
+      )}
       <div className={styles.stackRow}>
         {project.stack.slice(0, 4).map((tech) => (
           <span key={tech} className={styles.stackPill}>

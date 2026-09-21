@@ -13,13 +13,13 @@ Personal portfolio site for Kayden Pellegrini, data engineer and AI systems deve
 - `src/data/site/home.ts` holds the home page narrative, which deliberately does not repeat the CV.
 - `src/data/showcase/projects.ts` holds the Build Lab case studies.
 
-Regenerate `public/Kayden-Pellegrini-CV-2026.pdf` after editing `profile.ts`:
+The CV at `public/Kayden-Pellegrini-CV-2026.pdf` is currently a finished PDF supplied by hand, and the CV wording in `profile.ts` is kept in step with it. The CV can also be built from `profile.ts`, which replaces the supplied file:
 
 ```bash
 npm run cv
 ```
 
-The CV is set in Calibri, embedded from the Windows fonts folder. On a machine without Calibri, set `CV_FONT_REGULAR` and `CV_FONT_BOLD` to a metric-compatible humanist sans such as Carlito. The generator will not substitute any other face.
+The generator sets the CV in Calibri, embedded from the Windows fonts folder. On a machine without Calibri, set `CV_FONT_REGULAR` and `CV_FONT_BOLD` to a metric-compatible humanist sans such as Carlito. The generator will not substitute any other face.
 
 Demonstrations of employer systems use synthetic data only. `src/data/showcase/rfidDemo.ts` and `src/data/showcase/biDemo.ts` are entirely fabricated, and every professional case study carries a note stating what has been changed.
 

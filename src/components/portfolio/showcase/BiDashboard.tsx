@@ -71,78 +71,12 @@ function CompareChart({ chart }: { chart: Extract<BiChart, { kind: 'compare' }> 
   )
 }
 
-function ForecastChart({ chart }: { chart: Extract<BiChart, { kind: 'forecast' }> }) {
-  const width = 640
-  const height = 230
-  const padX = 34
-  const padTop = 18
-  const padBottom = 40
-  const values = chart.points.map((point) => point.value)
-  const max = Math.max(...values) * 1.08
-  const min = Math.min(...values) * 0.88
-  const step = (width - padX * 2) / (chart.points.length - 1)
-
-  const coords = chart.points.map((point, index) => ({
-    ...point,
-    x: padX + index * step,
-    y: padTop + (1 - (point.value - min) / (max - min)) * (height - padTop - padBottom),
-  }))
-
-  const firstProjected = coords.findIndex((point) => point.projected)
-  const actual = firstProjected === -1 ? coords : coords.slice(0, firstProjected)
-  // Start the projected line on the last actual point so the two segments join.
-  const projected = firstProjected === -1 ? [] : coords.slice(Math.max(firstProjected - 1, 0))
-  const toPath = (points: typeof coords) => points.map((point) => `${point.x},${point.y}`).join(' ')
-
-  return (
-    <div className={styles.lineChart}>
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        className={styles.lineSvg}
-        role="img"
-        aria-label={`${chart.unit} by month, with the last three months projected from the trend.`}
-      >
-        {firstProjected > 0 && (
-          <line
-            x1={coords[firstProjected].x - step / 2}
-            x2={coords[firstProjected].x - step / 2}
-            y1={padTop}
-            y2={height - padBottom}
-            className={styles.lineDivider}
-          />
-        )}
-        <polyline points={toPath(actual)} className={styles.lineActual} />
-        {projected.length > 1 && <polyline points={toPath(projected)} className={styles.lineProjected} />}
-        {coords.map((point) => (
-          <circle
-            key={point.label}
-            cx={point.x}
-            cy={point.y}
-            r={4}
-            className={point.projected ? styles.dotProjected : styles.dotActual}
-          />
-        ))}
-        {coords.map((point) => (
-          <text key={point.label} x={point.x} y={height - padBottom + 20} className={styles.lineLabel}>
-            {point.label}
-          </text>
-        ))}
-      </svg>
-      <p className={styles.chartFoot}>
-        {chart.unit}. The dashed section is projected, not recorded.
-      </p>
-    </div>
-  )
-}
-
 function Chart({ chart }: { chart: BiChart }) {
   switch (chart.kind) {
     case 'bars':
       return <BarChart chart={chart} />
     case 'compare':
       return <CompareChart chart={chart} />
-    case 'forecast':
-      return <ForecastChart chart={chart} />
   }
 }
 

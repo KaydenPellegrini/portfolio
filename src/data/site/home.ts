@@ -98,7 +98,8 @@ export const caseStudies: CaseStudy[] = [
     ],
     built: [
       'A multi-agent verification framework. Independent passes review and then confirm each change, and the confirming pass never sees the reasoning of the reviewing pass. An adjudication pass then checks every claimed change against the actual result and classifies it as verified, overclaimed, hallucinated, cosmetic or a regression.',
-      'Around it sit the standards I set for AI-assisted analysis on live systems: one source of truth per data domain, confidence labelling, read-only scoping, and human confirmation before anything destructive runs.',
+      'The LLM tooling itself reaches Dataverse, Power Apps and Microsoft 365 through Model Context Protocol, so analysis runs against the live systems instead of a pasted extract.',
+      'Around it sit the standards I set for AI-assisted analysis on live systems: one source of truth per data domain, confidence labelling, read-only scoping, human confirmation before anything destructive runs, no merging of records that have not been verified, and no margin calculated from a placeholder cost.',
     ],
     changed: [
       'A repeatable way to trust or reject AI output on production systems, decided by what actually changed rather than by what the model says changed.',
@@ -151,6 +152,7 @@ export const skillsGrid: { label: string; items: string[] }[] = [
 /** One line per role for the timeline. Keyed by the role ids in profile.ts. */
 export const timelineNotes: Record<string, string> = {
   virtumed: 'Data model, integration, reporting, apps, hardware and AI tooling for a medical device distributor.',
-  'hashtag-escape': 'Ran the rooms, and kept their equipment and control systems working between live sessions.',
-  'fat-ginger': 'Customer service in a high volume restaurant.',
+  'hashtag-escape':
+    'Ran daily operations and bookings, and maintained and troubleshot the room equipment, control software and technical systems, diagnosing faults between live sessions.',
+  'fat-ginger': 'Customer service and floor operations in a high volume restaurant.',
 }

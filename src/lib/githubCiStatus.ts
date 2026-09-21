@@ -15,6 +15,8 @@
  */
 
 export const CI_REPO = 'KaydenPellegrini/serial-margin-dbt'
+/** Where the chip sends a visitor to check the runs for themselves. */
+export const CI_ACTIONS_URL = `https://github.com/${CI_REPO}/actions`
 const WORKFLOW_FILE = 'dbt.yml'
 const BRANCH = 'main'
 
@@ -26,7 +28,6 @@ export type CiStatus =
       branch: string
       /** ISO timestamp of when the run finished. */
       finishedAt: string
-      runUrl: string
       commit: string
     }
   | { state: 'unavailable'; repo: string }
@@ -38,7 +39,6 @@ type WorkflowRunsResponse = {
     head_branch?: string
     head_sha?: string
     updated_at?: string
-    html_url?: string
   }>
 }
 
@@ -60,7 +60,7 @@ export async function getCiStatus(): Promise<CiStatus> {
     if (!response.ok) return unavailable
 
     const run = ((await response.json()) as WorkflowRunsResponse).workflow_runs?.[0]
-    if (!run?.conclusion || !run.updated_at || !run.html_url || !run.head_sha) return unavailable
+    if (!run?.conclusion || !run.updated_at || !run.head_sha) return unavailable
 
     const state = run.conclusion === 'success' ? 'passing' : run.conclusion === 'failure' ? 'failing' : null
     if (!state) return unavailable
@@ -71,7 +71,6 @@ export async function getCiStatus(): Promise<CiStatus> {
       workflow: run.name ?? 'CI',
       branch: run.head_branch ?? BRANCH,
       finishedAt: run.updated_at,
-      runUrl: run.html_url,
       commit: run.head_sha.slice(0, 7),
     }
   } catch {
