@@ -17,25 +17,40 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
+// Recruiters search on role names, so "Data Engineer" and "Power Platform" are
+// both in the title. The card image comes from src/app/opengraph-image.tsx.
+const title = 'Kayden Pellegrini | Data Engineer, Power Platform and AI Systems';
 const description =
-  'Data engineer and AI systems developer in Johannesburg. I build data pipelines and models with dbt and SQL, LLM tooling connected to business systems through Model Context Protocol, and the internal applications and reporting that operations runs on.';
+  'Data engineer in Johannesburg working across Dataverse, Power Platform, Power BI and Sage, with LLM tooling connected to live business systems through Model Context Protocol.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(contact.website),
-  title: 'Kayden Pellegrini | Data Engineer & AI Systems Developer',
+  title,
   description,
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: 'Kayden Pellegrini | Data Engineer & AI Systems Developer',
+    title,
     description,
     type: 'profile',
     url: contact.website,
+    siteName: 'kayden.co.za',
+    locale: 'en_ZA',
+    firstName: 'Kayden',
+    lastName: 'Pellegrini',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
   },
   icons: {
     icon: '/favicon.ico',
   },
 };
 
-/** Person structured data, built from the same profile source as the site copy. */
+/** Person structured data, built from the same facts as the site and the CV. */
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -49,17 +64,22 @@ const personJsonLd = {
     addressRegion: 'Gauteng',
     addressCountry: 'ZA',
   },
+  nationality: [
+    { '@type': 'Country', name: 'Italy' },
+    { '@type': 'Country', name: 'South Africa' },
+  ],
   sameAs: [contact.github, contact.linkedin],
   knowsAbout: [
     'Data engineering',
-    'dbt',
+    'Data modelling',
     'SQL',
     'Python',
-    'Model Context Protocol',
-    'Large language model tooling',
+    'dbt',
+    'Dataverse',
     'Power Platform',
     'Power BI',
-    'RFID systems',
+    'Model Context Protocol',
+    'RFID',
   ],
 };
 

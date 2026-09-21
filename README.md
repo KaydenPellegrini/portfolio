@@ -1,27 +1,27 @@
 # Kayden Pellegrini - Portfolio
 
-Personal portfolio site for Kayden Pellegrini, business systems developer, data analyst and Power Platform specialist.
+Personal portfolio site for Kayden Pellegrini, data engineer and AI systems developer.
 
 ## Site Structure
 
 - `/` - public portfolio
-- `/showcase` - the Build Lab: professional case studies and personal builds
-- `/my-moon/[secret]` - private hidden page protected by `MY_MOON_TOKEN`
-- `/one-month/[secret]` - private one-month REDACTED page protected by `ONE_MONTH_TOKEN`
-
-Hidden pages live under `src/app/(hidden)`. The route group keeps them out of the public app structure while preserving clean URLs.
+- `/showcase` - the Build Lab: open source, professional and personal case studies
 
 ## Content
 
-Professional content has one source of truth in `src/data/cv/profile.ts`, and case studies live in `src/data/showcase/projects.ts`. Both the site and the downloadable CV read from those files.
+- `src/data/cv/profile.ts` holds the facts shared by the site and the CV, plus the CV's own wording.
+- `src/data/site/home.ts` holds the home page narrative, which deliberately does not repeat the CV.
+- `src/data/showcase/projects.ts` holds the Build Lab case studies.
 
-Regenerate `public/Kayden-Pellegrini-CV-2026.pdf` after editing either one:
+Regenerate `public/Kayden-Pellegrini-CV-2026.pdf` after editing `profile.ts`:
 
 ```bash
 npm run cv
 ```
 
-Demonstrations of employer systems use synthetic data only. `src/data/showcase/rfidDemo.ts` and `src/data/showcase/biDemo.ts` are entirely fabricated, and every professional case study carries a `sanitised` note stating what has been changed.
+The CV is set in Calibri, embedded from the Windows fonts folder. On a machine without Calibri, set `CV_FONT_REGULAR` and `CV_FONT_BOLD` to a metric-compatible humanist sans such as Carlito. The generator will not substitute any other face.
+
+Demonstrations of employer systems use synthetic data only. `src/data/showcase/rfidDemo.ts` and `src/data/showcase/biDemo.ts` are entirely fabricated, and every professional case study carries a note stating what has been changed.
 
 ## Tech
 

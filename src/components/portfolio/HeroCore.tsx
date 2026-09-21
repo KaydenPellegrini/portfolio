@@ -9,7 +9,7 @@ const CYAN = '#00ff88'
 const PURPLE = '#aa50ff'
 const DEEP_PURPLE = '#6a0dad'
 
-/** Tiny deterministic PRNG (mulberry32) — pure, so it is safe to call during render. */
+/** Tiny deterministic PRNG (mulberry32). Pure, so it is safe to call during render. */
 function makeRandom(seed: number) {
   let state = seed >>> 0
   return () => {

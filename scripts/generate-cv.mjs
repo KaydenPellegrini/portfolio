@@ -1,14 +1,26 @@
 /**
- * Builds public/Kayden-Pellegrini-CV-2026.pdf from the same content the website
- * renders, so the CV and the site cannot drift apart.
+ * Builds public/Kayden-Pellegrini-CV-2026.pdf from src/data/cv/profile.ts.
  *
  *   npm run cv
  *
- * Content comes from src/data/cv/profile.ts and src/data/showcase/projects.ts.
- * Both are plain data modules with no imports of their own, which is what lets
- * this script transpile them with the TypeScript compiler already in
- * devDependencies and import the result directly. If either file ever grows an
- * import, this loader needs to resolve it too.
+ * profile.ts is the editable source. This script only decides how it looks.
+ *
+ * Typeface: the brief fixes it as Calibri or a similar humanist sans, so there
+ * is no fallback to anything else. Calibri is read from the Windows fonts folder
+ * at build time and embedded as a subset; the font file is never copied into the
+ * repository. On a machine without Calibri, point the build at a metric
+ * compatible humanist sans such as Carlito and the line breaks stay the same:
+ *
+ *   CV_FONT_REGULAR=/path/Carlito-Regular.ttf CV_FONT_BOLD=/path/Carlito-Bold.ttf npm run cv
+ *
+ * ATS notes, because they drive several choices below:
+ *   - Single column, no tables, no text boxes, no images. Contact details are in
+ *     the body, not in a page header.
+ *   - Every line is real text with a ToUnicode map. A bold lead phrase and the
+ *     rest of its bullet are drawn in one text object, so extractors read them as
+ *     one sentence rather than two fragments.
+ *   - Every drawn line ends in a space, so an extractor that concatenates lines
+ *     does not glue the last word of one line to the first word of the next.
  */
 
 import fs from 'node:fs'
@@ -16,7 +28,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import ts from 'typescript'
-import { A4, FONTS, PdfDocument, measure, toAscii, wrap } from './pdf-writer.mjs'
+import { A4, PdfDocument, loadTrueTypeFont, measure, toAscii } from './pdf-writer.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -25,10 +37,7 @@ async function loadDataModule(relativePath) {
   const { outputText } = ts.transpileModule(source, {
     compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
   })
-  const tempFile = path.join(
-    fs.mkdtempSync(path.join(os.tmpdir(), 'cv-data-')),
-    `${path.basename(relativePath, '.ts')}.mjs`,
-  )
+  const tempFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'cv-data-')), 'profile.mjs')
   fs.writeFileSync(tempFile, outputText)
   try {
     return await import(pathToFileURL(tempFile).href)
@@ -38,235 +47,297 @@ async function loadDataModule(relativePath) {
 }
 
 const profile = await loadDataModule('src/data/cv/profile.ts')
-const showcase = await loadDataModule('src/data/showcase/projects.ts')
 
-// ---------------------------------------------------------------- layout ----
+function loadFonts() {
+  const windowsFonts = path.join(process.env.WINDIR ?? 'C:\\Windows', 'Fonts')
+  const regularPath = process.env.CV_FONT_REGULAR ?? path.join(windowsFonts, 'calibri.ttf')
+  const boldPath = process.env.CV_FONT_BOLD ?? path.join(windowsFonts, 'calibrib.ttf')
+  try {
+    const regular = loadTrueTypeFont(regularPath)
+    const bold = loadTrueTypeFont(boldPath)
+    return { regular, bold, label: `${regular.name} and ${bold.name}, embedded subsets` }
+  } catch (error) {
+    console.error(`Cannot build the CV: ${error.message}`)
+    console.error('The brief sets it in Calibri or a similar humanist sans, and nothing else is substituted.')
+    console.error('Set CV_FONT_REGULAR and CV_FONT_BOLD to the regular and bold font files.')
+    process.exit(1)
+  }
+}
 
-const MARGIN_X = 48
-const MARGIN_TOP = 46
-const MARGIN_BOTTOM = 44
-const CONTENT_WIDTH = A4.width - MARGIN_X * 2
+const fonts = loadFonts()
 
-const INK = [0.11, 0.11, 0.14]
-const MUTED = [0.36, 0.36, 0.42]
-const ACCENT = [0.0, 0.42, 0.3]
+// ------------------------------------------------------------------ layout ---
+
+const INCH = 72
+const MARGIN_X = 0.7 * INCH
+const MARGIN_TOP = 0.55 * INCH
+const MARGIN_BOTTOM = 0.55 * INCH
+const WIDTH = A4.width - MARGIN_X * 2
+
+const NAVY = [31 / 255, 58 / 255, 95 / 255]
+const INK = [0.13, 0.13, 0.15]
+const GREY = [0.42, 0.43, 0.47]
+const RULE = [0.74, 0.78, 0.84]
+
+const BODY = 9.5
+const LEADING = 12.4
+const HEADING = 10.5
+const BULLET_INDENT = 11
 
 const doc = new PdfDocument({
   title: `${profile.identity.name} CV`,
   author: profile.identity.name,
   subject: profile.identity.title,
-  keywords:
-    'data engineering, dbt, SQL, Python, Model Context Protocol, LLM tooling, Power Platform, Power BI, Dataverse, RFID',
+  keywords: 'Data Engineer, Power Platform, Dataverse, Power BI, SQL, Python, dbt, Model Context Protocol, RFID',
 })
 
 let page = doc.addPage()
 let y = A4.height - MARGIN_TOP
 
-function newPage() {
-  page = doc.addPage()
-  y = A4.height - MARGIN_TOP
+function ensure(height) {
+  if (y - height < MARGIN_BOTTOM) {
+    page = doc.addPage()
+    y = A4.height - MARGIN_TOP
+  }
 }
 
-function ensureSpace(needed) {
-  if (y - needed < MARGIN_BOTTOM) newPage()
-}
+const regular = (text, size = BODY, colour = INK, uri) => ({ text, font: fonts.regular, size, colour, uri })
+const bold = (text, size = BODY, colour = INK) => ({ text, font: fonts.bold, size, colour })
+
+// ------------------------------------------------------------ rich wrapping ---
 
 /**
- * Every wrapped line is drawn as its own text-showing operation. A text
- * extractor that concatenates those operations without inserting whitespace
- * would join the last word of one line to the first word of the next
- * ("product checks," + "replenishment" -> "checks,replenishment"), which is
- * exactly what some applicant tracking systems do. A trailing space is
- * invisible when rendered and makes the concatenation come out correct.
+ * Split styled runs into words. A word can span runs with no space between
+ * them, which is what keeps "Dataverse" (bold) and "," (regular) together.
  */
-function drawn(text) {
-  return `${text} `
+function toWords(runs) {
+  const words = []
+  let current = null
+  let space = false
+  for (const run of runs) {
+    for (const part of toAscii(run.text).split(/( +)/)) {
+      if (!part) continue
+      if (part.trim() === '') {
+        if (current) words.push(current)
+        current = null
+        space = true
+        continue
+      }
+      if (!current) {
+        current = { pieces: [], spaceBefore: space && words.length > 0 }
+        space = false
+      }
+      current.pieces.push({ ...run, text: part })
+    }
+  }
+  if (current) words.push(current)
+  return words
 }
 
-/** Draw one line of text and move the cursor down. */
-function line(text, { font = FONTS.regular, size = 9.6, leading = 13, colour = INK, x = MARGIN_X } = {}) {
-  ensureSpace(leading)
-  y -= size
-  page.text(drawn(toAscii(text)), x, y, font, size, colour)
-  y -= leading - size
+const pieceWidth = (piece) => measure(piece.text, piece.font, piece.size)
+const wordWidth = (word) => word.pieces.reduce((sum, piece) => sum + pieceWidth(piece), 0)
+const spaceWidth = (word) => measure(' ', word.pieces[0].font, word.pieces[0].size)
+
+function wrap(runs, firstWidth, restWidth = firstWidth) {
+  const lines = []
+  let line = []
+  let width = 0
+  for (const word of toWords(runs)) {
+    const max = lines.length === 0 ? firstWidth : restWidth
+    const gap = line.length && word.spaceBefore ? spaceWidth(word) : 0
+    const w = wordWidth(word)
+    if (line.length && width + gap + w > max) {
+      lines.push(line)
+      line = [word]
+      width = w
+    } else {
+      line.push(word)
+      width += gap + w
+    }
+  }
+  if (line.length) lines.push(line)
+  return lines
 }
 
-/** Wrap and draw a paragraph. `indent` shifts continuation lines only. */
-function paragraph(
-  text,
-  { font = FONTS.regular, size = 9.6, leading = 12.8, colour = INK, x = MARGIN_X, width = CONTENT_WIDTH, indent = 0, after = 0 } = {},
-) {
-  const clean = toAscii(text)
-  const lines = wrap(clean, font, size, width)
-  lines.forEach((content, index) => {
-    const left = index === 0 ? x : x + indent
-    ensureSpace(leading)
-    y -= size
-    page.text(drawn(content), left, y, font, size, colour)
-    y -= leading - size
+function drawLine(line, x, baseline) {
+  const runs = []
+  const links = []
+  let cursor = x
+  const push = (piece) => {
+    const last = runs[runs.length - 1]
+    if (last && last.font === piece.font && last.size === piece.size && last.colour === piece.colour) {
+      last.text += piece.text
+    } else {
+      runs.push({ text: piece.text, font: piece.font, size: piece.size, colour: piece.colour })
+    }
+  }
+  line.forEach((word, i) => {
+    if (i > 0 && word.spaceBefore) {
+      const first = word.pieces[0]
+      push({ ...first, text: ' ' })
+      cursor += measure(' ', first.font, first.size)
+    }
+    for (const piece of word.pieces) {
+      const w = pieceWidth(piece)
+      if (piece.uri) links.push({ uri: piece.uri, x: cursor, w, size: piece.size })
+      push(piece)
+      cursor += w
+    }
+  })
+  runs[runs.length - 1].text += ' '
+  page.textRuns(runs, x, baseline)
+  for (const link of links) page.link(link.uri, link.x, baseline - link.size * 0.25, link.w, link.size * 1.1)
+}
+
+function paragraph(runs, { indent = 0, leading = LEADING, after = 0, keepTogether = true } = {}) {
+  const size = Math.max(...runs.map((run) => run.size))
+  const lines = wrap(runs, WIDTH, WIDTH - indent)
+  if (keepTogether) ensure(lines.length * leading)
+  lines.forEach((line, i) => {
+    ensure(leading)
+    drawLine(line, MARGIN_X + (i === 0 ? 0 : indent), y - size)
+    y -= leading
   })
   y -= after
 }
 
-/** Bold lead-in followed by wrapped body text on the same line. */
-function labelledParagraph(label, body, { size = 9.6, leading = 12.8, gap = 4, after = 3 } = {}) {
-  const labelText = toAscii(`${label}:`)
-  const labelWidth = measure(labelText, FONTS.bold, size) + gap
-  const firstWidth = CONTENT_WIDTH - labelWidth
-  const words = toAscii(body).split(/\s+/).filter(Boolean)
+const bulletRuns = ({ lead = '', rest }) => [bold(lead), regular(rest)]
 
-  const firstLine = []
-  while (words.length && measure([...firstLine, words[0]].join(' '), FONTS.regular, size) <= firstWidth) {
-    firstLine.push(words.shift())
-  }
-
-  ensureSpace(leading)
-  y -= size
-  page.text(drawn(labelText), MARGIN_X, y, FONTS.bold, size, INK)
-  if (firstLine.length) page.text(drawn(firstLine.join(' ')), MARGIN_X + labelWidth, y, FONTS.regular, size, INK)
-  y -= leading - size
-
-  if (words.length) {
-    paragraph(words.join(' '), { size, leading, after })
-  } else {
-    y -= after
-  }
-}
-
-function sectionHeading(title) {
-  ensureSpace(38)
-  y -= 14
-  page.text(drawn(toAscii(title.toUpperCase())), MARGIN_X, y, FONTS.bold, 10.4, ACCENT)
-  y -= 6
-  page.rule(MARGIN_X, y, A4.width - MARGIN_X, [0.78, 0.82, 0.8], 0.9)
-  y -= 11
-}
-
-function bullet(text, { size = 9.4, leading = 12.4 } = {}) {
-  const indent = 13
-  const clean = toAscii(text)
-  const lines = wrap(clean, FONTS.regular, size, CONTENT_WIDTH - indent)
-  lines.forEach((content, index) => {
-    ensureSpace(leading)
-    y -= size
-    if (index === 0) page.dot(MARGIN_X + 3.2, y + size * 0.32, 1.6, ACCENT)
-    page.text(drawn(content), MARGIN_X + indent, y, FONTS.regular, size, INK)
-    y -= leading - size
+function bullet(item) {
+  const lines = wrap(bulletRuns(item), WIDTH - BULLET_INDENT)
+  ensure(lines.length * LEADING)
+  lines.forEach((line, i) => {
+    const baseline = y - BODY
+    if (i === 0) page.dot(MARGIN_X + 3.2, baseline + BODY * 0.3, 1.5, NAVY)
+    drawLine(line, MARGIN_X + BULLET_INDENT, baseline)
+    y -= LEADING
   })
+  y -= 1.6
 }
 
-// ----------------------------------------------------------------- header ---
-
-y -= 4
-page.text(drawn(toAscii(profile.identity.name)), MARGIN_X, y - 21, FONTS.bold, 21, INK)
-y -= 21 + 8
-page.text(drawn(toAscii(profile.identity.title)), MARGIN_X, y - 10.6, FONTS.bold, 10.6, ACCENT)
-y -= 10.6 + 10
-
-const contactParts = [
-  { text: profile.identity.location },
-  { text: profile.contact.phone, uri: `tel:${profile.contact.phone.replace(/\s/g, '')}` },
-  { text: profile.contact.email, uri: `mailto:${profile.contact.email}` },
-  { text: profile.contact.linkedin.replace(/^https?:\/\//, ''), uri: profile.contact.linkedin },
-  { text: profile.contact.github.replace(/^https?:\/\//, ''), uri: profile.contact.github },
-  { text: profile.contact.website.replace(/^https?:\/\//, ''), uri: profile.contact.website },
-]
-
-const CONTACT_SIZE = 8.8
-const SEPARATOR = '  |  '
-let cursorX = MARGIN_X
-y -= CONTACT_SIZE
-for (const [index, part] of contactParts.entries()) {
-  const text = toAscii(part.text)
-  const width = measure(text, FONTS.regular, CONTACT_SIZE)
-  if (cursorX + width > A4.width - MARGIN_X) {
-    y -= 12
-    cursorX = MARGIN_X
-  } else if (index > 0) {
-    page.text(SEPARATOR, cursorX, y, FONTS.regular, CONTACT_SIZE, MUTED)
-    cursorX += measure(SEPARATOR, FONTS.regular, CONTACT_SIZE)
+/** Small caps: capitals at full size, lower case set as smaller capitals. */
+function smallCaps(text, size, colour) {
+  const runs = []
+  for (const char of text) {
+    const lower = char >= 'a' && char <= 'z'
+    const runSize = lower ? Math.round(size * 0.78 * 100) / 100 : size
+    const last = runs[runs.length - 1]
+    if (last && last.size === runSize) last.text += char.toUpperCase()
+    else runs.push(bold(char.toUpperCase(), runSize, colour))
   }
-  // Trailing space for the same reason as `drawn`: the contact row wraps
-  // without drawing a separator, and the work authorisation line follows it.
-  page.text(drawn(text), cursorX, y, FONTS.regular, CONTACT_SIZE, part.uri ? ACCENT : MUTED)
-  // The link annotation covers the visible text only, not the trailing space.
-  if (part.uri) page.link(part.uri, cursorX, y - 2, width, CONTACT_SIZE + 3)
-  cursorX += width
-}
-y -= 13
-page.text(drawn(toAscii(profile.workAuthorisation)), MARGIN_X, y, FONTS.regular, CONTACT_SIZE, INK)
-y -= 10
-
-// ---------------------------------------------------------------- summary ---
-
-sectionHeading('Professional summary')
-for (const block of profile.summary) {
-  paragraph(block, { after: 5 })
+  return runs
 }
 
-// ----------------------------------------------------------------- skills ---
+/** Heading, rule, and enough room below it that it never ends a page alone. */
+function sectionHeading(title, keepWith = 3 * LEADING) {
+  ensure(12 + HEADING + 11 + keepWith)
+  y -= 12
+  const baseline = y - HEADING
+  const runs = smallCaps(title, HEADING, NAVY)
+  runs[runs.length - 1].text += ' '
+  page.textRuns(runs, MARGIN_X, baseline)
+  y = baseline - 4
+  page.rule(MARGIN_X, y, A4.width - MARGIN_X, RULE, 0.6)
+  y -= 7
+}
+
+// ------------------------------------------------------------------ header ---
+
+{
+  const nameSize = 20
+  let baseline = y - nameSize * 0.8
+  page.textRuns([bold(`${profile.identity.name} `, nameSize, NAVY)], MARGIN_X, baseline)
+  y = baseline - 9
+
+  baseline = y - 11
+  page.textRuns([regular(`${profile.identity.title} `, 11, INK)], MARGIN_X, baseline)
+  y = baseline - 13
+
+  const bare = (url) => url.replace(/^https?:\/\//, '')
+  const contactLine = (parts) => {
+    const runs = []
+    parts.forEach((part, i) => {
+      if (i > 0) runs.push(regular('  |  ', 9, GREY))
+      runs.push(regular(part.text, 9, part.uri ? NAVY : INK, part.uri))
+    })
+    paragraph(runs, { leading: 12.2, keepTogether: false })
+  }
+
+  contactLine([
+    { text: profile.identity.location },
+    { text: profile.contact.phone, uri: `tel:+27${profile.contact.phone.replace(/\s/g, '').replace(/^0/, '')}` },
+    { text: profile.contact.email, uri: `mailto:${profile.contact.email}` },
+  ])
+  contactLine([
+    { text: bare(profile.contact.linkedin), uri: profile.contact.linkedin },
+    { text: bare(profile.contact.github), uri: profile.contact.github },
+    { text: bare(profile.contact.website), uri: profile.contact.website },
+  ])
+  paragraph([regular(profile.workAuthorisation, 9, INK)], { leading: 12.2, keepTogether: false })
+}
+
+// ----------------------------------------------------------------- profile ---
+
+sectionHeading('Profile')
+profile.cvProfile.forEach((text, i, all) => paragraph([regular(text)], { after: i < all.length - 1 ? 4 : 0 }))
+
+// -------------------------------------------------------------- key skills ---
 
 sectionHeading('Key skills')
-for (const group of profile.skillGroups) {
-  labelledParagraph(group.name, group.skills.join(', '))
+for (const line of profile.cvSkills) {
+  paragraph([bold(`${line.label}: `), regular(line.items.join(', '))], { indent: 12, after: 1.2 })
 }
 
-// ------------------------------------------------------------- experience ---
+// -------------------------------------------------------------- experience ---
 
-sectionHeading('Experience')
-for (const [index, role] of profile.experience.entries()) {
-  ensureSpace(46)
-  if (index > 0) y -= 7
-  line(role.role, { font: FONTS.bold, size: 10.6, leading: 13.4 })
-  line(`${role.company}, ${role.location}  |  ${role.period}`, {
-    size: 9,
-    leading: 13,
-    colour: MUTED,
-  })
+sectionHeading('Experience', 2 * LEADING + wrap(bulletRuns(profile.experience[0].bullets[0]), WIDTH).length * LEADING)
+profile.experience.forEach((role, index) => {
+  const firstBullet = wrap(bulletRuns(role.bullets[0]), WIDTH - BULLET_INDENT).length * LEADING
+  ensure((index > 0 ? 6 : 0) + 13.5 + 12.4 + 2 + firstBullet)
+  if (index > 0) y -= 6
+  paragraph([bold(role.role, 10.5)], { leading: 13.5, keepTogether: false })
+  paragraph([regular(`${role.company}, ${role.location}  |  ${role.period}`, 9, GREY)], { leading: 12.4, keepTogether: false })
   y -= 2
-  // Bullets are ordered strongest first, so slicing drops the weakest.
-  for (const item of role.bullets.slice(0, role.cvMaxBullets ?? role.bullets.length)) {
-    bullet(item)
-  }
+  role.bullets.forEach(bullet)
+})
+
+// ----------------------------------------------------------- selected work ---
+
+sectionHeading('Selected work')
+for (const item of profile.cvSelectedWork) {
+  const runs = [bold(`${item.title}.`), regular(` ${item.description}`)]
+  if (item.url) runs.push(regular(` ${item.url.replace(/^https?:\/\//, '')}`, BODY, NAVY, item.url))
+  paragraph(runs, { after: 3 })
 }
 
-// -------------------------------------------------------------- education ---
+// --------------------------------------------------------------- education ---
 
 sectionHeading('Education')
-for (const [index, entry] of profile.education.entries()) {
-  ensureSpace(34)
-  if (index > 0) y -= 6
-  line(entry.qualification, { font: FONTS.bold, size: 10, leading: 13 })
-  const meta = [entry.place, entry.period, ...entry.notes].join('  |  ')
-  line(meta, { size: 9, leading: 12.6, colour: MUTED })
+profile.education.forEach((entry, index) => {
+  if (index > 0) y -= 4
+  ensure(3 * LEADING)
+  paragraph([bold(entry.qualification, 10)], { leading: 13, keepTogether: false })
+  paragraph([regular([entry.place, entry.period, ...entry.notes].join('  |  '), 9, GREY)], { leading: 12 })
   if (entry.subjects) {
-    y -= 1
-    labelledParagraph('Relevant study', entry.subjects.join(', '), { size: 9.2, leading: 12.4, after: 0 })
+    paragraph([regular(`Relevant study: ${entry.subjects.join(', ')}`, 8.5, GREY)], { leading: 11 })
   }
-}
+})
 
-// --------------------------------------------------------------- projects ---
+// --------------------------------------------------------------- languages ---
 
-// Public repositories first: they are the work a reader can go and verify.
-sectionHeading('Selected work')
-for (const project of [...showcase.openSourceProjects, ...showcase.professionalProjects]) {
-  const repo = project.links?.repo?.replace(/^https?:\/\//, '')
-  const body = repo ? `${project.summary} Repository: ${repo}` : project.summary
-  labelledParagraph(project.title, body, { size: 9.4, leading: 12.4, after: 4 })
-}
+sectionHeading('Languages', LEADING)
+paragraph([regular(profile.languages.join('  |  '))])
 
-// -------------------------------------------------------------- languages ---
-
-sectionHeading('Languages')
-paragraph(profile.languages.join('  |  '), { size: 9.4 })
-
-// ------------------------------------------------------------------ write ---
+// ------------------------------------------------------------------- write ---
 
 const output = path.join(root, 'public', profile.cvFileName)
 fs.writeFileSync(output, doc.build())
 
 const bytes = fs.statSync(output).size
-console.log(`Wrote ${path.relative(root, output)} (${doc.pages.length} pages, ${(bytes / 1024).toFixed(1)} kB)`)
+console.log(
+  `Wrote ${path.relative(root, output)}: ${doc.pages.length} pages, ${(bytes / 1024).toFixed(1)} kB, ${fonts.label}`,
+)
+console.log(`Space left at the foot of the last page: ${Math.round(y - MARGIN_BOTTOM)} pt`)
 if (doc.pages.length > 2) {
-  console.warn('! The CV is longer than two pages. Trim content or reduce sizes in scripts/generate-cv.mjs.')
+  console.warn('! The CV is longer than two pages. Trim content in src/data/cv/profile.ts.')
 }

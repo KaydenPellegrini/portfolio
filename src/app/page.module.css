@@ -313,352 +313,351 @@
   font-size: 1.18rem !important;
 }
 
-.pillarGrid,
-.workGrid,
-.personalGrid,
-.aiGrid {
-  display: grid;
-  gap: 18px;
-  margin-top: 26px;
-}
+/* ---- Shared card and tag styles ---- */
 
-/* Two area cards on the top row, standards spanning the full width below. */
-.aiGrid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.standardsCard {
+.caseStudy,
+.repoCard,
+.skillTile {
   position: relative;
-  overflow: hidden;
-  grid-column: 1 / -1;
-  border: 1px solid rgba(170, 80, 255, 0.3);
-  border-radius: 16px;
+  border: 1px solid rgba(0, 255, 136, 0.16);
+  border-radius: 18px;
   background:
-    linear-gradient(145deg, rgba(106, 13, 173, 0.26), rgba(5, 0, 8, 0.78)),
-    rgba(255, 255, 255, 0.035);
+    linear-gradient(145deg, rgba(106, 13, 173, 0.2), rgba(5, 0, 8, 0.8)),
+    rgba(255, 255, 255, 0.03);
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.26);
-  padding: 26px;
 }
 
-.standardsCard h3 {
-  margin: 0 0 10px;
-  color: #ffffff;
-  font-size: 1.25rem;
-}
-
-.standardsCard p {
-  margin: 0;
-  color: #c7b5df;
-  font-size: 0.98rem;
-}
-
-.standardsList {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 26px;
-  margin: 18px 0 0;
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 12px 0 0;
   padding: 0;
   list-style: none;
 }
 
-.standardsList li {
-  position: relative;
-  padding-left: 20px;
-  color: #d9ffe9;
-  font-size: 0.95rem;
-  line-height: 1.55;
-}
-
-.standardsList li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.5em;
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  background: #00ff88;
-  box-shadow: 0 0 12px rgba(0, 255, 136, 0.6);
-}
-
-.cardLink {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 16px;
-  color: #00ff88;
-  font-size: 0.9rem;
-  font-weight: 800;
-  text-decoration: none;
-  text-shadow: 0 0 14px rgba(0, 255, 136, 0.5);
-}
-
-.cardLink:hover {
-  text-decoration: underline;
-}
-
-.pillarGrid {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
-
-.workGrid {
-  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
-}
-
-.personalGrid {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-.pillarCard,
-.projectCard,
-.highlightCard {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(0, 255, 136, 0.16);
-  border-radius: 16px;
-  background:
-    linear-gradient(145deg, rgba(106, 13, 173, 0.22), rgba(5, 0, 8, 0.78)),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.26);
-}
-
-.pillarCard::before,
-.projectCard::before,
-.highlightCard::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent 0%, rgba(0, 255, 136, 0.12) 48%, transparent 54%);
-  transform: translateX(-120%);
-  transition: transform 0.5s ease;
-  pointer-events: none;
-}
-
-.pillarCard:hover::before,
-.projectCard:hover::before,
-.highlightCard:hover::before {
-  transform: translateX(120%);
-}
-
-.pillarCard,
-.projectCard {
-  padding: 24px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.pillarCard:hover,
-.projectCard:hover,
-.highlightCard:hover {
-  border-color: rgba(0, 255, 136, 0.48);
-  transform: translateY(-4px);
-}
-
-.pillarCard h3,
-.projectCard h3,
-.highlightCard h3 {
-  position: relative;
-  margin: 0 0 10px;
-  color: #ffffff;
-  font-size: 1.25rem;
-}
-
-.pillarCard p,
-.projectCard p {
-  position: relative;
-  margin: 0;
-  font-size: 0.98rem;
-}
-
-.projectContext {
-  margin: -6px 0 10px !important;
-  color: #00ff88 !important;
-  font-size: 0.8rem !important;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-}
-
-.tagRow {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 14px;
-}
-
-.tagRow span {
+.tagList li {
   border: 1px solid rgba(0, 255, 136, 0.22);
   border-radius: 999px;
   background: rgba(0, 255, 136, 0.05);
   color: #d9ffe9;
   padding: 4px 10px;
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   font-weight: 700;
   line-height: 1.5;
 }
 
-.disclaimer {
-  max-width: 860px;
-  margin-top: 24px !important;
-  border-left: 3px solid rgba(170, 80, 255, 0.55);
-  padding-left: 14px;
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #00ff88;
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-shadow: 0 0 14px rgba(0, 255, 136, 0.45);
+}
+
+.cardLink:hover,
+.cardLink:focus-visible {
+  text-decoration: underline;
+}
+
+/* ---- Status band: the live CI result, then decorative capability chips ---- */
+
+.statusBand {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 26px 24px 0;
+}
+
+.ciStatus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 0;
+  color: #c7b5df;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.ciChip {
+  flex: 0 0 auto;
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+
+.ciPassing {
+  border-color: rgba(0, 255, 136, 0.55);
+  background: rgba(0, 255, 136, 0.1);
+  color: #9dffcf;
+  box-shadow: 0 0 18px rgba(0, 255, 136, 0.22);
+}
+
+.ciFailing {
+  border-color: rgba(255, 95, 126, 0.55);
+  background: rgba(255, 95, 126, 0.12);
+  color: #ffc2ce;
+}
+
+.ciNeutral {
+  border-color: rgba(173, 152, 200, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  color: #c7b5df;
+}
+
+a.ciChip:hover,
+a.ciChip:focus-visible {
+  text-decoration: underline;
+}
+
+.ciText a,
+.statusLinks a {
+  color: #d9ffe9;
+}
+
+.ciSource {
+  color: #00ff88;
+  font-weight: 700;
+}
+
+.statusLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 10px 0 0;
+  color: #ad98c8;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.82rem;
+}
+
+.statusBand .crypticRail {
+  flex-wrap: wrap;
+  margin: 16px 0 0;
+  mask-image: none;
+}
+
+/* ---- Case studies ---- */
+
+.caseList {
+  display: grid;
+  gap: 26px;
+  margin-top: 26px;
+}
+
+/* min-width: 0 lets a code block scroll inside the card instead of forcing the
+   card wider than a phone screen. Grid and flex items default to auto. */
+.caseStudy {
+  min-width: 0;
+  padding: 30px;
+  scroll-margin-top: 24px;
+}
+
+.caseKicker {
+  margin: 0 0 6px !important;
+  color: #00ff88 !important;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.caseStudy h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.caseContext {
+  margin: 10px 0 0 !important;
   color: #ad98c8 !important;
   font-size: 0.92rem !important;
 }
 
-.cardStack {
+.caseBody {
   display: grid;
-  gap: 18px;
+  gap: 20px;
+  margin: 22px 0 24px;
 }
 
-.highlightCard {
-  padding: 26px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+.caseBody h4 {
+  margin: 0 0 6px;
+  color: #d9ffe9;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.period {
-  position: relative;
-  margin: 0 0 4px;
+.caseBody p {
+  max-width: 760px;
+  margin: 0 0 10px;
+  color: #e3d8f3;
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.caseBody p:last-child {
+  margin-bottom: 0;
+}
+
+.caseLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: 18px;
+}
+
+/* ---- Selected work ---- */
+
+/* One card per row: code needs the width more than the layout needs columns. */
+.repoGrid {
+  display: grid;
+  gap: 22px;
+  margin-top: 26px;
+}
+
+.repoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 24px;
+}
+
+.repoCard > * {
+  min-width: 0;
+}
+
+.repoName {
+  margin: 0 !important;
   color: #00ff88 !important;
-  font-size: 0.95rem !important;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.86rem !important;
 }
 
-.periodDates {
-  position: relative;
-  margin: 0 0 14px;
-  color: #ad98c8 !important;
-  font-family: Consolas, Monaco, monospace;
-  font-size: 0.85rem !important;
-  letter-spacing: 0.04em;
-}
-
-.bulletList {
-  position: relative;
+.repoCard h3 {
   margin: 0;
-  padding: 0;
-  list-style: none;
+  color: #ffffff;
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.repoCard > p:not(.repoName) {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.repoCard .cardLink {
+  margin-top: auto;
+}
+
+/* ---- Skills ---- */
+
+.skillsGrid {
   display: grid;
-  gap: 9px;
-}
-
-.bulletListWide {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 26px;
-}
-
-.bulletList li {
-  position: relative;
-  padding-left: 18px;
-  color: #c7b5df;
-  font-size: 0.96rem;
-  line-height: 1.6;
-}
-
-.bulletList li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #00ff88;
-  box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
-}
-
-.educationSkillsGrid {
-  display: grid;
-  gap: 36px;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
-  align-items: start;
-}
-
-.educationPanel,
-.skillsPanel {
-  border: 1px solid rgba(0, 255, 136, 0.14);
-  border-radius: 16px;
-  background: rgba(8, 0, 15, 0.46);
-  box-shadow: inset 0 0 32px rgba(106, 13, 173, 0.12);
-  padding: 22px;
-}
-
-.educationPanel {
-  position: sticky;
-  top: 24px;
-}
-
-.educationTimeline {
-  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 14px;
+  margin-top: 26px;
 }
 
-.educationItem {
-  position: relative;
-  border: 1px solid rgba(170, 80, 255, 0.2);
-  border-radius: 14px;
-  background:
-    linear-gradient(145deg, rgba(106, 13, 173, 0.18), rgba(0, 0, 0, 0.22)),
-    rgba(255, 255, 255, 0.03);
-  padding: 14px 14px 14px 18px;
+.skillTile {
+  padding: 18px;
 }
 
-.educationItem::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 14px;
-  bottom: 14px;
-  width: 3px;
-  border-radius: 999px;
-  background: #00ff88;
-  box-shadow: 0 0 16px rgba(0, 255, 136, 0.7);
-}
-
-.educationItem span {
-  color: #00ff88;
-  font-size: 0.78rem;
-  font-weight: 800;
+.skillTile h3 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.86rem;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.educationItem h4 {
-  margin: 6px 0 4px;
-  color: #ffffff;
-  font-size: 1rem;
-}
+/* ---- Experience timeline ---- */
 
-.educationItem p {
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.educationPlace {
-  color: #d8c3ff !important;
-  font-weight: 800;
-  margin-bottom: 8px !important;
-}
-
-.skillGroups {
+.timeline {
+  position: relative;
   display: grid;
-  gap: 14px;
+  gap: 22px;
+  margin: 26px 0 0;
+  padding: 0 0 0 26px;
+  list-style: none;
 }
 
-.skillGroup {
-  border: 1px solid rgba(0, 255, 136, 0.14);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.035);
-  padding: 16px;
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #00ff88, rgba(170, 80, 255, 0.5));
 }
 
-.skillGroup h4 {
-  margin: 0;
+.timelineItem {
+  position: relative;
+}
+
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  left: -26px;
+  top: 7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 2px solid #00ff88;
+  background: #050008;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+}
+
+.timelineEducation::before {
+  border-color: #aa50ff;
+  box-shadow: 0 0 12px rgba(170, 80, 255, 0.5);
+}
+
+.timelineDates {
+  margin: 0 !important;
+  color: #ad98c8 !important;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.8rem !important;
+}
+
+.timelineItem h3 {
+  margin: 2px 0 0;
   color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 800;
+  font-size: 1.15rem;
 }
 
-.skillGroup .tagRow {
-  margin-top: 10px;
+.timelineEmployer {
+  margin: 0 !important;
+  color: #00ff88 !important;
+  font-size: 0.92rem !important;
+  font-weight: 700;
+}
+
+.timelineItem p:last-child {
+  margin: 4px 0 0;
+}
+
+/* ---- Contact ---- */
+
+.contactActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
 }
 
 .sectionCta {
@@ -698,21 +697,8 @@
   color: #a994c7;
 }
 
-.footer a {
-  color: #00ff88;
-  text-decoration: none;
-}
-
-.footer a:hover {
-  text-decoration: underline;
-}
-
 @media (max-width: 860px) {
-  .heroContent,
-  .educationSkillsGrid,
-  .bulletListWide,
-  .aiGrid,
-  .standardsList {
+  .heroContent {
     grid-template-columns: 1fr;
   }
 
@@ -753,9 +739,20 @@
     inset: 22px 10px;
   }
 
-  .educationPanel {
-    position: relative;
-    top: auto;
+  .statusBand {
+    padding: 22px 20px 0;
+  }
+
+  .caseStudy {
+    padding: 22px 18px;
+  }
+
+  .caseStudy h3 {
+    font-size: 1.35rem;
+  }
+
+  .repoCard {
+    padding: 20px 16px;
   }
 }
 
@@ -816,8 +813,31 @@
   }
 }
 
+/* Everything decorative holds still. Nothing on the page depends on motion. */
 @media (prefers-reduced-motion: reduce) {
+  .container::before,
+  .container::after,
+  .section::before,
+  .crypticRail span,
   .btnShowcase {
     animation: none;
+  }
+
+  .btnPrimary,
+  .btnSecondary,
+  .btnOutline,
+  .btnDownload,
+  .btnShowcase,
+  .sectionCta {
+    transition: none;
+  }
+
+  .btnPrimary:hover,
+  .btnSecondary:hover,
+  .btnOutline:hover,
+  .btnDownload:hover,
+  .btnShowcase:hover,
+  .sectionCta:hover {
+    transform: none;
   }
 }

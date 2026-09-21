@@ -1,0 +1,137 @@
+.snippet {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 14px;
+  background: rgba(3, 0, 8, 0.82);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 14px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.14);
+  background: rgba(8, 0, 15, 0.9);
+  padding: 9px 14px;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+}
+
+.path {
+  color: #d9ffe9;
+  font-size: 0.76rem;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  color: #8f7cab;
+  font-size: 0.7rem;
+}
+
+.body {
+  margin: 0;
+  padding: 12px 0;
+  overflow-x: auto;
+  color: #e8e0f5;
+  font-family: var(--font-jetbrains-mono), Consolas, Monaco, monospace;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  tab-size: 4;
+}
+
+.body code {
+  display: grid;
+  min-width: max-content;
+  font: inherit;
+}
+
+/* Prose excerpts wrap instead of scrolling; each wrapped line keeps its number. */
+.prose code {
+  min-width: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 3.2em minmax(0, 1fr);
+}
+
+.gutter {
+  padding-right: 14px;
+  color: #5f4d78;
+  text-align: right;
+  user-select: none;
+}
+
+.text {
+  padding-right: 16px;
+  white-space: pre;
+}
+
+.prose .text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.keyword {
+  color: #c792ea;
+}
+
+.string {
+  color: #9dffcf;
+}
+
+.number,
+.operator {
+  color: #8f7cab;
+}
+
+.comment {
+  color: #6f5d8a;
+  font-style: italic;
+}
+
+.template {
+  color: #7fdbca;
+}
+
+.code {
+  color: #9dffcf;
+}
+
+.strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.quote {
+  color: #5f4d78;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 16px;
+  border-top: 1px solid rgba(0, 255, 136, 0.12);
+  padding: 10px 14px 12px;
+  color: #c7b5df;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.link {
+  color: #00ff88;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link:hover,
+.link:focus-visible {
+  text-decoration: underline;
+}

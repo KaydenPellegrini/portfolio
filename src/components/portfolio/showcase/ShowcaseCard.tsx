@@ -30,7 +30,7 @@ export default function ShowcaseCard({ project, onOpen }: Props) {
           </span>
         ))}
       </div>
-      <span className={styles.cardCta}>Open the case study →</span>
+      <span className={styles.cardCta}>Open the case study</span>
     </button>
   )
 }

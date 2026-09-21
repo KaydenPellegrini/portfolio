@@ -1,4 +1,4 @@
-/* Showcase ("Build Lab") — shares the home portfolio's Tron aesthetic. */
+/* Showcase ("Build Lab"). Shares the home portfolio's Tron aesthetic. */
 
 .page {
   position: relative;
@@ -700,16 +700,18 @@
   padding: 14px 14px 16px;
 }
 
-/* Arrow into the next stage. Hidden on the last card via :last-child. */
+/* Connector into the next stage: a chevron drawn with two borders, so no arrow
+   character is needed. Hidden at the end of each row and on the last card. */
 .flowStage::after {
-  content: '→';
+  content: '';
   position: absolute;
   top: 50%;
-  right: -13px;
-  transform: translateY(-50%);
-  color: rgba(0, 255, 136, 0.7);
-  font-size: 0.95rem;
-  line-height: 1;
+  right: -11px;
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid rgba(0, 255, 136, 0.7);
+  border-right: 2px solid rgba(0, 255, 136, 0.7);
+  transform: translateY(-50%) rotate(45deg);
 }
 
 .flowStage:nth-child(3n)::after,
@@ -1261,22 +1263,21 @@
     height: 340px;
   }
 
-  /* Stack the flow vertically and point the arrow downward. */
+  /* Stack the flow vertically and turn the connector to point down. */
   .flow {
     grid-template-columns: 1fr;
   }
 
   .flowStage::after {
-    content: '↓';
     top: auto;
-    bottom: -15px;
+    bottom: -12px;
     right: auto;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(135deg);
   }
 
   .flowStage:nth-child(3n)::after {
-    content: '↓';
+    content: '';
   }
 
   .flowStage:last-child::after {

@@ -1,25 +1,27 @@
+import { Suspense } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import HeroVisual from '@/components/portfolio/HeroVisual'
+import CodeSnippet from '@/components/portfolio/CodeSnippet'
+import LiveCiStatus, { CiStatusPending } from '@/components/portfolio/LiveCiStatus'
+import { contact, cvFileName, education, experience, identity, workAuthorisation } from '@/data/cv/profile'
 import {
-  aiWork,
-  contact,
-  cvFileName,
-  education,
-  experience,
+  capabilityChips,
+  caseStudies,
+  heroChips,
   heroSummary,
-  identity,
-  pillars,
-  skillGroups,
-  summary,
-  workAuthorisation,
-} from '@/data/cv/profile'
-import { openSourceProjects, personalProjects, professionalProjects } from '@/data/showcase/projects'
+  selectedWork,
+  skillsGrid,
+  timelineNotes,
+  whatIDo,
+} from '@/data/site/home'
 import styles from './page.module.css'
 
-const signals = ['DBT_BUILD', 'TESTS_37', 'MCP_LINKED', 'RFID_READ', 'QUERY_READY', 'CI_GREEN']
+const external = { target: '_blank', rel: 'noopener noreferrer' } as const
 
 export default function Home() {
+  const diploma = education[0]
+
   return (
     <main className={styles.container}>
       <section className={styles.hero}>
@@ -40,8 +42,8 @@ export default function Home() {
             <p className={styles.tagline}>{heroSummary}</p>
 
             <div className={styles.signalStrip} aria-label="Main areas of work">
-              {pillars.map((pillar) => (
-                <span key={pillar.id}>{pillar.name}</span>
+              {heroChips.map((chip) => (
+                <span key={chip}>{chip}</span>
               ))}
             </div>
 
@@ -52,13 +54,13 @@ export default function Home() {
               <a href={`/${cvFileName}`} download={cvFileName} className={styles.btnDownload}>
                 Download CV
               </a>
-              <a href={contact.github} target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
+              <a href={contact.github} {...external} className={styles.btnPrimary}>
                 GitHub
               </a>
-              <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className={styles.btnSecondary}>
+              <a href={contact.linkedin} {...external} className={styles.btnSecondary}>
                 LinkedIn
               </a>
-              <a href={`mailto:${contact.email}`} className={styles.btnOutline}>
+              <a href="#contact" className={styles.btnOutline}>
                 Contact
               </a>
             </div>
@@ -68,214 +70,164 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.section} aria-labelledby="about-heading">
+      <section className={styles.statusBand} aria-label="Build status and source code">
+        <Suspense fallback={<CiStatusPending />}>
+          <LiveCiStatus />
+        </Suspense>
+        <p className={styles.statusLinks}>
+          <span>Source:</span>
+          {selectedWork.map((repo) => (
+            <a key={repo.id} href={repo.repoUrl} {...external}>
+              {repo.name}
+            </a>
+          ))}
+        </p>
         <div className={styles.crypticRail} aria-hidden="true">
-          {signals.map((signal) => (
-            <span key={signal}>{signal}</span>
+          {capabilityChips.map((chip) => (
+            <span key={chip}>{chip}</span>
           ))}
         </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="about-heading">
         <h2 id="about-heading">What I do</h2>
-        {summary.map((paragraph, index) => (
-          <p key={paragraph.slice(0, 24)} className={index === 0 ? styles.summary : undefined}>
-            {paragraph}
-          </p>
-        ))}
+        <p className={styles.summary}>{whatIDo}</p>
+      </section>
 
-        <div className={styles.pillarGrid}>
-          {pillars.map((pillar) => (
-            <article key={pillar.id} className={styles.pillarCard}>
-              <h3>{pillar.name}</h3>
-              <p>{pillar.description}</p>
-              <div className={styles.tagRow}>
-                {pillar.skills.map((skill) => (
-                  <span key={skill}>{skill}</span>
-                ))}
+      <section className={styles.section} aria-labelledby="cases-heading">
+        <h2 id="cases-heading">Case studies</h2>
+        <div className={styles.caseList}>
+          {caseStudies.map((study) => (
+            <article key={study.id} id={study.id} className={styles.caseStudy} aria-labelledby={`${study.id}-title`}>
+              <p className={styles.caseKicker}>{study.kicker}</p>
+              <h3 id={`${study.id}-title`}>{study.title}</h3>
+              <p className={styles.caseContext}>{study.context}</p>
+
+              <div className={styles.caseBody}>
+                <div>
+                  <h4>The problem</h4>
+                  {study.problem.map((text) => (
+                    <p key={text}>{text}</p>
+                  ))}
+                </div>
+                <div>
+                  <h4>What I built</h4>
+                  {study.built.map((text) => (
+                    <p key={text}>{text}</p>
+                  ))}
+                </div>
+                <div>
+                  <h4>What changed</h4>
+                  {study.changed.map((text) => (
+                    <p key={text}>{text}</p>
+                  ))}
+                </div>
+              </div>
+
+              {study.evidence && <CodeSnippet snippet={study.evidence.snippet} caption={study.evidence.caption} />}
+
+              <div className={styles.caseLinks}>
+                {study.links.map((link) =>
+                  link.href.startsWith('/') ? (
+                    <Link key={link.href} href={link.href} className={styles.cardLink}>
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a key={link.href} href={link.href} {...external} className={styles.cardLink}>
+                      {link.label}
+                    </a>
+                  ),
+                )}
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className={styles.section} aria-labelledby="ai-heading">
-        <h2 id="ai-heading">AI and LLM work</h2>
-        <p className={styles.summary}>{aiWork.intro}</p>
-
-        <div className={styles.aiGrid}>
-          {aiWork.areas.map((area) => (
-            <article key={area.name} className={styles.pillarCard}>
-              <h3>{area.name}</h3>
-              <p>{area.description}</p>
-              <div className={styles.tagRow}>
-                {area.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
-            </article>
-          ))}
-
-          <article className={styles.standardsCard}>
-            <h3>Standards I set for AI-assisted analysis</h3>
-            <p>{aiWork.standardsIntro}</p>
-            <ul className={styles.standardsList}>
-              {aiWork.standards.map((rule) => (
-                <li key={rule}>{rule}</li>
-              ))}
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section className={styles.section} aria-labelledby="open-source-heading">
-        <h2 id="open-source-heading">Open source</h2>
+      <section className={styles.section} aria-labelledby="selected-heading">
+        <h2 id="selected-heading">Selected work</h2>
         <p className={styles.sectionIntro}>
-          Public repositories you can read and run. Both are built on synthetic data, so every claim
-          about them can be checked against the code.
+          Public repositories on synthetic data, so every claim made about them can be checked against the
+          code.
         </p>
-        <div className={styles.personalGrid}>
-          {openSourceProjects.map((project) => (
-            <article key={project.id} className={styles.projectCard}>
-              <h3>{project.title}</h3>
-              <p className={styles.projectContext}>{project.badge}</p>
-              <p>{project.summary}</p>
-              <div className={styles.tagRow}>
-                {project.stack.slice(0, 4).map((tech) => (
-                  <span key={tech}>{tech}</span>
-                ))}
-              </div>
-              {project.links?.repo && (
-                <a
-                  className={styles.cardLink}
-                  href={project.links.repo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View on GitHub ↗
-                </a>
-              )}
+        <div className={styles.repoGrid}>
+          {selectedWork.map((repo) => (
+            <article key={repo.id} className={styles.repoCard}>
+              <p className={styles.repoName}>{repo.name}</p>
+              <h3>{repo.title}</h3>
+              <p>{repo.summary}</p>
+              <CodeSnippet snippet={repo.snippet} caption={repo.caption} />
+              <a href={repo.repoUrl} {...external} className={styles.cardLink}>
+                Open the repository
+              </a>
             </article>
           ))}
         </div>
-      </section>
-
-      <section className={styles.section} aria-labelledby="work-heading">
-        <h2 id="work-heading">Selected professional work</h2>
-        <p className={styles.sectionIntro}>
-          Systems, reporting and integrations built for day to day business operations. Open the Build
-          Lab for the full case study on each one, including the technology, the part I owned and what
-          has been changed for confidentiality.
-        </p>
-        <div className={styles.workGrid}>
-          {professionalProjects.map((project) => (
-            <article key={project.id} className={styles.projectCard}>
-              <h3>{project.title}</h3>
-              {project.context && <p className={styles.projectContext}>{project.context}</p>}
-              <p>{project.summary}</p>
-              <div className={styles.tagRow}>
-                {project.stack.slice(0, 4).map((tech) => (
-                  <span key={tech}>{tech}</span>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-        <p className={styles.disclaimer}>
-          Demonstrations of employer systems on this site are reconstructions using invented products,
-          serial numbers and figures. No customer, hospital, financial or proprietary information is
-          shown.
-        </p>
         <Link href="/showcase" className={styles.sectionCta}>
-          Open the Build Lab →
+          Open the Build Lab
         </Link>
+      </section>
+
+      <section className={styles.section} aria-labelledby="skills-heading">
+        <h2 id="skills-heading">Skills</h2>
+        <div className={styles.skillsGrid}>
+          {skillsGrid.map((group) => (
+            <div key={group.label} className={styles.skillTile}>
+              <h3>{group.label}</h3>
+              <ul className={styles.tagList}>
+                {group.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className={styles.section} aria-labelledby="experience-heading">
         <h2 id="experience-heading">Experience</h2>
-        <div className={styles.cardStack}>
-          {experience.map((item) => (
-            <article key={`${item.role}-${item.period}`} className={styles.highlightCard}>
-              <h3>{item.role}</h3>
-              <p className={styles.period}>
-                {item.company}, {item.location}
+        <ol className={styles.timeline}>
+          {experience.map((role) => (
+            <li key={role.id} className={styles.timelineItem}>
+              <p className={styles.timelineDates}>{role.period}</p>
+              <h3>{role.role}</h3>
+              <p className={styles.timelineEmployer}>
+                {role.employer}, {role.location}
               </p>
-              <p className={styles.periodDates}>{item.period}</p>
-              <ul className={`${styles.bulletList} ${item.bullets.length > 6 ? styles.bulletListWide : ''}`}>
-                {item.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
-                ))}
-              </ul>
-            </article>
+              <p>{timelineNotes[role.id]}</p>
+            </li>
           ))}
-        </div>
+          <li className={`${styles.timelineItem} ${styles.timelineEducation}`}>
+            <p className={styles.timelineDates}>{diploma.period}</p>
+            <h3>{diploma.qualification}</h3>
+            <p className={styles.timelineEmployer}>{diploma.place}</p>
+            <p>{diploma.notes.join(', ')}.</p>
+          </li>
+        </ol>
       </section>
 
-      <section className={styles.section} aria-labelledby="education-heading">
-        <h2 id="education-heading">Education and skills</h2>
-        <div className={styles.educationSkillsGrid}>
-          <div className={styles.educationPanel}>
-            <h3>Education</h3>
-            <div className={styles.educationTimeline}>
-              {education.map((item) => (
-                <article key={item.qualification} className={styles.educationItem}>
-                  <span>{item.period}</span>
-                  <h4>{item.qualification}</h4>
-                  <p className={styles.educationPlace}>{item.place}</p>
-                  {item.notes.length > 0 && <p>{item.notes.join(' · ')}</p>}
-                  {item.subjects && (
-                    <div className={styles.tagRow}>
-                      {item.subjects.map((subject) => (
-                        <span key={subject}>{subject}</span>
-                      ))}
-                    </div>
-                  )}
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.skillsPanel}>
-            <h3>Skills</h3>
-            <div className={styles.skillGroups}>
-              {skillGroups.map((group) => (
-                <article key={group.name} className={styles.skillGroup}>
-                  <h4>{group.name}</h4>
-                  <div className={styles.tagRow}>
-                    {group.skills.map((skill) => (
-                      <span key={skill}>{skill}</span>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
+      <section id="contact" className={styles.section} aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Contact</h2>
+        <p className={styles.summary}>Email is the quickest way to reach me.</p>
+        <div className={styles.contactActions}>
+          <a href={`mailto:${contact.email}`} className={styles.btnDownload}>
+            {contact.email}
+          </a>
+          <a href={`/${cvFileName}`} download={cvFileName} className={styles.btnOutline}>
+            Download CV
+          </a>
+          <a href={contact.linkedin} {...external} className={styles.btnSecondary}>
+            LinkedIn
+          </a>
+          <a href={contact.github} {...external} className={styles.btnPrimary}>
+            GitHub
+          </a>
         </div>
-      </section>
-
-      <section className={styles.section} aria-labelledby="personal-heading">
-        <h2 id="personal-heading">Personal builds</h2>
-        <p className={styles.sectionIntro}>
-          Development work done on my own time, separate from my professional work. This is where the
-          Next.js, React and TypeScript side sits, including this site.
-        </p>
-        <div className={styles.personalGrid}>
-          {personalProjects.map((project) => (
-            <article key={project.id} className={styles.projectCard}>
-              <h3>{project.title}</h3>
-              <p className={styles.projectContext}>{project.badge}</p>
-              <p>{project.summary}</p>
-              <div className={styles.tagRow}>
-                {project.stack.slice(0, 4).map((tech) => (
-                  <span key={tech}>{tech}</span>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
+        <p className={styles.workAuth}>{workAuthorisation}</p>
       </section>
 
       <footer className={styles.footer}>
-        <p>
-          {identity.location} · <a href={`mailto:${contact.email}`}>{contact.email}</a>
-        </p>
+        <p>{identity.location}</p>
         <p>© {new Date().getFullYear()} Kayden Pellegrini</p>
       </footer>
     </main>

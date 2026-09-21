@@ -161,7 +161,7 @@ export default function ProjectDetail({ project, onClose }: Props) {
                 target={/^https?:\/\//.test(project.links.live) ? '_blank' : undefined}
                 rel="noopener noreferrer"
               >
-                Visit live ↗
+                Visit live
               </a>
             )}
             {project.links.repo && (
@@ -171,7 +171,7 @@ export default function ProjectDetail({ project, onClose }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                View code ↗
+                View code
               </a>
             )}
           </div>
