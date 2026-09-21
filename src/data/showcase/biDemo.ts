@@ -1,5 +1,5 @@
 /**
- * Synthetic data for the reporting and forecasting reconstruction.
+ * Synthetic data for the reporting reconstruction.
  *
  * Every number, site, group and trend below is fabricated for this portfolio.
  * Labels are deliberately generic (Site A, Group A) rather than realistic place
@@ -19,11 +19,6 @@ export type BiChart =
       unit: string
       series: [string, string]
       points: { label: string; a: number; b: number }[]
-    }
-  | {
-      kind: 'forecast'
-      unit: string
-      points: { label: string; value: number; projected?: boolean }[]
     }
 
 export type BiView = {
@@ -77,29 +72,6 @@ export const biViews: BiView[] = [
         { label: 'Group D', a: 134, b: 129 },
         { label: 'Group E', a: 171, b: 140 },
         { label: 'Group F', a: 88, b: 94 },
-      ],
-    },
-  },
-  {
-    id: 'forecast',
-    question: 'What does demand look like next quarter if the trend holds?',
-    answer:
-      'The projection continues upward into the next three months, so the replenishment plan is built against the projected figures rather than the current stock position alone.',
-    method:
-      'Historical sales for the product group are used to project the next three months, and the projection is read next to current stock cover when planning purchase orders.',
-    chart: {
-      kind: 'forecast',
-      unit: 'units per month',
-      points: [
-        { label: 'Sep', value: 310 },
-        { label: 'Oct', value: 338 },
-        { label: 'Nov', value: 352 },
-        { label: 'Dec', value: 301 },
-        { label: 'Jan', value: 364 },
-        { label: 'Feb', value: 389 },
-        { label: 'Mar', value: 402, projected: true },
-        { label: 'Apr', value: 418, projected: true },
-        { label: 'May', value: 431, projected: true },
       ],
     },
   },

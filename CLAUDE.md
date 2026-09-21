@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run build`: production build (run before finishing significant work)
 - `npm run lint`: ESLint via `eslint-config-next` (run before finishing significant work)
 - `npm start`: run the production build
-- `npm run cv`: regenerate `public/Kayden-Pellegrini-CV-2026.pdf` from `src/data/cv/profile.ts`
+- `npm run cv`: rebuild `public/Kayden-Pellegrini-CV-2026.pdf` from `src/data/cv/profile.ts`. The served CV is currently supplied by hand, and this replaces it (see below)
 
 No test runner is configured. `next.config.ts` pins `turbopack.root` to this directory because unrelated lockfiles sit in parent folders; without it Turbopack infers the wrong workspace root and dependency resolution fails in dev.
 
@@ -38,7 +38,7 @@ The site and the CV share facts but deliberately not wording. A reader who alrea
 - `src/data/site/snippets.ts`: code excerpts copied verbatim from the public repositories and pinned to a commit. Never edit the code by hand; copy new lines and update the commit together.
 - `src/data/showcase/projects.ts`: Build Lab case studies. Each answers the same six questions (`CaseStudy`) and picks one `display` mode rendered by `src/components/portfolio/showcase/`.
 
-`scripts/generate-cv.mjs` builds the PDF with `scripts/pdf-writer.mjs`. The brief fixes the typeface as Calibri or a similar humanist sans, so the generator embeds a subset of Calibri from the Windows fonts folder and refuses to build rather than substitute anything else. On another machine, set `CV_FONT_REGULAR` and `CV_FONT_BOLD` to a metric-compatible humanist sans such as Carlito. Font files are never copied into the repo. The CV must stay ATS readable: single column, real text with a ToUnicode map, no tables, no images, contact details in the body. Run `npm run cv` after editing `profile.ts`.
+`scripts/generate-cv.mjs` builds the PDF with `scripts/pdf-writer.mjs`. The brief fixes the typeface as Calibri or a similar humanist sans, so the generator embeds a subset of Calibri from the Windows fonts folder and refuses to build rather than substitute anything else. On another machine, set `CV_FONT_REGULAR` and `CV_FONT_BOLD` to a metric-compatible humanist sans such as Carlito. Font files are never copied into the repo. The CV must stay ATS readable: single column, real text with a ToUnicode map, no tables, no images, contact details in the body. The CV currently served is a finished PDF supplied by hand (set in Carlito), not the generator's output. Keep the CV wording in `profile.ts` in step with it, and do not run `npm run cv` unless the supplied PDF is meant to be replaced by a generated one.
 
 ### Live build status
 

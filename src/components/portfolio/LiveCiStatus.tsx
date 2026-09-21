@@ -1,4 +1,4 @@
-import { CI_REPO, getCiStatus } from '@/lib/githubCiStatus'
+import { CI_ACTIONS_URL, CI_REPO, getCiStatus } from '@/lib/githubCiStatus'
 import styles from '@/app/page.module.css'
 
 const formatDate = (iso: string) =>
@@ -48,7 +48,7 @@ export default async function LiveCiStatus() {
     <p className={styles.ciStatus}>
       <a
         className={`${styles.ciChip} ${passing ? styles.ciPassing : styles.ciFailing}`}
-        href={status.runUrl}
+        href={CI_ACTIONS_URL}
         target="_blank"
         rel="noopener noreferrer"
       >

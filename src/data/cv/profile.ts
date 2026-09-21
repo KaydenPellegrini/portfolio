@@ -12,9 +12,12 @@
  *   something new on the site.
  *
  * scripts/generate-cv.mjs transpiles this file on its own, so it must not
- * import anything. After editing, run:
+ * import anything.
  *
- *   npm run cv
+ * The CV served from public/ is currently a finished PDF supplied by hand, and
+ * the CV wording below is kept in step with it. `npm run cv` rebuilds the PDF
+ * from this file and would replace the supplied one, so only run it to switch
+ * back to the generated CV on purpose.
  *
  * Every claim and figure in here is real. Do not add one that is not.
  */
@@ -130,11 +133,11 @@ export const experience: Role[] = [
     bullets: [
       {
         lead: 'Own the operational data model in Dataverse',
-        rest: ', including the serial level traceability linking inventory records to purchase order lines and their actual cost.',
+        rest: ', including migrating purchase orders from comma-separated product strings to a one-row-per-unit line model, giving serial level traceability from each inventory record back to its purchase order line and landed cost.',
       },
       {
         lead: 'Rebuilt landed cost and gross margin from source transactions',
-        rest: ', reconstructing cost from supplier price, actual exchange rate, freight, customs and bank charges rather than list price or valuation figures, giving the business its first defensible margin figure by product.',
+        rest: ', reconstructing cost from supplier price and actual exchange rate, with customs, freight and bank charges allocated to each unit by weighted value share, so margin by product is measured against real cost rather than list price or valuation figures.',
       },
       {
         lead: 'Reconciled a 6,984 line purchases export across 145 suppliers',
@@ -165,8 +168,12 @@ export const experience: Role[] = [
         rest: ' for procurement, inventory, stock movement, stocktaking and receiving in Power Apps and Dataverse, published behind Cloudflare Access and Microsoft Entra.',
       },
       {
+        lead: 'Built GS1 barcode receiving in Power Apps',
+        rest: ' that parses GTIN, expiry and lot from scanned codes, matches each unit against the expected purchase order lines, and writes serials back to the order and into inventory.',
+      },
+      {
         lead: 'Build Power BI reporting',
-        rest: ' across sales, inventory, stock risk, sales activity, locations and product groups, with forecasting and comparative analysis from historical company data.',
+        rest: ' across sales, inventory, stock risk, locations and product groups, including actuals against target on a March financial year with drill-down from month to day.',
       },
       {
         lead: 'Apply data quality controls as standard practice',
@@ -216,7 +223,7 @@ export const cvProfile = [
 export const cvSkills: SkillLine[] = [
   {
     label: 'Data engineering',
-    items: ['SQL', 'Python', 'dbt', 'DuckDB', 'ETL', 'data modelling', 'data quality testing', 'reconciliation', 'forecasting', 'Git', 'GitHub Actions', 'CI/CD'],
+    items: ['SQL', 'Python', 'dbt', 'DuckDB', 'ETL', 'data modelling', 'data quality testing', 'reconciliation', 'Git', 'GitHub Actions', 'CI/CD'],
   },
   {
     label: 'Power Platform and BI',
@@ -264,5 +271,5 @@ export const cvSelectedWork: SelectedWork[] = [
   },
 ]
 
-/** Path of the generated CV in public/. The site's download links point here. */
+/** File name of the CV in public/. The site's download links point here. */
 export const cvFileName = 'Kayden-Pellegrini-CV-2026.pdf'

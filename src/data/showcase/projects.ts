@@ -78,6 +78,12 @@ export type ShowcaseProject = {
   title: string
   /** One-line hook shown on the card. */
   summary: string
+  /**
+   * Professional work only: the "My part" and "Outcome" lines on the card,
+   * drafted from the CV bullets. Leave `outcome` out when the CV does not
+   * support one, and the card shows TBC rather than an invented result.
+   */
+  cardLines?: { part: string; outcome?: string }
   stack: string[]
   year: string
   /** Short tag shown as the card's mode badge, e.g. "Interactive demo". */
@@ -233,8 +239,13 @@ UNRESOLVED-OK   correctly left open and flagged, not silently dropped`,
     title: 'RFID Stocktake and Inventory System',
     summary:
       'Handheld RFID scanning into Power Apps and Dataverse, with confirmed, missing and unexpected stock reconciled in one pass.',
+    cardLines: {
+      part: 'Built it end to end, and wrote the native iOS capture app in Swift.',
+      outcome:
+        'Stock reconciled in a single pass across three provinces, and a 30 item scan cut from minutes to under 15 seconds.',
+    },
     stack: ['Power Apps', 'Dataverse', 'Power Automate', 'RFID scanners', 'HTML reports'],
-    year: '2026 to present',
+    year: '2024 to present',
     badge: 'Interactive reconstruction',
     category: 'professional',
     context: 'Virtumed (Pty) Ltd',
@@ -256,11 +267,14 @@ UNRESOLVED-OK   correctly left open and flagged, not silently dropped`,
   },
   {
     id: 'business-intelligence',
-    title: 'Business Intelligence and Forecasting',
+    title: 'Business Intelligence and Reporting',
     summary:
-      'Power BI reporting across sales, inventory, stock risk, locations and product groups, with forecasting from historical data.',
+      'Power BI reporting across sales, inventory, stock risk, locations and product groups, including actuals against target on a March financial year with drill-down from month to day.',
+    cardLines: {
+      part: 'Build the Power BI reporting.',
+    },
     stack: ['Power BI', 'DAX', 'Excel', 'SQL', 'Data modelling'],
-    year: '2025 to present',
+    year: '2024 to present',
     badge: 'Interactive reconstruction',
     category: 'professional',
     context: 'Virtumed (Pty) Ltd',
@@ -268,12 +282,12 @@ UNRESOLVED-OK   correctly left open and flagged, not silently dropped`,
       problem:
         'Sales and stock information sat in separate places. Answering a question like which locations are carrying stock risk, or how a product group is tracking against the same period last year, meant pulling numbers together by hand each time it was asked.',
       built:
-        'A set of Power BI reports covering sales activity, inventory, stock oversight, locations and product groups, with comparative reporting for management and board review. Forecasting is built on historical company information so expected demand can be compared against current stock positions.',
+        'A set of Power BI reports covering sales activity, inventory, stock oversight, locations and product groups, with comparative reporting for management and board review. Actuals are reported against target on a March financial year, with drill-down from month to day.',
       technology: 'Power BI, DAX, Excel, SQL, data modelling, and business system data for validation and reconciliation.',
       ownership:
-        'I built the reports: the data model, the DAX measures, the comparative and forecasting logic, and the report layouts used for management and board reporting. I also do the validation and reconciliation work behind them, checking report figures against source business system and Excel data.',
+        'I built the reports: the data model, the DAX measures, the comparative logic, and the report layouts used for management and board reporting. I also do the validation and reconciliation work behind them, checking report figures against source business system and Excel data.',
       outcome:
-        'The recurring questions have a report that answers them, so sales activity, stock risk and location or group comparisons can be reviewed directly rather than rebuilt each time. Forecasting from historical data is used alongside current stock positions when planning replenishment.',
+        'The recurring questions have a report that answers them, so sales activity, stock risk and location or group comparisons can be reviewed directly rather than rebuilt each time.',
       sanitised:
         'The dashboard on this page is a reconstruction using entirely fabricated data. Every figure, product group, location and trend is invented. No real sales, stock, customer or financial information from any employer is shown here.',
     },
@@ -284,6 +298,10 @@ UNRESOLVED-OK   correctly left open and flagged, not silently dropped`,
     title: 'Sage and Print Automation',
     summary:
       'Power Automate moving operational delivery information into Sage Accounting and out to a physical printer through PrintNode.',
+    cardLines: {
+      part:
+        'Design and maintain the Sage data flows, including the PrintNode integration that processes and prints delivery notes.',
+    },
     stack: ['Power Automate', 'Sage Accounting API', 'PrintNode API', 'REST', 'JSON'],
     year: '2026',
     badge: 'Architecture walkthrough',
@@ -369,6 +387,10 @@ UNRESOLVED-OK   correctly left open and flagged, not silently dropped`,
     title: 'Secure Internal Operations Tools',
     summary:
       'Internal web pages for stock movement, receiving and business workflows, published behind Cloudflare Access and Microsoft Entra.',
+    cardLines: {
+      part: 'Build the internal applications and publish them behind Cloudflare Access and Microsoft Entra.',
+      outcome: 'Operations runs on them for procurement, inventory, stock movement, stocktaking and receiving.',
+    },
     stack: ['HTML', 'Cloudflare Access', 'Cloudflare Zero Trust', 'Microsoft Entra ID', 'Dataverse'],
     year: '2026',
     badge: 'Architecture walkthrough',
@@ -418,6 +440,11 @@ UNRESOLVED-OK   correctly left open and flagged, not silently dropped`,
     title: 'Cross Site Medical Broadcast',
     summary:
       'Low latency audiovisual communication between doctors at separate clinical sites during medical cases.',
+    cardLines: {
+      part:
+        'Technical lead, provisioning and running the AWS EC2 relay alongside vMix production, NDI and SRT transport, and network design.',
+      outcome: 'Used during live clinical cases, linking the sites with low latency.',
+    },
     stack: ['Peplink', 'AWS', 'vMix', 'NDI', 'PTZ cameras', 'Networking'],
     year: '2025',
     badge: 'Technical case study',
