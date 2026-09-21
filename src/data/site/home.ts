@@ -60,7 +60,7 @@ export const caseStudies: CaseStudy[] = [
       'Every inventory record traces back to the purchase order line that paid for it, so any margin figure can be followed to its source. The logic runs through a mix of Dataverse and dbt models, with tests written to fail the build when a number stops reconciling. A figure that cannot be defended stops there instead of reaching a report.',
     ],
     changed: [
-      'The business has its first defensible margin figure by product. Defensible is the point: every number can be traced back to the transactions that produced it.',
+      'Margin by product is measured against real cost rather than list price or valuation figures, and any figure can be followed back to the transactions that produced it.',
     ],
     evidence: {
       snippet: fanoutTest,

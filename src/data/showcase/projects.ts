@@ -81,7 +81,7 @@ export type ShowcaseProject = {
   /**
    * Professional work only: the "My part" and "Outcome" lines on the card,
    * drafted from the CV bullets. Leave `outcome` out when the CV does not
-   * support one, and the card shows TBC rather than an invented result.
+   * support one, and the card shows no outcome rather than an invented one.
    */
   cardLines?: { part: string; outcome?: string }
   stack: string[]

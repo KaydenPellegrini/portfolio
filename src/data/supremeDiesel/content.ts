@@ -1,5 +1,5 @@
 /**
- * Supreme Diesel — page content.
+ * Supreme Diesel: page content.
  *
  * All copy, imagery paths and contact details for the public `/supremediesel`
  * page live here so text can be edited without touching layout (same convention
@@ -125,7 +125,7 @@ export const directors: Director[] = [
 ]
 
 /**
- * Contact — static panel, no backend. Numbers are formatted for display and for
+ * Contact: static panel, no backend. Numbers are formatted for display and for
  * `tel:` / `wa.me` links (E.164, South Africa +27).
  */
 export const contact = {
