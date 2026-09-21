@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import TronGrid from './TronGrid'
 
-// R3F is client-only — never let it touch SSR.
+// R3F is client-only. Never let it touch SSR.
 const HeroCore = dynamic(() => import('./HeroCore'), { ssr: false })
 
 function supportsWebGL() {
@@ -24,7 +24,7 @@ function supportsWebGL() {
  *  - small viewport / no WebGL  -> TronGrid alone (reliable, cheap)
  *  - otherwise                  -> TronGrid backdrop + 3D core floating above it
  * Reduced-motion is handled inside HeroCore (renders a still frame), so the 3D
- * still shows for those users — just without animation.
+ * still shows for those users, just without animation.
  */
 export default function HeroVisual() {
   const [use3D, setUse3D] = useState(false)

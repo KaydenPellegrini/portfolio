@@ -84,7 +84,7 @@ export default function BuildSimulation({ steps, language = 'tsx' }: Props) {
     <div className={styles.build}>
       <div className={styles.buildControls}>
         <button type="button" className={styles.buildBtn} onClick={() => setPlayId((n) => n + 1)}>
-          {done ? '↻ Replay build' : '↻ Restart'}
+          {done ? 'Replay build' : 'Restart'}
         </button>
         <span className={styles.buildProgress}>
           {revealed}/{steps.length} blocks assembled

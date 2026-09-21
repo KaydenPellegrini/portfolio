@@ -39,7 +39,7 @@ export default function ShowcasePage() {
     <main className={styles.page}>
       <div className={styles.inner}>
         <Link href="/" className={styles.backLink}>
-          ← Back to portfolio
+          Back to portfolio
         </Link>
 
         <header className={styles.header}>

@@ -1,5 +1,5 @@
 /**
- * Showcase data — the single file to edit when adding work.
+ * Showcase data. The single file to edit when adding work.
  *
  * Every project answers the same six questions (see `CaseStudy`) so a recruiter
  * can understand it from the text alone, without touching an interactive panel.

@@ -95,7 +95,7 @@ export default function RfidStocktake() {
 
       <div className={styles.demoControls}>
         <button type="button" className={styles.buildBtn} onClick={() => setProcessed(0)}>
-          {done ? '↻ Run the count again' : '↻ Restart count'}
+          {done ? 'Run the count again' : 'Restart count'}
         </button>
         <span className={styles.buildProgress}>
           {processed}/{scanStream.length} tags read

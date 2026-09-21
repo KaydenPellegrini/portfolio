@@ -248,8 +248,23 @@ export default function TronGrid() {
     // single frame instead of animating, and with no cursor parallax.
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 
+    // Only animate while the hero is on screen and the tab is visible. Someone
+    // scrolling down to read the case studies on a phone should not be paying
+    // for a canvas they can no longer see.
+    let onScreen = true
+    const shouldAnimate = () => onScreen && document.visibilityState === 'visible' && !motionQuery.matches
+
+    const pause = () => window.cancelAnimationFrame(animationFrame)
+
+    const resume = () => {
+      if (!shouldAnimate()) return
+      pause()
+      lastFrame = performance.now()
+      loop()
+    }
+
     const start = () => {
-      window.cancelAnimationFrame(animationFrame)
+      pause()
       canvas.removeEventListener('pointermove', onPointerMove)
       resize()
       if (motionQuery.matches) {
@@ -258,18 +273,29 @@ export default function TronGrid() {
         return
       }
       canvas.addEventListener('pointermove', onPointerMove)
-      lastFrame = performance.now()
-      loop()
+      if (shouldAnimate()) resume()
+      else renderFrame(0)
     }
 
+    const observer = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting
+      if (onScreen) resume()
+      else pause()
+    })
+    const onVisibilityChange = () => (document.visibilityState === 'visible' ? resume() : pause())
+
     start()
+    observer.observe(canvas)
     window.addEventListener('resize', start)
     motionQuery.addEventListener('change', start)
+    document.addEventListener('visibilitychange', onVisibilityChange)
 
     return () => {
-      window.cancelAnimationFrame(animationFrame)
+      pause()
+      observer.disconnect()
       window.removeEventListener('resize', start)
       motionQuery.removeEventListener('change', start)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
       canvas.removeEventListener('pointermove', onPointerMove)
     }
   }, [])

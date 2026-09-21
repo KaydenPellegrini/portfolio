@@ -37,7 +37,7 @@ export default function LiveEmbed({ url, title }: Props) {
         target={isExternal ? '_blank' : undefined}
         rel={isExternal ? 'noopener noreferrer' : undefined}
       >
-        Open in a new tab ↗
+        Open in a new tab
       </a>
     </div>
   )

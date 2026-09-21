@@ -1,9 +1,10 @@
 /**
  * Synthetic data for the reporting and forecasting reconstruction.
  *
- * Every number, location, product group, representative and trend below is
- * fabricated for this portfolio. The point of the panel is the analytical
- * question each view answers, not the values themselves.
+ * Every number, site, group and trend below is fabricated for this portfolio.
+ * Labels are deliberately generic (Site A, Group A) rather than realistic place
+ * or product names, so nothing can be read as describing a real business. The
+ * point of the panel is the analytical question each view answers.
  */
 
 export type BiChart =
@@ -39,22 +40,22 @@ export type BiView = {
 export const biViews: BiView[] = [
   {
     id: 'stock-risk',
-    question: 'Which locations are carrying stock risk?',
+    question: 'Which sites are carrying stock risk?',
     answer:
-      'Two locations are below the cover threshold. Northgate has four days of cover and Riverside has six, so both need replenishment before the others are looked at.',
+      'Two sites are below the cover threshold. Site A has four days of cover and Site B has six, so both need replenishment before the others are looked at.',
     method:
-      'Stock on hand per location is measured against recent consumption to give days of cover, and anything under the threshold is flagged for replenishment.',
+      'Stock on hand per site is measured against recent consumption to give days of cover, and anything under the threshold is flagged for replenishment.',
     chart: {
       kind: 'bars',
       unit: 'days of cover',
       threshold: { value: 10, label: 'Replenishment threshold' },
       points: [
-        { label: 'Northgate', value: 4 },
-        { label: 'Riverside', value: 6 },
-        { label: 'Central', value: 12 },
-        { label: 'Eastvale', value: 17 },
-        { label: 'Southpoint', value: 21 },
-        { label: 'Westmead', value: 26 },
+        { label: 'Site A', value: 4 },
+        { label: 'Site B', value: 6 },
+        { label: 'Site C', value: 12 },
+        { label: 'Site D', value: 17 },
+        { label: 'Site E', value: 21 },
+        { label: 'Site F', value: 26 },
       ],
     },
   },
@@ -62,7 +63,7 @@ export const biViews: BiView[] = [
     id: 'sales-activity',
     question: 'How is sales activity tracking against the same period last year?',
     answer:
-      'Four of the six groups are ahead of last year. Sheaths are the ones to look at, down against a strong prior period, while stents have grown the most in absolute terms.',
+      'Four of the six groups are ahead of last year. Group C is the one to look at, down against a strong prior period, while Group E has grown the most in absolute terms.',
     method:
       'Invoiced units are grouped by product group and compared against the matching period in the previous year, so a group is read against its own history rather than against the overall average.',
     chart: {
@@ -70,12 +71,12 @@ export const biViews: BiView[] = [
       unit: 'units invoiced',
       series: ['This year', 'Last year'],
       points: [
-        { label: 'Catheters', a: 148, b: 132 },
-        { label: 'Guide wires', a: 121, b: 118 },
-        { label: 'Sheaths', a: 96, b: 127 },
-        { label: 'Balloons', a: 134, b: 129 },
-        { label: 'Stents', a: 171, b: 140 },
-        { label: 'Accessories', a: 88, b: 94 },
+        { label: 'Group A', a: 148, b: 132 },
+        { label: 'Group B', a: 121, b: 118 },
+        { label: 'Group C', a: 96, b: 127 },
+        { label: 'Group D', a: 134, b: 129 },
+        { label: 'Group E', a: 171, b: 140 },
+        { label: 'Group F', a: 88, b: 94 },
       ],
     },
   },
