@@ -544,31 +544,6 @@ UNRESOLVED-OK   correctly left open and flagged, not silently dropped`,
     },
     display: { kind: 'none' },
   },
-  {
-    id: 'escape-room-ops',
-    title: 'Escape Room Ops Board',
-    summary: 'A personal concept for a live room status board, drawn from managing escape rooms.',
-    stack: ['React', 'TypeScript', 'Vite', 'CSS'],
-    year: '2021',
-    badge: 'Personal concept',
-    category: 'personal',
-    case: {
-      problem:
-        'Running several escape rooms at once meant tracking bookings, resets and technical faults from memory and a paper diary during the busiest hours of the night.',
-      built:
-        'A design concept for an operations board where each room is a tile showing the current session, time remaining, reset state and any fault that has been flagged.',
-      technology: 'React, TypeScript, Vite and CSS.',
-      ownership: 'The concept and the design are mine, based on the four years I spent managing the rooms.',
-      outcome:
-        'A personal concept rather than a deployed system. It is included because the problem it addresses comes from real operational experience.',
-      sanitised:
-        'This is a concept and a personal reconstruction. It was never built for or used by an employer, and the screens shown are mockups with invented bookings and room names.',
-    },
-    display: {
-      kind: 'case',
-      gallery: ['/showcase/ops-board-1.svg', '/showcase/ops-board-2.svg', '/showcase/ops-board-3.svg'],
-    },
-  },
 ]
 
 export const openSourceProjects = showcaseProjects.filter((project) => project.category === 'open-source')
