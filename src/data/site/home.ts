@@ -153,6 +153,6 @@ export const skillsGrid: { label: string; items: string[] }[] = [
 export const timelineNotes: Record<string, string> = {
   virtumed: 'Data model, integration, reporting, apps, hardware and AI tooling for a medical device distributor.',
   'hashtag-escape':
-    'Ran daily operations and bookings, and maintained and troubleshot the room equipment, control software and technical systems, diagnosing faults between live sessions.',
+    'Ran daily operations and bookings, and maintained and troubleshot the room equipment, control software and technical systems, diagnosing faults between live sessions. Synced bookings through the Acuity API.',
   'fat-ginger': 'Customer service and floor operations in a high volume restaurant.',
 }

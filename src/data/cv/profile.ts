@@ -194,7 +194,7 @@ export const experience: Role[] = [
     period: 'February 2022 to March 2024',
     bullets: [
       {
-        rest: 'Ran daily operations and bookings, and maintained and troubleshot the room equipment, control software and technical systems, diagnosing faults between live sessions.',
+        rest: 'Ran daily operations and bookings, and maintained and troubleshot the room equipment, control software and technical systems, diagnosing faults between live sessions. Synced bookings through the Acuity API.',
       },
     ],
   },
