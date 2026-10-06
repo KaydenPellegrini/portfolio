@@ -28,7 +28,7 @@ export default function Home() {
         <HeroVisual />
         <div className={styles.heroContent}>
           <Image
-            src="/profile.webp"
+            src="/profile-2026.webp"
             alt="Kayden Pellegrini"
             width={260}
             height={300}
