@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Standalone static page, not part of the app source.
+    "public/fire-control/**",
   ]),
 ]);
 

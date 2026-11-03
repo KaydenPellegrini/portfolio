@@ -54,7 +54,8 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     {
-      source: '/((?!_next/static|_next/image|favicon.ico).*)',
+      // fire-control is a static page with its own policy in next.config.ts
+      source: '/((?!_next/static|_next/image|favicon.ico|fire-control).*)',
       missing: [
         { type: 'header', key: 'next-router-prefetch' },
         { type: 'header', key: 'purpose', value: 'prefetch' },
