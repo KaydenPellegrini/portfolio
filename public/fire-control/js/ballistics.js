@@ -37,3 +37,6 @@ function metresPerMil(distance, profile) {
 // Expected fall of shot for static guns, in seconds. Community reports put it
 // at about 24 s (estimates range 20 to 26 s); no current per-range curve exists.
 const FLIGHT_ESTIMATE = { default: 24, min: 10, max: 40 }
+
+// Static gun shell capacity (Patch 19.1).
+const AMMO_CAPS = { he: 50, smoke: 35 }

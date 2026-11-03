@@ -21,6 +21,21 @@
       <div class="header-note"><span class="live-dot"></span>Field calculator <span class="version">/ Update 21</span></div>
     </header>
 
+    <div class="crew-bar">
+      <div class="crew-group" role="group" aria-label="Who is on this device">
+        <span class="crew-label">Crew</span>
+        <button type="button" data-crew="knight">DarkKnight</button>
+        <button type="button" data-crew="pickle">PicklePoes</button>
+        <button type="button" data-crew="pansy">Pansy</button>
+      </div>
+      <div class="crew-group" role="group" aria-label="Seat on the gun">
+        <span class="crew-label">Seat</span>
+        <button type="button" data-seat="gunner">Gunner</button>
+        <button type="button" data-seat="loader">Loader</button>
+      </div>
+      <p class="crew-hint" id="seatHint"></p>
+    </div>
+
     <main>
       <aside>
         <div class="section-heading"><span>01 / Setup</span></div>
@@ -141,9 +156,9 @@
             <strong id="status">Awaiting target</strong>
             <small id="gunNote"></small>
           </div>
-          <div class="metric"><span>Distance</span><strong id="distance">-</strong><small>Metres</small></div>
-          <div class="metric"><span>Azimuth</span><strong id="bearing">-</strong><small>Degrees</small></div>
-          <div class="metric highlight"><span>Elevation</span><strong id="mil">-</strong><small id="milNote">MIL</small></div>
+          <div class="metric metric-distance"><span>Distance</span><strong id="distance">-</strong><small>Metres</small></div>
+          <div class="metric metric-azimuth"><span>Azimuth</span><strong id="bearing">-</strong><small id="bearingNote">Degrees</small></div>
+          <div class="metric metric-elevation"><span>Elevation</span><strong id="mil">-</strong><small id="milNote">MIL</small></div>
           <div class="actions">
             <div id="timerBox" class="timer-box">
               <button id="fire" class="fire" type="button" disabled>Fire</button>
@@ -151,6 +166,23 @@
               <label class="flight">Flight <input id="flight" type="number" inputmode="numeric" step="1" aria-label="Flight time estimate in seconds" /> s</label>
             </div>
             <button id="clear" class="clear" type="button">Clear target</button>
+          </div>
+          <div class="ammo" id="ammo">
+            <span class="ammo-title">Gun stock</span>
+            <div class="ammo-row">
+              <span class="ammo-name">HE</span>
+              <button type="button" data-ammo="he" data-step="-1" aria-label="One HE shell used">−</button>
+              <strong id="ammoHe">50</strong><small>/ 50</small>
+              <button type="button" data-ammo="he" data-step="1" aria-label="One HE shell added">+</button>
+            </div>
+            <div class="ammo-row">
+              <span class="ammo-name">Smoke</span>
+              <button type="button" data-ammo="smoke" data-step="-1" aria-label="One smoke shell used">−</button>
+              <strong id="ammoSmoke">35</strong><small>/ 35</small>
+              <button type="button" data-ammo="smoke" data-step="1" aria-label="One smoke shell added">+</button>
+            </div>
+            <button type="button" id="ammoReset" class="clear">Refilled</button>
+            <small class="ammo-note">Counted on this device only. Match it to the gun.</small>
           </div>
         </div>
       </section>

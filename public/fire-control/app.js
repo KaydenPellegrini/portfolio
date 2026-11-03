@@ -343,7 +343,7 @@ function init() {
     el('gunNote').classList.toggle('warning', warning)
 
     const step = !spaMode && result?.mil != null ? metresPerMil(result.distance, state.profile) : null
-    el('milNote').textContent = step ? `MIL · 1 MIL ≈ ${step.toFixed(1)} m` : 'MIL'
+    el('milNote').textContent = step ? `MIL\n1 MIL ≈ ${step.toFixed(1)} m` : 'MIL'
 
     const manual = el('manualDistance').value
     const manualMil = manual === '' ? null : milFor(Number(manual), state.profile)
@@ -676,6 +676,69 @@ function init() {
   }
   // Timed from the clock, so the countdown stays right after the tab sleeps.
   setInterval(() => state.shot && renderTimer(), 250)
+
+  // ---- Crew, seat and gun stock ----------------------------------------------
+  // Each device remembers who is holding it and which seat they are in. The
+  // crew member sets the theme; the seat decides which numbers lead.
+
+  const crew = {
+    member: store.get('crew', null),
+    seat: store.get('seat', 'gunner'),
+    ammo: store.get('ammo', { he: AMMO_CAPS.he, smoke: AMMO_CAPS.smoke }),
+  }
+  const SEAT_HINTS = {
+    gunner: 'Gunner: set elevation and fine azimuth.',
+    loader: 'Loader: reload and swing the gun when the azimuth is past the gunner’s reach.',
+  }
+
+  function renderCrew() {
+    const root = document.documentElement
+    root.dataset.theme = crew.member || 'pickle'
+    root.dataset.seat = crew.seat
+    document.querySelectorAll('[data-crew]').forEach((b) => {
+      const on = b.dataset.crew === crew.member
+      b.classList.toggle('selected', on)
+      b.setAttribute('aria-pressed', String(on))
+    })
+    document.querySelectorAll('[data-seat]').forEach((b) => {
+      const on = b.dataset.seat === crew.seat
+      b.classList.toggle('selected', on)
+      b.setAttribute('aria-pressed', String(on))
+    })
+    el('seatHint').textContent = crew.member ? SEAT_HINTS[crew.seat] : 'Pick who is on this device.'
+    el('bearingNote').textContent = crew.seat === 'loader' ? 'Swing gun here' : 'Degrees'
+    el('ammoHe').textContent = crew.ammo.he
+    el('ammoSmoke').textContent = crew.ammo.smoke
+  }
+
+  document.querySelectorAll('[data-crew]').forEach((b) => {
+    b.onclick = () => {
+      crew.member = b.dataset.crew
+      store.set('crew', crew.member)
+      renderCrew()
+    }
+  })
+  document.querySelectorAll('[data-seat]').forEach((b) => {
+    b.onclick = () => {
+      crew.seat = b.dataset.seat
+      store.set('seat', crew.seat)
+      renderCrew()
+    }
+  })
+  document.querySelectorAll('[data-ammo]').forEach((b) => {
+    b.onclick = () => {
+      const kind = b.dataset.ammo
+      crew.ammo[kind] = Math.min(AMMO_CAPS[kind], Math.max(0, crew.ammo[kind] + Number(b.dataset.step)))
+      store.set('ammo', crew.ammo)
+      renderCrew()
+    }
+  })
+  el('ammoReset').onclick = () => {
+    crew.ammo = { he: AMMO_CAPS.he, smoke: AMMO_CAPS.smoke }
+    store.set('ammo', crew.ammo)
+    renderCrew()
+  }
+  renderCrew()
 
   const c = () => centre()
   el('zoomIn').onclick = () => zoomAt(1.25, c().x, c().y)
