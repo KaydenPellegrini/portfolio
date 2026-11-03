@@ -1,14 +1,118 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><base href="/fire-control/"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fire Control | HLL Artillery</title><link rel="stylesheet" href="style.css"></head>
-<body><header><div class="brand"><span class="brand-icon">✳</span><div><strong>FIRE CONTROL</strong><small>HELL LET LOOSE · ARTILLERY TOOL</small></div></div><div class="header-note"><span class="live-dot"></span> FIELD CALCULATOR <span class="version"> / UPDATE 21</span></div></header>
-<main><aside><div class="section-heading"><span>01 / SETUP</span><span>◈</span></div><h1>Get on target.</h1><p class="intro">Select your position, mark a target, and get your firing solution.</p>
-<label for="mapSelect">BATTLEFIELD</label><select id="mapSelect"></select>
-<label for="sideSelect">SIDE</label><div class="segmented"><button id="allies" class="selected">Allies</button><button id="axis">Axis</button></div>
-<label for="factionSelect">GUN PROFILE</label><select id="factionSelect"><option value="US">United States</option><option value="GER">Germany</option><option value="RUS">Soviet Union</option><option value="GB">Great Britain</option><option value="CAN">Canada</option></select>
-<label for="gunSelect">ARTILLERY POSITION</label><select id="gunSelect"></select><button id="custom" class="secondary">＋ &nbsp; Place custom gun</button><p id="modeHelp" class="help">Select a gun, then click the map to mark your target.</p>
-<div class="manual"><div class="section-heading"><span>QUICK CALCULATOR</span><span>↗</span></div><p>Already have a distance?</p><div class="manual-input"><input id="manualDistance" type="number" min="100" max="1600" placeholder="Distance in meters" aria-label="Manual distance in meters"><span id="manualResult">— MIL</span></div></div>
-<div class="footnote">Data based on <a href="https://github.com/l1tku/hll-arty-map-calculator" target="_blank" rel="noreferrer">l1tku’s calculator</a>. Map assets belong to their respective owners. <a href="README.txt">Notes & sources</a></div></aside>
-<section class="workspace"><div class="workspace-top"><div><div class="eyebrow">TACTICAL MAP <span>/</span> <span id="mapCode">CAR</span></div><h2 id="mapTitle">Carentan</h2></div><div class="map-tools"><button id="zoomOut" aria-label="Zoom out">−</button><button id="zoomReset" title="Reset zoom">100%</button><button id="zoomIn" aria-label="Zoom in">＋</button></div></div>
-<div class="map-viewport" id="viewport"><div class="map-stage" id="stage"><img id="mapImage" alt="Tactical battlefield map" draggable="false"><svg id="overlay" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-label="Map markers"></svg></div><div class="map-instruction" id="mapInstruction">＋ &nbsp; CLICK MAP TO SET TARGET</div><div class="north">N<br>↑</div></div>
-<div class="solution"><div class="solution-label"><span class="section-heading">02 / FIRING SOLUTION</span><strong id="status">AWAITING TARGET</strong><small>100–1,600 M EFFECTIVE RANGE</small></div><div class="metric"><span>DISTANCE</span><strong id="distance">—</strong><small>METERS</small></div><div class="metric"><span>AZIMUTH</span><strong id="bearing">—</strong><small>DEGREES</small></div><div class="metric highlight"><span>ELEVATION</span><strong id="mil">—</strong><small>MIL</small></div><button id="clear" class="clear">CLEAR TARGET ↗</button></div></section></main>
-<script src="js/maps.js"></script><script src="js/ballistics.js"></script><script src="app.js"></script></body></html>
+<!-- Calculation data adapted from MIT licensed code, see REFERENCE-LICENSE.txt -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <base href="/fire-control/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fire Control | HLL Artillery</title>
+    <meta name="description" content="Artillery calculator for Hell Let Loose: distance, azimuth and elevation for HQ and built guns on all 20 maps." />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">✳</span>
+        <div>
+          <strong>Fire Control</strong>
+          <small>Hell Let Loose · Artillery tool</small>
+        </div>
+      </div>
+      <div class="header-note"><span class="live-dot"></span>Field calculator <span class="version">/ Update 21</span></div>
+    </header>
+
+    <main>
+      <aside>
+        <div class="section-heading"><span>01 / Setup</span></div>
+        <h1>Get on target.</h1>
+        <p class="intro">Pick your map and side, choose your gun, then click the map to mark the target.</p>
+
+        <label for="mapSelect">Battlefield</label>
+        <select id="mapSelect"></select>
+
+        <span class="label" id="sideLabel">Side</span>
+        <div class="segmented" role="group" aria-labelledby="sideLabel">
+          <button id="allies" type="button">Allies<small id="alliesTeam"></small></button>
+          <button id="axis" type="button">Axis<small id="axisTeam"></small></button>
+        </div>
+
+        <label for="profileSelect">Gun profile</label>
+        <select id="profileSelect"></select>
+        <p class="help profile-help">Set from the map and side. Change it only if your gun differs.</p>
+
+        <label for="gunSelect">Gun position</label>
+        <select id="gunSelect"></select>
+        <button id="build" class="secondary" type="button">Place a built gun</button>
+        <p id="modeHelp" class="help"></p>
+
+        <label class="toggle"><input id="zones" type="checkbox" checked /> Show build zones</label>
+
+        <div class="manual">
+          <div class="section-heading"><span>Quick calculator</span></div>
+          <p>Already have a distance?</p>
+          <div class="manual-input">
+            <input id="manualDistance" type="number" min="100" max="1600" placeholder="Distance in metres" aria-label="Distance in metres" />
+            <span id="manualResult">- MIL</span>
+          </div>
+        </div>
+
+        <details class="notes">
+          <summary>Field notes</summary>
+          <ul>
+            <li>Static guns can be built anywhere in your first two sectors, not only at HQ. Uneven ground or cover can still block a spot.</li>
+            <li>Each team has one static gun at a time, at HQ or built.</li>
+            <li>The enemy build zone is where their gun can be. An HQ position is only a first guess.</li>
+            <li>In Offensive the attackers have no artillery squad, and Skirmish has none at all.</li>
+            <li>Solutions are estimates. Height differences and self-propelled artillery are not modelled.</li>
+          </ul>
+        </details>
+      </aside>
+
+      <section class="workspace">
+        <div class="workspace-top">
+          <div>
+            <div class="eyebrow">Tactical map <span>/</span> <span id="mapCode"></span></div>
+            <h2 id="mapTitle"></h2>
+          </div>
+          <div class="map-tools">
+            <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
+            <button id="zoomReset" type="button" title="Reset zoom">100%</button>
+            <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
+          </div>
+        </div>
+
+        <div class="legend" id="legend">
+          <span><i class="swatch own"></i>Your build zone</span>
+          <span><i class="swatch enemy"></i>Enemy build zone</span>
+        </div>
+
+        <div class="map-frame">
+          <div class="map-viewport" id="viewport">
+            <div class="map-stage" id="stage">
+              <img id="mapImage" alt="Tactical map of the selected battlefield" draggable="false" />
+              <svg id="overlay" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-label="Map markers"></svg>
+            </div>
+          </div>
+          <div class="map-instruction" id="mapInstruction"></div>
+          <div class="north" aria-label="North is up">N</div>
+        </div>
+
+        <div class="solution" aria-live="polite">
+          <div class="solution-label">
+            <span class="section-heading">02 / Firing solution</span>
+            <strong id="status">Awaiting target</strong>
+            <small id="gunNote"></small>
+          </div>
+          <div class="metric"><span>Distance</span><strong id="distance">-</strong><small>Metres</small></div>
+          <div class="metric"><span>Azimuth</span><strong id="bearing">-</strong><small>Degrees</small></div>
+          <div class="metric highlight"><span>Elevation</span><strong id="mil">-</strong><small>MIL</small></div>
+          <button id="clear" class="clear" type="button">Clear target</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/maps.js"></script>
+    <script src="js/ballistics.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,57 +1,26 @@
-const ARTY_DATA = {
-  US: {
-    minDist: 100, maxDist: 1600,
-    table: [
-      { dist: 100, mil: 978 }, { dist: 200, mil: 954 }, { dist: 300, mil: 930 },
-      { dist: 400, mil: 907 }, { dist: 500, mil: 883 }, { dist: 600, mil: 859 },
-      { dist: 700, mil: 836 }, { dist: 800, mil: 812 }, { dist: 900, mil: 788 },
-      { dist: 1000, mil: 764 }, { dist: 1100, mil: 741 }, { dist: 1200, mil: 717 },
-      { dist: 1300, mil: 693 }, { dist: 1400, mil: 670 }, { dist: 1500, mil: 646 },
-      { dist: 1600, mil: 622 }
-    ]
-  },
-  GER: {
-    minDist: 100, maxDist: 1600,
-    table: [
-      { dist: 100, mil: 978 }, { dist: 200, mil: 954 }, { dist: 300, mil: 930 },
-      { dist: 400, mil: 907 }, { dist: 500, mil: 883 }, { dist: 600, mil: 859 },
-      { dist: 700, mil: 836 }, { dist: 800, mil: 812 }, { dist: 900, mil: 788 },
-      { dist: 1000, mil: 764 }, { dist: 1100, mil: 741 }, { dist: 1200, mil: 717 },
-      { dist: 1300, mil: 693 }, { dist: 1400, mil: 670 }, { dist: 1500, mil: 646 },
-      { dist: 1600, mil: 622 }
-    ]
-  },
-  RUS: {
-    minDist: 100, maxDist: 1600,
-    table: [
-      { dist: 100, mil: 1120 }, { dist: 200, mil: 1099 }, { dist: 300, mil: 1077 },
-      { dist: 400, mil: 1056 }, { dist: 500, mil: 1035 }, { dist: 600, mil: 1013 },
-      { dist: 700, mil: 992 }, { dist: 800, mil: 971 }, { dist: 900, mil: 949 },
-      { dist: 1000, mil: 928 }, { dist: 1100, mil: 907 }, { dist: 1200, mil: 885 },
-      { dist: 1300, mil: 864 }, { dist: 1400, mil: 843 }, { dist: 1500, mil: 821 },
-      { dist: 1600, mil: 800 }
-    ]
-  },
-  GB: {
-    minDist: 100, maxDist: 1600,
-    table: [
-      { dist: 100, mil: 533 }, { dist: 200, mil: 516 }, { dist: 300, mil: 498 },
-      { dist: 400, mil: 480 }, { dist: 500, mil: 462 }, { dist: 600, mil: 444 },
-      { dist: 700, mil: 427 }, { dist: 800, mil: 409 }, { dist: 900, mil: 391 },
-      { dist: 1000, mil: 373 }, { dist: 1100, mil: 356 }, { dist: 1200, mil: 338 },
-      { dist: 1300, mil: 320 }, { dist: 1400, mil: 302 }, { dist: 1500, mil: 284 },
-      { dist: 1600, mil: 267 }
-    ]
-  },
-  CAN: {
-    minDist: 100, maxDist: 1600,
-    table: [
-      { dist: 100, mil: 533 }, { dist: 200, mil: 516 }, { dist: 300, mil: 498 },
-      { dist: 400, mil: 480 }, { dist: 500, mil: 462 }, { dist: 600, mil: 444 },
-      { dist: 700, mil: 427 }, { dist: 800, mil: 409 }, { dist: 900, mil: 391 },
-      { dist: 1000, mil: 373 }, { dist: 1100, mil: 356 }, { dist: 1200, mil: 338 },
-      { dist: 1300, mil: 320 }, { dist: 1400, mil: 302 }, { dist: 1500, mil: 284 },
-      { dist: 1600, mil: 267 }
-    ]
-  }
-};
+// Elevation in MIL at every 100 m from 100 m to 1600 m, per gun family.
+// Adapted from MIT licensed reference data, see REFERENCE-LICENSE.txt.
+const MIN_RANGE = 100
+const MAX_RANGE = 1600
+const RANGE_STEP = 100
+
+const MIL_TABLES = {
+  // US and German guns share one scale.
+  US: [978, 954, 930, 907, 883, 859, 836, 812, 788, 764, 741, 717, 693, 670, 646, 622],
+  GER: [978, 954, 930, 907, 883, 859, 836, 812, 788, 764, 741, 717, 693, 670, 646, 622],
+  RUS: [1120, 1099, 1077, 1056, 1035, 1013, 992, 971, 949, 928, 907, 885, 864, 843, 821, 800],
+  // British and Canadian guns share one scale.
+  GB: [533, 516, 498, 480, 462, 444, 427, 409, 391, 373, 356, 338, 320, 302, 284, 267],
+  CAN: [533, 516, 498, 480, 462, 444, 427, 409, 391, 373, 356, 338, 320, 302, 284, 267],
+}
+
+// Linear interpolation between the two nearest table entries, rounded to a
+// whole MIL. Returns null outside the gun's range.
+function milFor(distance, profile) {
+  const table = MIL_TABLES[profile]
+  if (!table || !Number.isFinite(distance) || distance < MIN_RANGE || distance > MAX_RANGE) return null
+  const index = Math.min(Math.floor((distance - MIN_RANGE) / RANGE_STEP), table.length - 2)
+  const near = MIN_RANGE + index * RANGE_STEP
+  const t = (distance - near) / RANGE_STEP
+  return Math.round(table[index] + (table[index + 1] - table[index]) * t)
+}
