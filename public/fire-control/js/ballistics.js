@@ -24,3 +24,16 @@ function milFor(distance, profile) {
   const t = (distance - near) / RANGE_STEP
   return Math.round(table[index] + (table[index + 1] - table[index]) * t)
 }
+
+// Ground distance covered by one MIL at this range, from the same table. Shows
+// how far a whole-MIL setting can sit from the exact distance.
+function metresPerMil(distance, profile) {
+  const table = MIL_TABLES[profile]
+  if (!table || !Number.isFinite(distance) || distance < MIN_RANGE || distance > MAX_RANGE) return null
+  const index = Math.min(Math.floor((distance - MIN_RANGE) / RANGE_STEP), table.length - 2)
+  return RANGE_STEP / (table[index] - table[index + 1])
+}
+
+// Expected fall of shot for static guns, in seconds. Community reports put it
+// at about 24 s (estimates range 20 to 26 s); no current per-range curve exists.
+const FLIGHT_ESTIMATE = { default: 24, min: 10, max: 40 }

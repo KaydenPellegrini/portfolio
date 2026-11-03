@@ -21,6 +21,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -190,6 +194,19 @@ summary:focus-visible {
   margin-bottom: 20px;
 }
 
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.note-box {
+  margin: -8px 0 20px;
+  padding: 10px 12px;
+  border-left: 2px solid #8fd3ff;
+  background: #142026;
+}
+
 .segmented button {
   flex: 1;
   min-height: 46px;
@@ -227,6 +244,7 @@ summary:focus-visible {
 }
 
 .secondary {
+  width: 100%;
   height: 39px;
   font-size: 11px;
   font-weight: 700;
@@ -364,6 +382,12 @@ h2 {
   border-left: 0;
 }
 
+.map-tools button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;
@@ -406,31 +430,53 @@ h2 {
   min-height: 0;
 }
 
+.swatch.garrison {
+  width: 10px;
+  background: #8fd3ff;
+  border-color: #0d2230;
+}
+
+.swatch.reach {
+  border-color: rgb(232 239 200 / 0.8);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+}
+
+/* The map is panned and zoomed by app.js with a transform, so touch gestures
+   are handled there rather than by the browser. */
 .map-viewport {
-  display: flex;
+  position: relative;
   flex: 1;
-  align-items: safe center;
-  justify-content: safe center;
-  min-height: 440px;
-  overflow: auto;
+  height: clamp(360px, calc(100vh - 330px), 1100px);
+  overflow: hidden;
   background: #0c100d;
   border: 1px solid #465044;
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.map-viewport:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .map-stage {
-  position: relative;
-  flex: none;
-  width: min(100%, calc(100vh - 330px));
-  aspect-ratio: 1;
-  cursor: crosshair;
-  touch-action: manipulation;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
 }
 
 .map-stage img {
   display: block;
   width: 100%;
   height: 100%;
-  user-select: none;
+  pointer-events: none;
 }
 
 .map-stage svg {
@@ -438,7 +484,37 @@ h2 {
   inset: 0;
   width: 100%;
   height: 100%;
-  overflow: visible;
+}
+
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--accent), var(--accent)) center / 2px 100% no-repeat,
+    linear-gradient(var(--accent), var(--accent)) center / 100% 2px no-repeat;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #0c100d;
+  mask: radial-gradient(circle, transparent 5px, #000 6px);
+}
+
+.crosshair-set {
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  min-height: 44px;
+  padding: 0 16px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 0;
+  font: 700 11px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .map-instruction,
@@ -514,6 +590,33 @@ h2 {
   pointer-events: none;
 }
 
+/* Radial range ring around the gun: 100 m to the gun's maximum. */
+.reach {
+  fill: rgb(232 239 200 / 0.08);
+  fill-rule: evenodd;
+  stroke: #f4f8de;
+  stroke-width: 2;
+  stroke-dasharray: 7 4;
+  pointer-events: none;
+}
+
+.garrison {
+  pointer-events: none;
+}
+
+.garrison rect {
+  fill: #8fd3ff;
+  stroke: #0d2230;
+  stroke-width: 2;
+}
+
+.garrison text {
+  fill: #0d2230;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
 .gun {
   cursor: pointer;
 }
@@ -524,10 +627,22 @@ h2 {
   stroke-width: 3;
 }
 
+/* A larger, invisible circle makes the marker easy to tap. */
+.gun circle.hit {
+  fill: transparent;
+  stroke: none;
+}
+
+.gun.candidate:not(.active) circle:not(.hit) {
+  stroke-dasharray: 3 3;
+}
+
 .gun text {
   fill: #fff;
-  font: bold 11px Inter, Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 700;
   text-anchor: middle;
+  pointer-events: none;
 }
 
 .gun.active circle,
@@ -586,6 +701,11 @@ h2 {
   font-size: 9px;
 }
 
+#milNote {
+  display: block;
+  margin-top: 4px;
+}
+
 .solution-label small.warning {
   color: var(--enemy);
 }
@@ -606,9 +726,80 @@ h2 {
   color: var(--accent);
 }
 
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 15px;
+}
+
+.timer-box {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.timer-box[hidden] {
+  display: none;
+}
+
+.fire {
+  grid-row: span 2;
+  min-width: 64px;
+  min-height: 44px;
+  background: var(--enemy);
+  color: #2a140a;
+  border: 0;
+  font: 700 12px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.fire:disabled {
+  background: #3a463b;
+  color: #7f8d80;
+  cursor: not-allowed;
+}
+
+.timer {
+  font: 600 10px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.timer.live {
+  color: var(--enemy);
+}
+
+.timer.done {
+  color: var(--accent);
+}
+
+.flight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 9px;
+}
+
+.flight input {
+  width: 52px;
+  height: 28px;
+  padding: 0 6px;
+  background: var(--field);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  font: 600 12px var(--mono);
+}
+
 .clear {
-  margin: 15px;
-  padding: 10px;
+  min-height: 36px;
+  padding: 8px 10px;
   white-space: nowrap;
   font: 600 9px var(--mono);
   letter-spacing: 0.08em;
@@ -639,8 +830,12 @@ h2 {
     border-bottom: 1px solid var(--line);
   }
 
-  .clear {
+  .actions {
     grid-column: span 3;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
   }
 }
 
@@ -674,11 +869,8 @@ h2 {
   }
 
   .map-viewport {
-    min-height: 0;
-  }
-
-  .map-stage {
-    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
   }
 
   /* Keep the answer on screen while tapping the map. */
@@ -702,7 +894,11 @@ h2 {
     font-size: 27px;
   }
 
-  .clear {
-    margin: 0 12px 10px;
+  .actions {
+    padding: 8px 12px;
+  }
+
+  .segmented button {
+    min-height: 44px;
   }
 }
