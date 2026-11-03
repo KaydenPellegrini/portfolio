@@ -6,41 +6,10 @@
   --display: 'Barlow Condensed', Impact, sans-serif;
 }
 
-/* ---- Crew themes ----
-   Each callsign gets its own palette. Pickle is the original field green. */
+/* ---- Theme: DarkKnight ----
+   Gotham night, black with signal yellow. */
 
-:root,
-[data-theme='pickle'] {
-  --bg: #111713;
-  --header: #151c17;
-  --panel: #18201b;
-  --field: #111713;
-  --chip: #283325;
-  --marker: #18211a;
-  --map-bg: #0c100d;
-  --map-chip: #111b15dc;
-  --solution-bg: #1a231c;
-  --solution-line: #39483a;
-  --frame: #465044;
-  --line: #344038;
-  --line-strong: #3b493e;
-  --button-line: #52614f;
-  --text: #f2f1e8;
-  --ink-bright: #e8efc8;
-  --ink-rgb: 232 239 200;
-  --soft: #b7c2b5;
-  --muted: #99a69a;
-  --dim: #68776a;
-  --accent: #d2e278;
-  --accent-rgb: 210 226 120;
-  --accent-ink: #1c2619;
-  --enemy: #ffb48d;
-  --enemy-rgb: 255 180 141;
-  --enemy-ink: #2a140a;
-}
-
-/* DarkKnight: Gotham night, black with signal yellow. */
-[data-theme='knight'] {
+:root {
   --bg: #0a0b0f;
   --header: #0d0e13;
   --panel: #111218;
@@ -67,36 +36,6 @@
   --enemy: #ff6b5b;
   --enemy-rgb: 255 107 91;
   --enemy-ink: #2b0905;
-}
-
-/* Pansy: violet petals with a gold centre. */
-[data-theme='pansy'] {
-  --bg: #15111c;
-  --header: #19141f;
-  --panel: #1d1726;
-  --field: #120e18;
-  --chip: #2f2340;
-  --marker: #1d1726;
-  --map-bg: #0d0a12;
-  --map-chip: #19141fe0;
-  --solution-bg: #1f1829;
-  --solution-line: #3b2f4d;
-  --frame: #4b3d60;
-  --line: #352a44;
-  --line-strong: #44365a;
-  --button-line: #5a4a73;
-  --text: #f6f1fb;
-  --ink-bright: #efe6fa;
-  --ink-rgb: 239 230 250;
-  --soft: #c9bcdc;
-  --muted: #a293b7;
-  --dim: #71638a;
-  --accent: #c9a2ff;
-  --accent-rgb: 201 162 255;
-  --accent-ink: #1e1030;
-  --enemy: #ffcf5c;
-  --enemy-rgb: 255 207 92;
-  --enemy-ink: #2b2005;
 }
 
 * {
@@ -276,11 +215,6 @@ summary:focus-visible {
   margin-bottom: 20px;
 }
 
-.pair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
 
 .note-box {
   margin: -8px 0 20px;
@@ -494,15 +428,6 @@ h2 {
   border: 1px solid;
 }
 
-.swatch.own {
-  background: rgb(var(--accent-rgb) / 0.25);
-  border-color: var(--accent);
-}
-
-.swatch.enemy {
-  background: repeating-linear-gradient(45deg, rgb(var(--enemy-rgb) / 0.45) 0 2px, transparent 2px 5px);
-  border-color: var(--enemy);
-}
 
 /* The frame holds the floating labels so they stay put while the map scrolls. */
 .map-frame {
@@ -641,29 +566,6 @@ h2 {
   vector-effect: non-scaling-stroke;
 }
 
-.zone {
-  pointer-events: none;
-}
-
-.zone.own {
-  fill: rgb(var(--accent-rgb) / 0.13);
-  stroke: rgb(var(--accent-rgb) / 0.6);
-  stroke-width: 1.5;
-}
-
-.zone.enemy {
-  fill: rgb(var(--enemy-rgb) / 0.1);
-  stroke: rgb(var(--enemy-rgb) / 0.55);
-  stroke-width: 1.5;
-  stroke-dasharray: 6 5;
-}
-
-.sector {
-  stroke: rgb(var(--ink-rgb) / 0.28);
-  stroke-width: 1;
-  stroke-dasharray: 3 6;
-  pointer-events: none;
-}
 
 .line-of-fire {
   stroke: var(--ink-bright);
@@ -789,9 +691,6 @@ h2 {
   white-space: pre-line;
 }
 
-.solution-label small.warning {
-  color: var(--enemy);
-}
 
 .metric span {
   display: block;
@@ -1006,6 +905,60 @@ h2 {
   font: 600 12px var(--mono);
 }
 
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.share {
+  min-height: 36px;
+  padding: 8px 12px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 0;
+  font: 700 9px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.share-status {
+  max-width: 260px;
+  color: var(--soft);
+  font-size: 10px;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.share-status:empty {
+  display: none;
+}
+
+.mission-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: rgb(var(--accent-rgb) / 0.12);
+  border: 1px solid var(--accent);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.mission-banner button {
+  min-width: 44px;
+  min-height: 36px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 0;
+  font: 700 11px var(--mono);
+  cursor: pointer;
+}
+
 .clear {
   min-height: 36px;
   padding: 8px 10px;
@@ -1076,6 +1029,22 @@ h2 {
   .ammo-title,
   .ammo-row {
     flex-basis: 100%;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .action-buttons,
+  .share-status {
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .action-buttons button {
+    flex: 1;
+    min-height: 44px;
   }
 
   .ammo-row strong {

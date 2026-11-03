@@ -3,9 +3,6 @@
 // metresPerMil and FLIGHT_ESTIMATE (js/ballistics.js) and SPA_VEHICLES (js/spa.js).
 
 const SVG_SIZE = 1000
-const SECTORS = 5
-// Static guns can be built in a team's first two sectors (Patch 19.1).
-const BUILD_DEPTH = 2 / SECTORS
 
 const PROFILE_NAMES = {
   US: 'United States',
@@ -46,26 +43,6 @@ function svgPerMetre(map) {
   return { x: SVG_SIZE / map.size[0], y: SVG_SIZE / map.size[1] }
 }
 
-function ownsLowEnd(map, side) {
-  return side === 'allies' ? map.front.alliesLow : !map.front.alliesLow
-}
-
-// How far a point sits from a side's own map edge, 0 at their HQ edge, 1 at the enemy's.
-function depth(map, side, point) {
-  const e = extent(map)
-  const fromLow =
-    map.front.axis === 'x' ? (point.x - e.left) / e.width : (point.y + e.height / 2) / e.height
-  return ownsLowEnd(map, side) ? fromLow : 1 - fromLow
-}
-
-// The SVG rectangle covering depths d0 to d1 for a side.
-function band(map, side, d0, d1) {
-  const [a, b] = ownsLowEnd(map, side) ? [d0, d1] : [1 - d1, 1 - d0]
-  return map.front.axis === 'x'
-    ? { x: a * SVG_SIZE, y: 0, width: (b - a) * SVG_SIZE, height: SVG_SIZE }
-    : { x: 0, y: (1 - b) * SVG_SIZE, width: SVG_SIZE, height: (b - a) * SVG_SIZE }
-}
-
 // An SVG path for the ring between two radii (metres) around a game point.
 // Drawn as two ellipses so a map with unequal sides still gives a true circle.
 function ringPath(map, centre, innerMetres, outerMetres) {
@@ -90,6 +67,75 @@ function solve(gun, target, profile) {
 function gunLabel(map, index) {
   const label = map.hqLabels?.[index]
   return label ? label.replace('HQ Gun', 'HQ gun') : `HQ gun ${index + 1}`
+}
+
+// ---- Shared fire missions ---------------------------------------------------
+// A mission travels in the link's #fragment, so it never reaches the server.
+// Example: #m=CAR&s=a&w=g&p=US&g=0&t=1520,-3410&f=knight
+
+const CREW_NAMES = { knight: 'DarkKnight', pickle: 'PicklePoes', pansy: 'Pansy' }
+
+function encodeMission(m) {
+  const point = (p) => `${Math.round(p.x)},${Math.round(p.y)}`
+  const params = new URLSearchParams({
+    m: m.map,
+    s: m.side === 'axis' ? 'x' : 'a',
+    w: m.weapon === 'spa' ? 's' : 'g',
+  })
+  if (m.weapon === 'spa') params.set('v', m.spa)
+  else params.set('p', m.profile)
+  params.set('g', m.gun === 'built' || m.weapon === 'spa' ? 'b' : String(m.gun))
+  if (m.built) params.set('b', point(m.built))
+  params.set('t', point(m.target))
+  if (CREW_NAMES[m.from]) params.set('f', m.from)
+  return params.toString()
+}
+
+// Returns the mission, or null if anything in the link is missing or wrong.
+function decodeMission(fragment) {
+  const params = new URLSearchParams(String(fragment).replace(/^#/, ''))
+  const map = MAPS[params.get('m')]
+  if (!map || !Object.hasOwn(MAPS, params.get('m'))) return null
+  const side = { a: 'allies', x: 'axis' }[params.get('s')]
+  const weapon = { g: 'static', s: 'spa' }[params.get('w')]
+  if (!side || !weapon) return null
+
+  const e = extent(map)
+  const point = (raw) => {
+    const parts = String(raw ?? '').split(',')
+    if (parts.length !== 2) return null
+    const [x, y] = parts.map(Number)
+    const inside = x >= e.left && x <= e.left + e.width && y <= e.top && y >= e.top - e.height
+    return Number.isFinite(x) && Number.isFinite(y) && inside ? { x, y } : null
+  }
+  const target = point(params.get('t'))
+  const built = params.has('b') ? point(params.get('b')) : null
+  if (!target || (params.has('b') && !built)) return null
+
+  const mission = { map: params.get('m'), side, weapon, target, built, from: null }
+  const from = params.get('f')
+  if (Object.hasOwn(CREW_NAMES, from ?? '')) mission.from = from
+
+  if (weapon === 'spa') {
+    const spa = params.get('v')
+    if (!SPA_VEHICLES.some((v) => v.id === spa) || !built) return null
+    mission.spa = spa
+    mission.gun = 'built'
+    return mission
+  }
+  const profile = params.get('p')
+  if (!Object.hasOwn(MIL_TABLES, profile ?? '')) return null
+  mission.profile = profile
+  const gun = params.get('g')
+  if (gun === 'b') {
+    if (!built) return null
+    mission.gun = 'built'
+  } else {
+    const index = Number(gun)
+    if (!Number.isInteger(index) || index < 0 || index >= map.guns[side].length || gun !== String(index)) return null
+    mission.gun = index
+  }
+  return mission
 }
 
 // ---- Page -------------------------------------------------------------------
@@ -117,7 +163,6 @@ function init() {
   const state = {
     map: store.get('map', 'CAR'),
     side: store.get('side', 'allies'),
-    mode: store.get('mode', 'warfare'), // 'warfare' or 'offensive'
     weapon: 'static', // 'static' or 'spa'
     profile: 'US',
     spa: null,
@@ -176,8 +221,6 @@ function init() {
     for (const [id, on] of [
       ['allies', state.side === 'allies'],
       ['axis', state.side === 'axis'],
-      ['modeWarfare', state.mode === 'warfare'],
-      ['modeOffensive', state.mode === 'offensive'],
       ['weaponStatic', !spaMode],
       ['weaponSpa', spaMode],
     ]) {
@@ -220,11 +263,7 @@ function init() {
         ? 'Tap to set target'
         : `Place the ${placeLabel} first`
 
-    el('offensiveNote').hidden = state.mode !== 'offensive'
-    el('zonesLabel').textContent = state.mode === 'offensive' ? 'Show default garrisons' : 'Show build zones'
-    el('legendZones').hidden = !state.zones || state.mode !== 'warfare'
-    el('legendGarrisons').hidden = !state.zones || state.mode !== 'offensive'
-    el('legend').hidden = !state.zones
+    el('legendGarrisons').hidden = !state.zones
     el('crosshair').hidden = !state.crosshair
     el('crosshairSet').hidden = !state.crosshair
     el('crosshairToggle').classList.toggle('active', state.crosshair)
@@ -239,20 +278,6 @@ function init() {
     const px = SVG_SIZE / (state.view.base || SVG_SIZE) / state.view.scale
     let svg = '<defs><clipPath id="mapClip"><rect width="1000" height="1000"/></clipPath></defs>'
 
-    if (state.zones && state.mode === 'warfare') {
-      const own = band(map, state.side, 0, BUILD_DEPTH)
-      const enemy = band(map, state.side, 1 - BUILD_DEPTH, 1)
-      svg += `<rect class="zone own" x="${own.x}" y="${own.y}" width="${own.width}" height="${own.height}"/>`
-      svg += `<rect class="zone enemy" x="${enemy.x}" y="${enemy.y}" width="${enemy.width}" height="${enemy.height}"/>`
-      for (let i = 1; i < SECTORS; i++) {
-        const at = (i / SECTORS) * SVG_SIZE
-        svg +=
-          map.front.axis === 'x'
-            ? `<line class="sector" x1="${at}" y1="0" x2="${at}" y2="${SVG_SIZE}"/>`
-            : `<line class="sector" x1="0" y1="${at}" x2="${SVG_SIZE}" y2="${at}"/>`
-      }
-    }
-
     // Radial reach around the gun. This is range only, not traverse or cover.
     if (gun) {
       const outer = isSpa() ? spa()?.maxRange : MAX_RANGE
@@ -260,7 +285,7 @@ function init() {
       if (outer) svg += `<path class="reach" clip-path="url(#mapClip)" d="${ringPath(map, gun, inner, outer)}"/>`
     }
 
-    if (state.zones && state.mode === 'offensive') {
+    if (state.zones) {
       GARRISONS[state.map][state.side].forEach((point, index) => {
         const p = toSvg(map, point)
         const s = 9 * px
@@ -327,20 +352,12 @@ function init() {
     el('status').textContent = status
 
     let note = ''
-    let warning = false
     if (spaMode) {
       note = 'SPA elevation needs barrel and terrain readings; not calculated here'
     } else if (gun) {
-      const outside = state.gun === 'built' && depth(map, state.side, state.built) > BUILD_DEPTH
-      if (outside && state.mode === 'warfare') {
-        note = 'Built gun is outside your first two sectors'
-        warning = true
-      } else {
-        note = `${state.gun === 'built' ? 'Built gun' : 'Candidate ' + gunLabel(map, state.gun)} · ${PROFILE_NAMES[state.profile]} scale`
-      }
+      note = `${state.gun === 'built' ? 'Built gun' : 'Candidate ' + gunLabel(map, state.gun)} · ${PROFILE_NAMES[state.profile]} scale`
     }
     el('gunNote').textContent = note
-    el('gunNote').classList.toggle('warning', warning)
 
     const step = !spaMode && result?.mil != null ? metresPerMil(result.distance, state.profile) : null
     el('milNote').textContent = step ? `MIL\n1 MIL ≈ ${step.toFixed(1)} m` : 'MIL'
@@ -606,16 +623,6 @@ function init() {
   }
   el('allies').onclick = () => chooseSide('allies')
   el('axis').onclick = () => chooseSide('axis')
-  el('modeWarfare').onclick = () => {
-    state.mode = 'warfare'
-    store.set('mode', state.mode)
-    render()
-  }
-  el('modeOffensive').onclick = () => {
-    state.mode = 'offensive'
-    store.set('mode', state.mode)
-    render()
-  }
   el('weaponStatic').onclick = () => {
     state.weapon = 'static'
     resetGuns()
@@ -679,7 +686,7 @@ function init() {
 
   // ---- Crew, seat and gun stock ----------------------------------------------
   // Each device remembers who is holding it and which seat they are in. The
-  // crew member sets the theme; the seat decides which numbers lead.
+  // seat decides which numbers lead; the callsign signs shared missions.
 
   const crew = {
     member: store.get('crew', null),
@@ -693,7 +700,6 @@ function init() {
 
   function renderCrew() {
     const root = document.documentElement
-    root.dataset.theme = crew.member || 'pickle'
     root.dataset.seat = crew.seat
     document.querySelectorAll('[data-crew]').forEach((b) => {
       const on = b.dataset.crew === crew.member
@@ -740,6 +746,85 @@ function init() {
   }
   renderCrew()
 
+  // ---- Sharing a fire mission ---------------------------------------------------
+
+  function missionSummary() {
+    const gun = activeGun()
+    const map = current()
+    if (!gun || !state.target) return null
+    const result = solve(gun, state.target, isSpa() ? null : state.profile)
+    const elevation = isSpa() ? 'SPA, no elevation' : result.mil === null ? 'out of range' : `${result.mil} MIL`
+    return `${map.name}: ${result.distance} m, ${result.bearing}°, ${elevation}`
+  }
+
+  function showBanner(text) {
+    el('missionText').textContent = text
+    el('missionBanner').hidden = false
+  }
+  el('missionDismiss').onclick = () => {
+    el('missionBanner').hidden = true
+  }
+
+  el('share').onclick = async () => {
+    const summary = missionSummary()
+    if (!summary) {
+      el('shareStatus').textContent = 'Mark a target first.'
+      return
+    }
+    const fragment = encodeMission({
+      map: state.map,
+      side: state.side,
+      weapon: state.weapon,
+      spa: state.spa,
+      profile: state.profile,
+      gun: state.gun,
+      built: state.built,
+      target: state.target,
+      from: crew.member,
+    })
+    const url = `${location.origin}/fire-control#${fragment}`
+    const sender = CREW_NAMES[crew.member]
+    const text = `Fire mission${sender ? ` from ${sender}` : ''}. ${summary}`
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Fire mission', text, url })
+        el('shareStatus').textContent = 'Shared.'
+        return
+      }
+      await navigator.clipboard.writeText(`${text}\n${url}`)
+      el('shareStatus').textContent = 'Link copied. Paste it to the crew.'
+    } catch (error) {
+      // Cancelling the share sheet is not a failure worth reporting.
+      if (error?.name === 'AbortError') return
+      el('shareStatus').textContent = url
+    }
+  }
+
+  // Opening a mission link (or receiving one while the page is open) loads it.
+  function loadMissionFromLink() {
+    if (!location.hash || location.hash.length < 2) return
+    const mission = decodeMission(location.hash)
+    history.replaceState(null, '', location.pathname + location.search)
+    if (!mission) {
+      showBanner('That mission link could not be read. Ask for a fresh one.')
+      return
+    }
+    state.map = mission.map
+    store.set('map', state.map)
+    state.weapon = mission.weapon
+    chooseSide(mission.side)
+    if (mission.profile) state.profile = mission.profile
+    if (mission.spa) state.spa = mission.spa
+    state.built = mission.built
+    state.gun = mission.gun
+    state.target = mission.target
+    fitView()
+    render()
+    const sender = CREW_NAMES[mission.from]
+    showBanner(`${sender ? `${sender}'s` : 'Shared'} mission loaded. ${missionSummary()}`)
+  }
+  window.addEventListener('hashchange', loadMissionFromLink)
+
   const c = () => centre()
   el('zoomIn').onclick = () => zoomAt(1.25, c().x, c().y)
   el('zoomOut').onclick = () => zoomAt(0.8, c().x, c().y)
@@ -747,6 +832,7 @@ function init() {
 
   chooseSide(state.side === 'axis' ? 'axis' : 'allies')
   fitView()
+  loadMissionFromLink()
 }
 
 if (typeof document !== 'undefined') init()

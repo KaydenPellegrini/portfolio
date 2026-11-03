@@ -40,30 +40,17 @@
       <aside>
         <div class="section-heading"><span>01 / Setup</span></div>
         <h1>Get on target.</h1>
-        <p class="intro">Pick your map and side, choose your gun, then tap the map to mark the target.</p>
+        <p class="intro">Offensive. Pick the map and the side you are defending, choose your gun, then tap the map to mark the target.</p>
 
         <label for="mapSelect">Battlefield</label>
         <select id="mapSelect"></select>
 
-        <div class="pair">
-          <div>
-            <span class="label" id="sideLabel">Side</span>
-            <div class="segmented" role="group" aria-labelledby="sideLabel">
-              <button id="allies" type="button">Allies<small id="alliesTeam"></small></button>
-              <button id="axis" type="button">Axis<small id="axisTeam"></small></button>
-            </div>
-          </div>
-          <div>
-            <span class="label" id="modeLabel">Mode</span>
-            <div class="segmented" role="group" aria-labelledby="modeLabel">
-              <button id="modeWarfare" type="button">Warfare</button>
-              <button id="modeOffensive" type="button">Offensive</button>
-            </div>
-          </div>
+        <span class="label" id="sideLabel">Defending side</span>
+        <div class="segmented" role="group" aria-labelledby="sideLabel">
+          <button id="allies" type="button">Allies<small id="alliesTeam"></small></button>
+          <button id="axis" type="button">Axis<small id="axisTeam"></small></button>
         </div>
-        <p id="offensiveNote" class="help note-box" hidden>
-          Only the defending side has artillery in Offensive. The squares are your default garrisons when you defend.
-        </p>
+        <p class="help note-box">Only the defending side has artillery in Offensive. The squares are your default garrisons.</p>
 
         <span class="label" id="weaponLabel">Weapon</span>
         <div class="segmented" role="group" aria-labelledby="weaponLabel">
@@ -92,7 +79,7 @@
           </p>
         </div>
 
-        <label class="toggle"><input id="zones" type="checkbox" checked /> <span id="zonesLabel">Show build zones</span></label>
+        <label class="toggle"><input id="zones" type="checkbox" checked /> Show default garrisons</label>
 
         <div class="manual">
           <div class="section-heading"><span>Quick calculator</span></div>
@@ -107,17 +94,20 @@
           <summary>Field notes</summary>
           <ul>
             <li>HQ positions are candidates. Each team has one static gun at a time, at HQ or built.</li>
-            <li>Static guns can be built anywhere in your first two sectors. Uneven ground or a blocked barrel stops a spot.</li>
+            <li>Static guns can be built in your own first two sectors. Uneven ground or a blocked barrel stops a spot.</li>
             <li>The ring around your gun is radial range only, 100 to 1,600 m. It does not show how far the gun can turn, what blocks the barrel, or where it is safe to fire.</li>
             <li>The gunner seat turns only so far. For wider angles, swing the gun from the loader seat.</li>
             <li>Flight time is an estimate of about 24 s, not measured for the current update. Time a few shots and set your own.</li>
-            <li>In Offensive the attackers have no artillery squad, and Skirmish has none at all.</li>
-            <li>Height differences, shell spread and blast radius are not modelled.</li>
+                        <li>Height differences, shell spread and blast radius are not modelled.</li>
           </ul>
         </details>
       </aside>
 
       <section class="workspace">
+        <div class="mission-banner" id="missionBanner" hidden>
+          <span id="missionText"></span>
+          <button type="button" id="missionDismiss" aria-label="Dismiss">OK</button>
+        </div>
         <div class="workspace-top">
           <div>
             <div class="eyebrow">Tactical map <span>/</span> <span id="mapCode"></span></div>
@@ -132,8 +122,7 @@
         </div>
 
         <div class="legend" id="legend">
-          <span id="legendZones"><i class="swatch own"></i>Your build zone <i class="swatch enemy"></i>Enemy build zone</span>
-          <span id="legendGarrisons" hidden><i class="swatch garrison"></i>Default garrison</span>
+          <span id="legendGarrisons"><i class="swatch garrison"></i>Default garrison</span>
           <span><i class="swatch reach"></i>Gun range</span>
         </div>
 
@@ -165,7 +154,11 @@
               <span id="timer" class="timer">Splash est. 24 s</span>
               <label class="flight">Flight <input id="flight" type="number" inputmode="numeric" step="1" aria-label="Flight time estimate in seconds" /> s</label>
             </div>
-            <button id="clear" class="clear" type="button">Clear target</button>
+            <div class="action-buttons">
+              <button id="share" class="share" type="button">Share mission</button>
+              <button id="clear" class="clear" type="button">Clear target</button>
+            </div>
+            <span id="shareStatus" class="share-status" role="status"></span>
           </div>
           <div class="ammo" id="ammo">
             <span class="ammo-title">Gun stock</span>
