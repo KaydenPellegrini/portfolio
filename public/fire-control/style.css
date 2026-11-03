@@ -574,6 +574,31 @@ h2 {
   pointer-events: none;
 }
 
+/* Map grid: 10 by 10 squares, keypad thirds when zoomed in. */
+.grid-line {
+  stroke: rgb(var(--ink-rgb) / 0.4);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.keypad-line {
+  stroke: rgb(var(--ink-rgb) / 0.18);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+  pointer-events: none;
+}
+
+.grid-label {
+  fill: var(--accent);
+  font-family: var(--mono);
+  font-weight: 600;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--map-bg);
+  stroke-width: 3px;
+  pointer-events: none;
+}
+
 /* Radial range ring around the gun: 100 m to the gun's maximum. */
 .reach {
   fill: rgb(var(--ink-rgb) / 0.08);
@@ -669,6 +694,56 @@ h2 {
 .metric {
   padding: 15px 22px;
   border-right: 1px solid var(--solution-line);
+}
+
+.callout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 10px;
+}
+
+.callout-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.callout-label {
+  color: var(--muted);
+  font: 600 9px var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.solution-label .callout-item strong {
+  display: inline;
+  margin: 0;
+  color: var(--accent);
+  font: 700 20px var(--display);
+  letter-spacing: 0.04em;
+}
+
+/* A tiny 3 by 3 keypad with the target's cell lit. */
+.mini-kp {
+  display: grid;
+  grid-template-columns: repeat(3, 6px);
+  gap: 2px;
+}
+
+.mini-kp i {
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--line-strong);
+}
+
+.mini-kp i.on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.keypad-label {
+  margin-top: 18px;
 }
 
 .solution-label strong {

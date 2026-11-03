@@ -64,6 +64,40 @@ function solve(gun, target, profile) {
   return { distance, bearing, mil: profile ? milFor(distance, profile) : null }
 }
 
+// ---- Grid callouts ------------------------------------------------------------
+// The tactical map is a 10 by 10 grid over the whole image: columns A to J run
+// west to east, rows 1 to 10 north to south. Each square splits into a 3 by 3
+// keypad. How the game numbers those keypad cells is a crew setting until it is
+// confirmed in game: 'phone' puts 1 top left, 'numpad' puts 7 top left.
+
+const GRID = 10
+const GRID_LETTERS = 'ABCDEFGHIJ'
+
+function gridRef(map, point) {
+  const e = extent(map)
+  const fx = (point.x - e.left) / e.width
+  const fy = (e.top - point.y) / e.height
+  if (!(fx >= 0 && fx <= 1 && fy >= 0 && fy <= 1)) return null
+  // A point exactly on the far edge belongs to the last square.
+  const col = Math.min(GRID - 1, Math.floor(fx * GRID))
+  const row = Math.min(GRID - 1, Math.floor(fy * GRID))
+  const kpCol = Math.min(2, Math.floor((fx * GRID - col) * 3))
+  const kpRow = Math.min(2, Math.floor((fy * GRID - row) * 3))
+  return { square: `${GRID_LETTERS[col]}${row + 1}`, kpRow, kpCol }
+}
+
+function keypadNumber(ref, style) {
+  if (style === 'phone') return ref.kpRow * 3 + ref.kpCol + 1
+  if (style === 'numpad') return (2 - ref.kpRow) * 3 + ref.kpCol + 1
+  return null
+}
+
+function callout(ref, style) {
+  if (!ref) return 'Off map'
+  const kp = keypadNumber(ref, style)
+  return kp ? `${ref.square} kp ${kp}` : ref.square
+}
+
 function gunLabel(map, index) {
   const label = map.hqLabels?.[index]
   return label ? label.replace('HQ Gun', 'HQ gun') : `HQ gun ${index + 1}`
@@ -171,6 +205,8 @@ function init() {
     target: null,
     placing: false,
     zones: true,
+    grid: store.get('grid', true),
+    keypad: store.get('keypad', ''),
     crosshair: false,
     flight: store.get('flight', FLIGHT_ESTIMATE.default),
     shot: null, // { at, flight } for the countdown
@@ -191,6 +227,9 @@ function init() {
   for (const [key, name] of Object.entries(PROFILE_NAMES)) el('profileSelect').add(new Option(name, key))
   for (const v of SPA_VEHICLES) el('spaSelect').add(new Option(`${v.name} (${v.faction})`, v.id))
   el('flight').value = state.flight
+  el('gridToggle').checked = state.grid
+  if (!['', 'phone', 'numpad'].includes(state.keypad)) state.keypad = ''
+  el('keypadStyle').value = state.keypad
   el('flight').min = FLIGHT_ESTIMATE.min
   el('flight').max = FLIGHT_ESTIMATE.max
 
@@ -278,6 +317,29 @@ function init() {
     const px = SVG_SIZE / (state.view.base || SVG_SIZE) / state.view.scale
     let svg = '<defs><clipPath id="mapClip"><rect width="1000" height="1000"/></clipPath></defs>'
 
+    if (state.grid) {
+      const cell = SVG_SIZE / GRID
+      // Keypad lines only once zoomed in far enough to read them.
+      if (state.view.scale >= 2.5) {
+        for (let i = 0; i < GRID * 3; i++) {
+          if (i % 3 === 0) continue
+          const at = (i * cell) / 3
+          svg += `<line class="keypad-line" x1="${at}" y1="0" x2="${at}" y2="${SVG_SIZE}"/>`
+          svg += `<line class="keypad-line" x1="0" y1="${at}" x2="${SVG_SIZE}" y2="${at}"/>`
+        }
+      }
+      for (let i = 1; i < GRID; i++) {
+        const at = i * cell
+        svg += `<line class="grid-line" x1="${at}" y1="0" x2="${at}" y2="${SVG_SIZE}"/>`
+        svg += `<line class="grid-line" x1="0" y1="${at}" x2="${SVG_SIZE}" y2="${at}"/>`
+      }
+      for (let i = 0; i < GRID; i++) {
+        const mid = (i + 0.5) * cell
+        svg += `<text class="grid-label" x="${mid}" y="${14 * px}" font-size="${11 * px}">${GRID_LETTERS[i]}</text>`
+        svg += `<text class="grid-label" x="${9 * px}" y="${mid + 4 * px}" font-size="${11 * px}">${i + 1}</text>`
+      }
+    }
+
     // Radial reach around the gun. This is range only, not traverse or cover.
     if (gun) {
       const outer = isSpa() ? spa()?.maxRange : MAX_RANGE
@@ -358,6 +420,7 @@ function init() {
       note = `${state.gun === 'built' ? 'Built gun' : 'Candidate ' + gunLabel(map, state.gun)} · ${PROFILE_NAMES[state.profile]} scale`
     }
     el('gunNote').textContent = note
+    renderCallout(gun)
 
     const step = !spaMode && result?.mil != null ? metresPerMil(result.distance, state.profile) : null
     el('milNote').textContent = step ? `MIL\n1 MIL ≈ ${step.toFixed(1)} m` : 'MIL'
@@ -369,6 +432,23 @@ function init() {
     el('fire').disabled = spaMode || !result || result.mil === null
     el('timerBox').hidden = spaMode
     renderTimer()
+  }
+
+  function renderKeypad(id, ref) {
+    el(id)
+      .querySelectorAll('i')
+      .forEach((cell, index) => cell.classList.toggle('on', Boolean(ref) && index === ref.kpRow * 3 + ref.kpCol))
+  }
+
+  function renderCallout(gun) {
+    const map = current()
+    const target = state.target ? gridRef(map, state.target) : null
+    const from = gun ? gridRef(map, gun) : null
+    el('callout').hidden = !target && !from
+    el('targetGrid').textContent = state.target ? callout(target, state.keypad) : '-'
+    el('gunGrid').textContent = gun ? callout(from, state.keypad) : '-'
+    renderKeypad('targetKp', target)
+    renderKeypad('gunKp', from)
   }
 
   function renderTimer() {
@@ -656,6 +736,16 @@ function init() {
     state.zones = event.target.checked
     render()
   }
+  el('gridToggle').onchange = (event) => {
+    state.grid = event.target.checked
+    store.set('grid', state.grid)
+    renderOverlay()
+  }
+  el('keypadStyle').onchange = (event) => {
+    state.keypad = event.target.value
+    store.set('keypad', state.keypad)
+    renderSolution()
+  }
   el('manualDistance').oninput = renderSolution
   el('clear').onclick = () => {
     state.target = null
@@ -754,7 +844,8 @@ function init() {
     if (!gun || !state.target) return null
     const result = solve(gun, state.target, isSpa() ? null : state.profile)
     const elevation = isSpa() ? 'SPA, no elevation' : result.mil === null ? 'out of range' : `${result.mil} MIL`
-    return `${map.name}: ${result.distance} m, ${result.bearing}°, ${elevation}`
+    const square = callout(gridRef(map, state.target), state.keypad)
+    return `${map.name} ${square}: ${result.distance} m, ${result.bearing}°, ${elevation}`
   }
 
   function showBanner(text) {

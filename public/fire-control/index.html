@@ -80,6 +80,15 @@
         </div>
 
         <label class="toggle"><input id="zones" type="checkbox" checked /> Show default garrisons</label>
+        <label class="toggle"><input id="gridToggle" type="checkbox" checked /> Show grid</label>
+
+        <label for="keypadStyle" class="keypad-label">Keypad numbers</label>
+        <select id="keypadStyle">
+          <option value="">Not set: show the square only</option>
+          <option value="numpad">7 8 9 along the top (numpad)</option>
+          <option value="phone">1 2 3 along the top (phone)</option>
+        </select>
+        <p class="help profile-help">Check one keypad on the in-game map once, then pick the match. The lit cell is always shown.</p>
 
         <div class="manual">
           <div class="section-heading"><span>Quick calculator</span></div>
@@ -144,6 +153,18 @@
             <span class="section-heading">02 / Firing solution</span>
             <strong id="status">Awaiting target</strong>
             <small id="gunNote"></small>
+            <div class="callout" id="callout" hidden>
+              <div class="callout-item">
+                <span class="callout-label">Target</span>
+                <strong id="targetGrid"></strong>
+                <span class="mini-kp" id="targetKp" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+              </div>
+              <div class="callout-item">
+                <span class="callout-label">Gun</span>
+                <strong id="gunGrid"></strong>
+                <span class="mini-kp" id="gunKp" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+              </div>
+            </div>
           </div>
           <div class="metric metric-distance"><span>Distance</span><strong id="distance">-</strong><small>Metres</small></div>
           <div class="metric metric-azimuth"><span>Azimuth</span><strong id="bearing">-</strong><small id="bearingNote">Degrees</small></div>
