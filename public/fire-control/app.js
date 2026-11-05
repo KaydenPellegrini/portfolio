@@ -116,7 +116,10 @@ function encodeMission(m) {
     s: m.side === 'axis' ? 'x' : 'a',
     w: m.weapon === 'spa' ? 's' : 'g',
   })
-  if (m.weapon === 'spa') params.set('v', m.spa)
+  if (m.weapon === 'spa') {
+    params.set('v', m.spa)
+    params.set('r', String(Math.round(m.terrain || 0)))
+  }
   else params.set('p', m.profile)
   params.set('g', m.gun === 'built' || m.weapon === 'spa' ? 'b' : String(m.gun))
   if (m.built) params.set('b', point(m.built))
@@ -153,7 +156,12 @@ function decodeMission(fragment) {
   if (weapon === 'spa') {
     const spa = params.get('v')
     if (!SPA_VEHICLES.some((v) => v.id === spa) || !built) return null
+    const rawTerrain = params.has('r') ? params.get('r') : '0'
+    if (!/^-?\d+$/.test(rawTerrain)) return null
+    const terrain = Number(rawTerrain)
+    if (Math.abs(terrain) > SPA_TERRAIN_LIMIT) return null
     mission.spa = spa
+    mission.terrain = terrain
     mission.gun = 'built'
     return mission
   }
@@ -200,6 +208,8 @@ function init() {
     weapon: 'static', // 'static' or 'spa'
     profile: 'US',
     spa: null,
+    spaTerrain: 0, // red MIL from the HUD
+    spaDistance: null, // typed distance in metres; null uses the map
     gun: 0, // an HQ candidate index, or 'built'
     built: null,
     target: null,
@@ -217,7 +227,15 @@ function init() {
   const current = () => MAPS[state.map]
   const hqGuns = () => current().guns[state.side]
   const isSpa = () => state.weapon === 'spa'
-  const spa = () => SPA_VEHICLES.find((v) => v.id === state.spa)
+  const spa = () => spaVehicle(state.spa)
+
+  // The distance the SPA solves for: typed, or measured on the map.
+  function spaDistance() {
+    if (state.spaDistance !== null) return state.spaDistance
+    const gun = state.built
+    return gun && state.target ? solve(gun, state.target, null).distance : null
+  }
+  const spaResult = () => spaSolution(spa(), spaDistance(), state.spaTerrain)
   const activeGun = () => {
     if (isSpa() || state.gun === 'built') return state.built
     return hqGuns()[state.gun]
@@ -268,13 +286,21 @@ function init() {
     }
 
     el('staticSetup').hidden = spaMode
+    el('manual').hidden = spaMode
     el('spaSetup').hidden = !spaMode
     el('profileSelect').value = state.profile
     el('spaSelect').value = state.spa
     const vehicle = spa()
-    el('spaRange').textContent = vehicle?.maxRange
-      ? `Listed range ${vehicle.maxRange} m (Patch 19.1). Facing up a slope can reach further.`
-      : 'No range figure has been published for this vehicle.'
+    if (vehicle) {
+      const reach = spaReach(vehicle, Number.isFinite(state.spaTerrain) ? state.spaTerrain : 0)
+      el('spaRange').textContent = `Reach on this terrain: ${Math.round(reach.min)} to ${Math.round(reach.max)} m.`
+    }
+    const distanceInput = el('spaDistance')
+    if (document.activeElement !== distanceInput) {
+      const d = spaDistance()
+      distanceInput.value = d === null ? '' : String(d)
+    }
+    el('spaDistance').classList.toggle('from-map', state.spaDistance === null)
 
     const select = el('gunSelect')
     select.replaceChildren()
@@ -342,8 +368,13 @@ function init() {
 
     // Radial reach around the gun. This is range only, not traverse or cover.
     if (gun) {
-      const outer = isSpa() ? spa()?.maxRange : MAX_RANGE
-      const inner = isSpa() ? 0 : MIN_RANGE
+      let inner = MIN_RANGE
+      let outer = MAX_RANGE
+      if (isSpa()) {
+        const reach = spaReach(spa(), Number.isFinite(state.spaTerrain) ? state.spaTerrain : 0)
+        inner = reach.min
+        outer = reach.max
+      }
       if (outer) svg += `<path class="reach" clip-path="url(#mapClip)" d="${ringPath(map, gun, inner, outer)}"/>`
     }
 
@@ -400,30 +431,47 @@ function init() {
     const result = gun && state.target ? solve(gun, state.target, spaMode ? null : state.profile) : null
     const vehicle = spa()
 
-    el('distance').textContent = result ? result.distance : '-'
     el('bearing').textContent = result ? `${result.bearing}°` : '-'
-    el('mil').textContent = spaMode ? 'n/a' : (result?.mil ?? '-')
 
     let status
-    if (!gun) status = spaMode ? 'Place the SPA' : 'Select a gun'
-    else if (!state.target) status = 'Awaiting target'
-    else if (spaMode)
-      status =
-        vehicle?.maxRange && result.distance > vehicle.maxRange ? 'Beyond listed range' : 'Distance and azimuth only'
-    else status = result.mil === null ? 'Out of range' : 'Solution ready'
-    el('status').textContent = status
-
     let note = ''
     if (spaMode) {
-      note = 'SPA elevation needs barrel and terrain readings; not calculated here'
-    } else if (gun) {
-      note = `${state.gun === 'built' ? 'Built gun' : 'Candidate ' + gunLabel(map, state.gun)} · ${PROFILE_NAMES[state.profile]} scale`
+      // The SPA solves from the typed or measured distance and the red terrain MIL.
+      const distance = spaDistance()
+      const spaOut = spaResult()
+      el('distance').textContent = distance ?? '-'
+      el('mil').textContent = spaOut.status === 'ok' ? spaOut.barrel : '-'
+      const reachMax = spaOut.reach ? Math.round(spaOut.reach.max) : null
+      status = {
+        ok: 'Solution ready',
+        missing: distance === null ? 'Enter a distance or mark the map' : 'Check the terrain number',
+        badTerrain: `Terrain must be within ±${SPA_TERRAIN_LIMIT}`,
+        tooClose: `Too close (minimum ${vehicle?.minDistance} m)`,
+        beyond: `Beyond reach on this terrain (${reachMax} m)`,
+        belowTurret: 'Below the turret’s lowest setting',
+      }[spaOut.status]
+      const terrain = Number.isFinite(state.spaTerrain) ? state.spaTerrain : 0
+      note = `${vehicle?.name} · terrain ${terrain > 0 ? '+' : ''}${terrain} MIL · community model`
+    } else {
+      el('distance').textContent = result ? result.distance : '-'
+      el('mil').textContent = result?.mil ?? '-'
+      if (!gun) status = 'Select a gun'
+      else if (!state.target) status = 'Awaiting target'
+      else status = result.mil === null ? 'Out of range' : 'Solution ready'
+      if (gun) {
+        note = `${state.gun === 'built' ? 'Built gun' : 'Candidate ' + gunLabel(map, state.gun)} · ${PROFILE_NAMES[state.profile]} scale`
+      }
     }
+    el('status').textContent = status
     el('gunNote').textContent = note
     renderCallout(gun)
 
     const step = !spaMode && result?.mil != null ? metresPerMil(result.distance, state.profile) : null
-    el('milNote').textContent = step ? `MIL\n1 MIL ≈ ${step.toFixed(1)} m` : 'MIL'
+    el('milNote').textContent = spaMode
+      ? 'Barrel MIL\n(yellow number)'
+      : step
+        ? `MIL\n1 MIL ≈ ${step.toFixed(1)} m`
+        : 'MIL'
 
     const manual = el('manualDistance').value
     const manualMil = manual === '' ? null : milFor(Number(manual), state.profile)
@@ -680,6 +728,7 @@ function init() {
     } else if (activeGun()) {
       state.target = point
       state.shot = null
+      state.spaDistance = null
     } else {
       return
     }
@@ -718,6 +767,30 @@ function init() {
     state.profile = event.target.value
     render()
   }
+  // The red terrain number: signed, typed from the HUD. iOS number pads have no
+  // minus key, so a ± button flips the sign.
+  function readTerrain() {
+    const raw = el('spaTerrain').value.trim().replace(/^\+/, '')
+    state.spaTerrain = raw === '' || raw === '-' ? 0 : /^-?\d+$/.test(raw) ? Number(raw) : NaN
+    renderSetup()
+    renderOverlay()
+    renderSolution()
+  }
+  el('spaTerrain').oninput = readTerrain
+  el('spaTerrainSign').onclick = () => {
+    const raw = el('spaTerrain').value.trim()
+    el('spaTerrain').value = raw.startsWith('-') ? raw.slice(1) : `-${raw.replace(/^\+/, '')}`
+    readTerrain()
+  }
+  el('spaDistance').oninput = (event) => {
+    const raw = event.target.value.trim()
+    const value = Number(raw)
+    state.spaDistance = raw === '' ? null : Number.isFinite(value) && value >= 0 ? Math.round(value) : null
+    event.target.classList.toggle('from-map', state.spaDistance === null)
+    renderOverlay()
+    renderSolution()
+  }
+  el('spaDistance').onblur = renderSetup
   el('spaSelect').onchange = (event) => {
     state.spa = event.target.value
     render()
@@ -843,7 +916,15 @@ function init() {
     const map = current()
     if (!gun || !state.target) return null
     const result = solve(gun, state.target, isSpa() ? null : state.profile)
-    const elevation = isSpa() ? 'SPA, no elevation' : result.mil === null ? 'out of range' : `${result.mil} MIL`
+    let elevation = result.mil === null ? 'out of range' : `${result.mil} MIL`
+    if (isSpa()) {
+      const spaOut = spaResult()
+      const terrain = Number.isFinite(state.spaTerrain) ? state.spaTerrain : 0
+      elevation =
+        spaOut.status === 'ok'
+          ? `barrel ${spaOut.barrel} MIL at terrain ${terrain > 0 ? '+' : ''}${terrain} (${spa().name})`
+          : `${spa().name}, no solution`
+    }
     const square = callout(gridRef(map, state.target), state.keypad)
     return `${map.name} ${square}: ${result.distance} m, ${result.bearing}°, ${elevation}`
   }
@@ -867,6 +948,7 @@ function init() {
       side: state.side,
       weapon: state.weapon,
       spa: state.spa,
+      terrain: state.spaTerrain,
       profile: state.profile,
       gun: state.gun,
       built: state.built,
@@ -906,6 +988,11 @@ function init() {
     chooseSide(mission.side)
     if (mission.profile) state.profile = mission.profile
     if (mission.spa) state.spa = mission.spa
+    if (mission.weapon === 'spa') {
+      state.spaTerrain = mission.terrain
+      el('spaTerrain').value = mission.terrain ? String(mission.terrain) : ''
+      state.spaDistance = null
+    }
     state.built = mission.built
     state.gun = mission.gun
     state.target = mission.target

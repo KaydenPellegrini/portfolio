@@ -72,11 +72,26 @@
         <div id="spaSetup" hidden>
           <label for="spaSelect">Vehicle</label>
           <select id="spaSelect"></select>
-          <button id="spaPlace" class="secondary" type="button">Place the SPA</button>
-          <p class="help">
-            Gives distance and azimuth from the vehicle. SPAs aim with barrel plus terrain elevation, so the static MIL table does not apply.
-            <span id="spaRange"></span>
+
+          <div class="spa-inputs">
+            <div>
+              <label for="spaTerrain">Terrain <span class="red-mil">red MIL</span></label>
+              <div class="signed-input">
+                <button id="spaTerrainSign" type="button" aria-label="Switch between uphill and downhill">±</button>
+                <input id="spaTerrain" type="text" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="spaTerrainHelp" />
+              </div>
+            </div>
+            <div>
+              <label for="spaDistance">Distance m</label>
+              <input id="spaDistance" type="number" inputmode="numeric" min="0" step="1" placeholder="From map" />
+            </div>
+          </div>
+          <p id="spaTerrainHelp" class="help">
+            Type the red number from your HUD, minus when nosed downhill. Distance fills in from the map when the SPA and target are marked, or type it.
           </p>
+          <p class="help spa-reach" id="spaRange"></p>
+
+          <button id="spaPlace" class="secondary" type="button">Place the SPA on the map</button>
         </div>
 
         <label class="toggle"><input id="zones" type="checkbox" checked /> Show default garrisons</label>
@@ -90,7 +105,7 @@
         </select>
         <p class="help profile-help">Check one keypad on the in-game map once, then pick the match. The lit cell is always shown.</p>
 
-        <div class="manual">
+        <div class="manual" id="manual">
           <div class="section-heading"><span>Quick calculator</span></div>
           <p>Already have a distance? Uses the gun profile above.</p>
           <div class="manual-input">
@@ -107,7 +122,7 @@
             <li>The ring around your gun is radial range only, 100 to 1,600 m. It does not show how far the gun can turn, what blocks the barrel, or where it is safe to fire.</li>
             <li>The gunner seat turns only so far. For wider angles, swing the gun from the loader seat.</li>
             <li>Flight time is an estimate of about 24 s, not measured for the current update. Time a few shots and set your own.</li>
-                        <li>Height differences, shell spread and blast radius are not modelled.</li>
+                        <li>SPA barrel settings come from a community model for Update 21, not official data. Height differences, shell spread and blast radius are not modelled.</li>
           </ul>
         </details>
       </aside>
