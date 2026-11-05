@@ -1250,3 +1250,163 @@ h2 {
     min-height: 44px;
   }
 }
+
+.metric strong .mil-dir {
+  display: inline;
+  margin-right: 2px;
+  font-size: 0.6em;
+  vertical-align: 0.2em;
+  letter-spacing: 0;
+}
+
+.metric strong .mil-dir.up {
+  color: var(--accent);
+}
+
+.metric strong .mil-dir.down {
+  color: var(--enemy);
+}
+
+/* ---- Tablets and larger screens ----
+   Sized from the screen, not a device list: once scrolled to the map, the map
+   and the firing solution share one screen, and the map takes what is left. */
+
+@media (min-width: 701px) {
+  .workspace {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .map-viewport {
+    height: auto;
+    min-height: 240px;
+  }
+}
+
+/* Portrait tablets: one column, so the map gets the full width. */
+@media (min-width: 701px) and (max-width: 1100px) and (orientation: portrait) {
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  aside {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .solution {
+    grid-template-columns: repeat(3, 1fr) auto;
+  }
+
+  .solution-label {
+    grid-column: 1 / -1;
+  }
+
+  .actions {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Any touch screen: buttons big enough for a thumb. */
+@media (pointer: coarse) {
+  .segmented button,
+  .crew-group button,
+  .map-tools button,
+  .action-buttons button,
+  .ammo-row button {
+    min-height: 44px;
+  }
+
+  .ammo-row button {
+    min-width: 44px;
+  }
+}
+
+/* Landscape tablets and short screens: the solution sits beside the map so
+   the map keeps the full height. */
+@media (min-width: 701px) and (max-height: 1000px) and (orientation: landscape) {
+  main {
+    grid-template-columns: clamp(230px, 22vw, 320px) minmax(0, 1fr);
+  }
+
+  aside {
+    padding: 22px 18px;
+  }
+
+  .workspace {
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(220px, 24vw, 300px);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+    column-gap: 14px;
+  }
+
+  .workspace > :not(.solution) {
+    grid-column: 1;
+  }
+
+  .mission-banner {
+    grid-row: 1;
+  }
+
+  .workspace-top {
+    grid-row: 2;
+  }
+
+  .legend {
+    grid-row: 3;
+  }
+
+  .map-frame {
+    grid-row: 4;
+  }
+
+  .solution {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    grid-template-columns: 1fr 1fr;
+    align-content: start;
+    align-items: stretch;
+    overflow-y: auto;
+    border-top: 1px solid var(--solution-line);
+  }
+
+  .solution-label,
+  .metric-elevation,
+  .actions,
+  .ammo {
+    grid-column: 1 / -1;
+  }
+
+  .solution-label,
+  .metric {
+    padding: 10px 14px;
+    border-right: 0;
+    border-bottom: 1px solid var(--solution-line);
+  }
+
+  .metric-distance {
+    border-right: 1px solid var(--solution-line);
+  }
+
+  .actions {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+    border-top: 0;
+  }
+
+  .ammo {
+    padding: 10px 14px;
+    gap: 8px 12px;
+  }
+
+  .ammo-title,
+  .ammo-row {
+    flex-basis: 100%;
+  }
+}

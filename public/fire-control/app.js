@@ -220,6 +220,8 @@ function init() {
     crosshair: false,
     flight: store.get('flight', FLIGHT_ESTIMATE.default),
     shot: null, // { at, flight } for the countdown
+    shownMil: null, // the elevation on screen now
+    milFrom: null, // the elevation for the previous target, to call this one higher or lower
     view: { scale: 1, x: 0, y: 0, base: 0 },
   }
   if (!MAPS[state.map]) state.map = 'CAR'
@@ -424,6 +426,39 @@ function init() {
     el('overlay').innerHTML = svg
   }
 
+  // Elevation with a higher or lower mark against the previous target, so the
+  // caller can say "lower" without reading both numbers.
+  function showMil(mil) {
+    const box = el('mil')
+    state.shownMil = mil
+    box.textContent = ''
+    if (mil === null) {
+      box.textContent = '-'
+      return
+    }
+    const dir = state.milFrom === null ? 0 : Math.sign(mil - state.milFrom)
+    if (dir) {
+      const mark = document.createElement('span')
+      mark.className = `mil-dir ${dir > 0 ? 'up' : 'down'}`
+      mark.textContent = dir > 0 ? '▲' : '▼'
+      mark.title = dir > 0 ? 'Higher than the last target' : 'Lower than the last target'
+      box.append(mark, ' ')
+    }
+    box.append(String(mil))
+  }
+
+  // A new target: the elevation on screen becomes the one to compare against.
+  // An out of range target keeps the last good number.
+  function nextMilTarget() {
+    if (state.shownMil !== null) state.milFrom = state.shownMil
+  }
+
+  // Forget the last elevation when it no longer applies, such as a new map or weapon.
+  function resetMil() {
+    state.shownMil = null
+    state.milFrom = null
+  }
+
   function renderSolution() {
     const map = current()
     const gun = activeGun()
@@ -440,7 +475,7 @@ function init() {
       const distance = spaDistance()
       const spaOut = spaResult()
       el('distance').textContent = distance ?? '-'
-      el('mil').textContent = spaOut.status === 'ok' ? spaOut.barrel : '-'
+      showMil(spaOut.status === 'ok' ? spaOut.barrel : null)
       const reachMax = spaOut.reach ? Math.round(spaOut.reach.max) : null
       status = {
         ok: 'Solution ready',
@@ -454,7 +489,7 @@ function init() {
       note = `${vehicle?.name} · terrain ${terrain > 0 ? '+' : ''}${terrain} MIL · community model`
     } else {
       el('distance').textContent = result ? result.distance : '-'
-      el('mil').textContent = result?.mil ?? '-'
+      showMil(result?.mil ?? null)
       if (!gun) status = 'Select a gun'
       else if (!state.target) status = 'Awaiting target'
       else status = result.mil === null ? 'Out of range' : 'Solution ready'
@@ -467,11 +502,15 @@ function init() {
     renderCallout(gun)
 
     const step = !spaMode && result?.mil != null ? metresPerMil(result.distance, state.profile) : null
+    const was =
+      state.shownMil !== null && state.milFrom !== null && state.shownMil !== state.milFrom
+        ? `, was ${state.milFrom}`
+        : ''
     el('milNote').textContent = spaMode
-      ? 'Barrel MIL\n(yellow number)'
+      ? `Barrel MIL${was}\n(yellow number)`
       : step
-        ? `MIL\n1 MIL ≈ ${step.toFixed(1)} m`
-        : 'MIL'
+        ? `MIL${was}\n1 MIL ≈ ${step.toFixed(1)} m`
+        : `MIL${was}`
 
     const manual = el('manualDistance').value
     const manualMil = manual === '' ? null : milFor(Number(manual), state.profile)
@@ -726,6 +765,7 @@ function init() {
       if (!isSpa()) state.gun = 'built'
       state.placing = false
     } else if (activeGun()) {
+      nextMilTarget()
       state.target = point
       state.shot = null
       state.spaDistance = null
@@ -747,6 +787,7 @@ function init() {
     state.map = event.target.value
     store.set('map', state.map)
     state.target = null
+    resetMil()
     fitView()
     chooseSide(state.side)
   }
@@ -755,11 +796,13 @@ function init() {
   el('weaponStatic').onclick = () => {
     state.weapon = 'static'
     resetGuns()
+    resetMil()
     render()
   }
   el('weaponSpa').onclick = () => {
     state.weapon = 'spa'
     resetGuns()
+    resetMil()
     state.placing = true
     render()
   }
@@ -982,6 +1025,9 @@ function init() {
       showBanner('That mission link could not be read. Ask for a fresh one.')
       return
     }
+    // A mission on the same map and weapon is the next target; anything else starts fresh.
+    if (mission.map === state.map && mission.weapon === state.weapon) nextMilTarget()
+    else resetMil()
     state.map = mission.map
     store.set('map', state.map)
     state.weapon = mission.weapon
