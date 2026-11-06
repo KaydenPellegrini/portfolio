@@ -41,5 +41,3 @@ yarn-error.log*
 next-env.d.ts
 .env*.local
 
-# Claude Code skills used locally. Third party, and not all allow redistribution.
-.claude/skills/
